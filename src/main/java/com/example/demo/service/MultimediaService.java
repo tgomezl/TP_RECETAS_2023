@@ -1,42 +1,38 @@
 package com.example.demo.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entidades.Multimedia;
 import com.example.demo.entidades.Pruebas;
+import com.example.demo.repositorio.MultimediaRepo;
 import com.example.demo.repositorio.PruebaRepo;
 
-
-
 @Service
-public class PruebaService implements PruebaServiceInt{
+public class MultimediaService implements MultimediaServiceInt{
 	
-	//autowired al repo(INTERFACE)
+	//autowired al repo
 	@Autowired
-	private PruebaRepo pruebarepo;
+	private MultimediaRepo multimediarepo;
 
 	@Override
-	public List<Pruebas> findAll() {
+	public Iterable<Multimedia> findAll() {
 		// TODO Auto-generated method stub
-		List<Pruebas> lista =pruebarepo.findAll();
-		return lista;
+		return null;
 	}
 
 	@Override
-	public Optional<Pruebas> findById(Integer id) {
+	public Optional<Multimedia> findById(Integer id) {
 		// TODO Auto-generated method stub
-		
-		//busca usando un Integer xq YO DEFINI QUE EL ID ERA DE TIPO INTEGER
-		return pruebarepo.findById(id) ;
+		return null;
 	}
 
 	@Override
-	public Pruebas save(Pruebas prueba) {
+	public Multimedia save(Multimedia multimedia) {
 		// TODO Auto-generated method stub
-		return pruebarepo.save(prueba);
+		return multimediarepo.save(multimedia);
 	}
 
 	@Override
@@ -46,4 +42,3 @@ public class PruebaService implements PruebaServiceInt{
 	}
 
 }
-

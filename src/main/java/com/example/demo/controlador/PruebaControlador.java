@@ -23,6 +23,7 @@ public class PruebaControlador {
 		
 		//si pasa las VALIDACIONES(		solo se pueden guardar mayores a 18)
 		Pruebas creado=null;
+		System.out.println(p.getApellido());
 		if(!p.getApellido().isBlank()) {
 			//lo mando a guardar
 			creado =pruebaservice.save(p);
