@@ -21,7 +21,7 @@ public class UsuarioControlador {
 	public Usuarios crearUser(Usuarios user) {
 		// TODO Auto-generated method stub
 		Usuarios creado=null;
-		System.out.println("                   ");
+		System.out.println("datos recibidos ");
 		System.out.println(user);
 		
 

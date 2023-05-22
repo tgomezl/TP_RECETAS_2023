@@ -42,7 +42,7 @@ public class UsuariosRest {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarUsuario(@PathVariable(value="id") String id) {
 		// llamo al metodo del controlador.(busca usando Integer)
-		System.out.println("el di es    "+id);
+		System.out.println("el id es    "+id);
 		Usuarios buscado = usercontrolador.BuscarUser(Integer.parseInt(id));
 		System.out.println("     ");
 		System.out.println("     ");
