@@ -17,7 +17,7 @@ public class Ingrediente implements Serializable{
 	private Integer idIngrediente;
 	
 	private String nombre;
-	
+	/*-----------------------------------------------------------------------*/
 	public Ingrediente() {
 		
 		

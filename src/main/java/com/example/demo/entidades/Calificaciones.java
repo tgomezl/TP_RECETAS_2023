@@ -39,7 +39,7 @@ public class Calificaciones implements Serializable{
 	private String comentarios;
 	//es uno o son muchos??? debe ser solo uno
 
-	
+	/*-----------------------------------------------------------------------*/
 	public Calificaciones() {
 		
 		

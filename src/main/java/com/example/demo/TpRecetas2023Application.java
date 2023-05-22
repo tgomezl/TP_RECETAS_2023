@@ -1,9 +1,14 @@
 package com.example.demo;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import com.example.demo.controlador.UsuarioControlador;
+import com.example.demo.entidades.Usuarios;
 
 /*
 import com.example.demo.controlador.ActorControlador;
@@ -22,7 +27,7 @@ public class TpRecetas2023Application {
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner() {
+	CommandLineRunner commandLineRunner(UsuarioControlador usuariocontrolador) {
 			return args-> {
 				
 	
@@ -33,70 +38,33 @@ public class TpRecetas2023Application {
 				System.out.println("             corriendo");
 				System.out.println("");
 				System.out.println("");
-			};
-	}
-	/*
-	@Bean
-	CommandLineRunner commandLineRunner(ActorRepo actorrepo, ActorControlador actorcontrolador,MascotaRepo mascotarepo,PeliculaRepo pelicularepo) {
-			return args-> {
-				
-				System.out.println("             corriendo");
-				preCargarAlgunasPeliculas(pelicularepo);//crea peliculas sin actor
-				preCargarAlgunosActores(actorrepo,actorcontrolador); //solo afecta a tabla actores
-				
-				
-				Integer idactor=1;
-				agrregarMascota(actorrepo,idactor,actorcontrolador);  //si no tiene--->le agrega una mascota
-				idactor=1;
-				agrregarMascota(actorrepo,idactor,actorcontrolador);//si no tiene--->le agrega una mascota
-				System.out.println("tengo que hacer .save()----->SI???");
-				agrregarMascota(actorrepo,idactor,actorcontrolador);//si no tiene--->le agrega una mascota
-				
-				
-				Integer idpeli=1;
-				
-				agrregarPelicula(actorrepo,idactor,idpeli,pelicularepo);//si no tiene--->le agrega esa pelicula
-				agrregarPelicula(actorrepo,idactor,idpeli,pelicularepo);//si no tiene--->le agrega esa pelicula
-				
-				//CAMBIO EL ACTOR
-				idactor=2;
 			
-				agrregarPelicula(actorrepo,idactor,idpeli,pelicularepo); //si no tiene--->le agrega A LA MISMA pelicula
-				agregarMascota(mascotarepo); //crea mascotas sin dueño
+				/*cargo algunos usuarios pero solo si la bbdd esta vacia*/
+				usuariocontrolador.cargarData();
 				
-				System.out.println("");
-				System.out.println("");
-				System.out.println("             corriendo");
-				System.out.println("");
-				System.out.println("");
+				System.out.println("  **************");
+				System.out.println("buscar todos los usuarios");
+				/*recupero todos los usuarios*/
+				List<Usuarios> milista = usuariocontrolador.TraerLista();
+				for(Usuarios u:milista) {
+					System.out.println(u);
+				}
+				
+				
+					
+				/*busco un user por id*/
+				System.out.println("  **************");
+				System.out.println("buscando user por id");
+				Usuarios userbuscado = usuariocontrolador.BuscarUser(6);
+				System.out.println(userbuscado);
+				
+				
+				/*cargo algunos ingredientes*/
+				System.out.println("  **************");
+				
 			};
 	}
 	
-	*/
-	/*
-	private void preCargarAlgunasPeliculas(PeliculaRepo pelicularepo) {
-		// TODO Auto-generated method stub
-		Pelicula peliculasinactor=new Pelicula();
-		peliculasinactor.setTitulo("la venganza de adrian");
-		peliculasinactor.setCalificacion("sangriento");
-		pelicularepo.save(peliculasinactor);
-		
-		
-		peliculasinactor=new Pelicula();
-		peliculasinactor.setTitulo("la naranja mecanica");
-		peliculasinactor.setCalificacion("PG13");
-		pelicularepo.save(peliculasinactor);
-		
-		peliculasinactor=new Pelicula();
-		peliculasinactor.setTitulo("atrapame si peudes");
-		peliculasinactor.setCalificacion("ATP");
-		pelicularepo.save(peliculasinactor);
-		
-		peliculasinactor=new Pelicula();
-		peliculasinactor.setTitulo("vacaiones en NY");
-		peliculasinactor.setCalificacion("ATP");
-		pelicularepo.save(peliculasinactor);
-	}
 	
-	*/
+	
 }

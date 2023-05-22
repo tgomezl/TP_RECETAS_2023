@@ -2,7 +2,7 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +34,7 @@ public class Pasos implements Serializable{
 	private String texto;
 	
 	@OneToMany(mappedBy="idPaso")
-	private ArrayList<Multimedia> multimedia=new ArrayList<>();
+	private List<Multimedia> multimedia=new ArrayList<>();
 	
 	public Pasos() {
 		
@@ -72,7 +72,7 @@ public class Pasos implements Serializable{
 		this.texto = texto;
 	}
 
-	public ArrayList<Multimedia> getMultimedia() {
+	public List<Multimedia> getMultimedia() {
 		return multimedia;
 	}
 

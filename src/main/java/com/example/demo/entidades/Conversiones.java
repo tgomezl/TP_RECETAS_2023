@@ -36,7 +36,7 @@ public class Conversiones implements Serializable{
 	private Unidades unidaddestino;
 
 	private Double factorConversiones;
-	
+	/*-----------------------------------------------------------------------*/
 	
 	public Conversiones() {
 		

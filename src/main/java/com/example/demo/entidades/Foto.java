@@ -35,7 +35,7 @@ public class Foto implements Serializable{
 	
 	private String extension;
 
-	
+	/*-----------------------------------------------------------------------*/
 	
 	public Foto() {
 		

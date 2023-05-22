@@ -23,6 +23,7 @@ public class Unidades implements Serializable{
 
 	private String descripcion;
 	
+	/*-----------------------------------------------------------------------*/
 	public Unidades() {
 		
 	}

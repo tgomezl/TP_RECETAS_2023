@@ -40,7 +40,7 @@ public class Utilizado implements Serializable{
 	
 	
 	private String observaciones;
-	
+	/*-----------------------------------------------------------------------*/
 	public Utilizado() {
 		
 	}

@@ -2,9 +2,11 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,16 +42,16 @@ public class Recetas implements Serializable{
 	private Usuarios usuario;
 	
 	/*recetas-1-----------N--fotos es bider */
-	@OneToMany(mappedBy="idReceta")
-	private ArrayList<Foto> fotos=new ArrayList<Foto>();
+	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER)
+	private List<Foto> fotos=new ArrayList<Foto>();
 	
 	/*recetas-1------------N-pasos  es bider*/
-	@OneToMany(mappedBy="idreceta")
-	private ArrayList<Pasos> pasos=new ArrayList<Pasos>();
+	@OneToMany(mappedBy="idreceta",fetch = FetchType.EAGER)
+	private List<Pasos> pasos=new ArrayList<Pasos>();
 	
 	/* recetas--1-----------N-calificaciones es bider*/
-	@OneToMany(mappedBy="receta")
-	private ArrayList<Calificaciones> calificaciones=new ArrayList<>();
+	@OneToMany(mappedBy="receta",fetch = FetchType.EAGER)
+	private List<Calificaciones> calificaciones=new ArrayList<>();
 	
 	private Integer porciones;
 	
@@ -61,14 +63,14 @@ public class Recetas implements Serializable{
 	
 	/*recetas-N-----------1--tipos por ahora es unider*/
 	/*segun el DER la receta tien un unico TIPO*/
-	
 	@ManyToOne
 	private Tipo idTipo;
 	
 	/*recetas-1-----------N--utilizados  es bider*/
-	@OneToMany(mappedBy="idReceta")
-	private ArrayList<Utilizado> utilizados=new ArrayList<>();
+	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER)
+	private List<Utilizado> utilizados=new ArrayList<>();
 	
+	/*-----------------------------------------------------------------------*/
 	public Recetas() {
 		
 		
@@ -106,7 +108,7 @@ public class Recetas implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public ArrayList<Foto> getFotos() {
+	public List<Foto> getFotos() {
 		return fotos;
 	}
 
@@ -114,7 +116,7 @@ public class Recetas implements Serializable{
 		this.fotos = fotos;
 	}
 
-	public ArrayList<Pasos> getPasos() {
+	public List<Pasos> getPasos() {
 		return pasos;
 	}
 
@@ -122,7 +124,7 @@ public class Recetas implements Serializable{
 		this.pasos = pasos;
 	}
 
-	public ArrayList<Calificaciones> getCalificaciones() {
+	public List<Calificaciones> getCalificaciones() {
 		return calificaciones;
 	}
 
@@ -162,7 +164,7 @@ public class Recetas implements Serializable{
 		this.idTipo = idTipo;
 	}
 
-	public ArrayList<Utilizado> getUtilizados() {
+	public List<Utilizado> getUtilizados() {
 		return utilizados;
 	}
 

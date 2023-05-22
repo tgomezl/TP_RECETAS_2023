@@ -2,9 +2,11 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,11 +46,13 @@ public class Usuarios implements Serializable{
 	private String tipo_usuario; //usuario o visitante
 	
 
+	//@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
 	@OneToMany(mappedBy="usuario")
-	private ArrayList<Recetas> recetas=new ArrayList<Recetas>();
+	private List<Recetas> recetas=new ArrayList<>();
 	
+	/*-----------------------------------------------------------------------*/
 	public Usuarios() {
-		
+		recetas=new ArrayList<>();
 	}
 	
 	
@@ -98,7 +102,7 @@ public class Usuarios implements Serializable{
 	}
 
 
-	public ArrayList<Recetas> getRecetas() {
+	public List<Recetas> getRecetas() {
 		return recetas;
 	}
 
@@ -108,9 +112,17 @@ public class Usuarios implements Serializable{
 	}
 
 
+
+
+	/*------------------*/
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Usuarios [idUsuario=" + idUsuario + ", mail=" + mail + ", nickname=" + nickname + ", habilitado="
+				+ habilitado + ", nombre=" + nombre + ", avatar=" + avatar + ", tipo_usuario=" + tipo_usuario + "]";
+	}
+
 	
 	
 

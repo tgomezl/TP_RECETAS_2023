@@ -33,7 +33,7 @@ public class Multimedia implements Serializable{
 	private String extension;
 	
 	private String urlContenido;
-	
+	/*-----------------------------------------------------------------------*/
 	
 	public Multimedia() {
 		
