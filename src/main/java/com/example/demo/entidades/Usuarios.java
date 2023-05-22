@@ -1,5 +1,6 @@
 package com.example.demo.entidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import jakarta.persistence.Column;
@@ -7,10 +8,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Usuarios {
+@Table(name="usuarios")
+public class Usuarios implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idUsuario")
@@ -32,6 +42,10 @@ public class Usuarios {
 	private String nombre;
 	private String avatar; //url de la imagen del avatar.
 	private String tipo_usuario; //usuario o visitante
+	
+
+	@OneToMany(mappedBy="usuario")
+	private ArrayList<Recetas> recetas=new ArrayList<Recetas>();
 	
 	public Usuarios() {
 		
@@ -84,13 +98,17 @@ public class Usuarios {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Usuarios [idUsuario=" + idUsuario + ", mail=" + mail + ", nickname=" + nickname + ", habilitado="
-				+ habilitado + ", nombre=" + nombre + ", avatar=" + avatar + ", tipo_usuario=" + tipo_usuario + "]";
+	public ArrayList<Recetas> getRecetas() {
+		return recetas;
 	}
 
 
+	public void setRecetas(ArrayList<Recetas> recetas) {
+		this.recetas = recetas;
+	}
+
+
+	
 	
 	
 	

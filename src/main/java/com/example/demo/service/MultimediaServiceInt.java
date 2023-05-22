@@ -3,7 +3,7 @@ package com.example.demo.service;
 import java.util.Optional;
 
 import com.example.demo.entidades.Multimedia;
-import com.example.demo.entidades.Pruebas;
+
 
 public interface MultimediaServiceInt {
 

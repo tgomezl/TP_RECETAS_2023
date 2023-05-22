@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.controlador.MultimediaControlador;
 import com.example.demo.entidades.Multimedia;
-import com.example.demo.entidades.Pruebas;
+
 
 @RestController
 @RequestMapping("/multimedia")

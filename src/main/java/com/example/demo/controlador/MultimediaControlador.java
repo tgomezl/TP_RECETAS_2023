@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entidades.Multimedia;
-import com.example.demo.entidades.Pruebas;
+
 import com.example.demo.service.MultimediaService;
-import com.example.demo.service.PruebaService;
+
 
 @Component
 public class MultimediaControlador {
@@ -22,7 +22,7 @@ public class MultimediaControlador {
 				//si pasa las VALIDACIONES(		solo se pueden guardar mayores a 18)
 				Multimedia creado=null;
 				System.out.println(multi);
-				if(!multi.getUrl().isBlank()) {
+				if(!multi.getUrlContenido().isBlank()) {
 					//lo mando a guardar
 					creado =multimediaservice.save(multi);
 						

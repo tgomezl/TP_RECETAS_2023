@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entidades.Multimedia;
-import com.example.demo.entidades.Pruebas;
+
 import com.example.demo.repositorio.MultimediaRepo;
-import com.example.demo.repositorio.PruebaRepo;
+
 
 @Service
 public class MultimediaService implements MultimediaServiceInt{

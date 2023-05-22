@@ -1,16 +1,25 @@
 package com.example.demo.entidades;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+//ESTA OK
 @Entity
-public class Multimedia {
+@Table(name="multimedia")
+public class Multimedia implements Serializable{
 	
-	public Multimedia() {
-		
-	}
+	
+	/**
+	 * multimedia-n------------1-paso
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,58 +27,70 @@ public class Multimedia {
 	
 	private String tipo_contenido; //foto, video, audio
 	
-	private Integer idPaso;
+	@ManyToOne
+	private Pasos idPaso;
 	
 	private String extension;
 	
-	private String url;
+	private String urlContenido;
+	
+	
+	public Multimedia() {
+		
+	}
 
-	public Integer getIdcontenido() {
+
+	public Integer getIdContenido() {
 		return idContenido;
 	}
 
-	public void setIdcontenido(Integer idContenido) {
+
+	public void setIdContenido(Integer idContenido) {
 		this.idContenido = idContenido;
 	}
+
 
 	public String getTipo_contenido() {
 		return tipo_contenido;
 	}
 
+
 	public void setTipo_contenido(String tipo_contenido) {
 		this.tipo_contenido = tipo_contenido;
 	}
 
-	public Integer getIdPaso() {
+
+	public Pasos getIdPaso() {
 		return idPaso;
 	}
 
-	public void setIdPaso(Integer idPaso) {
+
+	public void setIdPaso(Pasos idPaso) {
 		this.idPaso = idPaso;
 	}
+
 
 	public String getExtension() {
 		return extension;
 	}
 
+
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
 
-	public String getUrl() {
-		return url;
+
+	public String getUrlContenido() {
+		return urlContenido;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+
+	public void setUrlContenido(String urlContenido) {
+		this.urlContenido = urlContenido;
 	}
 
-	@Override
-	public String toString() {
-		return "Multimedia [idContenido=" + idContenido + ", tipo_contenido=" + tipo_contenido + ", idPaso=" + idPaso
-				+ ", extension=" + extension + ", url=" + url + "]";
-	}
-
+	
+	
 	
 	
 
