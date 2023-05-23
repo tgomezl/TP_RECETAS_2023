@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,34 +12,38 @@ import com.example.demo.repositorio.MultimediaRepo;
 
 
 @Service
-public class MultimediaService implements MultimediaServiceInt{
+public class MultimediaService implements BaseInterface<Multimedia>{
 	
 	//autowired al repo
 	@Autowired
 	private MultimediaRepo multimediarepo;
 
 	@Override
-	public Iterable<Multimedia> findAll() {
+	public List<Multimedia> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return multimediarepo.findAll();
 	}
 
 	@Override
 	public Optional<Multimedia> findById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return multimediarepo.findById(id);
 	}
 
 	@Override
-	public Multimedia save(Multimedia multimedia) {
+	public Multimedia save(Multimedia entidad) {
 		// TODO Auto-generated method stub
-		return multimediarepo.save(multimedia);
+		return multimediarepo.save(entidad);
 	}
 
 	@Override
 	public void deleteById(Integer id) {
 		// TODO Auto-generated method stub
-		
+		multimediarepo.deleteById(id);
 	}
+
+
+
+
 
 }

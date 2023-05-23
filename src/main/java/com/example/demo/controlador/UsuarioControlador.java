@@ -18,13 +18,14 @@ public class UsuarioControlador {
 	@Autowired
 	private UsuarioService userservice;
 
+	//crear
 	public Usuarios crearUser(Usuarios user) {
 		// TODO Auto-generated method stub
 		Usuarios creado=null;
 		System.out.println("datos recibidos ");
 		System.out.println(user);
 		
-
+		/*valido los datos recibidos*/
 		System.out.println("                   ");
 		if(!user.getNombre().isBlank()) {
 			creado=userservice.save(user);
@@ -32,6 +33,7 @@ public class UsuarioControlador {
 		return creado;
 	}
 
+	//buscar
 	public Usuarios BuscarUser(int id) {
 		
 		Optional<Usuarios> buscado= userservice.findById(id);
@@ -48,12 +50,14 @@ public class UsuarioControlador {
 	
 	}
 
+	//traer todos
 	public List<Usuarios> TraerLista() {
 		//te devuelve la lista
 		 List<Usuarios> listaActores = (List<Usuarios>) userservice.findAll();
 	     return listaActores;
 	}
 
+	//data mock
 	public void cargarData() {
 		
 
@@ -89,6 +93,35 @@ public class UsuarioControlador {
 		
 		
 		
+	}
+
+	//buscar uno + borrar
+	public Boolean borrarUser(int id) {
+		// TODO Auto-generated method stub
+		//USA THIS
+		Usuarios buscado = this.BuscarUser(id);
+		if (buscado==null){
+			//no lo encontro
+			return false;
+		}
+		//lo encontro
+		userservice.deleteById(id);
+		return true;
+	}
+
+	//busca y modifica
+	public Usuarios updateUser(int id, Usuarios user) {
+		// lo busca y si lo encuentra lo modifica
+		Usuarios userbuscado=this.BuscarUser(id);
+		if (userbuscado==null){
+			//no lo encontro
+			return null;
+		}else {
+			//lo piso
+			userbuscado=userservice.save(user);
+			return userbuscado;
+		}
+	
 	}
 	
 	

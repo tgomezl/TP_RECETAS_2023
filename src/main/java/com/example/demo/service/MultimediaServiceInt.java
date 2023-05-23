@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.example.demo.entidades.Multimedia;
 
-
+//NO ESTA EN USO
 public interface MultimediaServiceInt {
 
 	//limita los metodos
