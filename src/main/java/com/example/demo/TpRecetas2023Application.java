@@ -69,7 +69,9 @@ public class TpRecetas2023Application {
 				
 		/*cargo algunas recetas*/
 				/*tiene que ser despues de haber creado algun user*/
-				generico.crearAlgunaReceta();
+				generico.crearAlgunaRecetaConUser();
+				
+				generico.crearAlgunaRecetaSINUser();
 			};
 	}
 	

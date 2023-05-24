@@ -70,6 +70,7 @@ public class Recetas implements Serializable{
 	/*recetas-N-----------1--tipos por ahora es unider*/
 	/*segun el DER la receta tien un unico TIPO*/
 	@ManyToOne
+	@JoinColumn(name="idTipo")
 	private Tipo idTipo;
 	
 	/*recetas-1-----------N--utilizados  es bider*/

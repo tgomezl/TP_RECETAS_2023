@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -27,6 +28,7 @@ public class Pasos implements Serializable{
 	
 	/*paso--N---------1--receta es bider*/
 	@ManyToOne
+	@JoinColumn(name="idreceta")
 	private Recetas idreceta;
 	
 	private Integer nroPaso;

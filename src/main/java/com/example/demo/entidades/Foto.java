@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -28,6 +29,7 @@ public class Foto implements Serializable{
 	
 	/*receta--1-------------n--foto es vider*/
 	@ManyToOne
+	@JoinColumn(name="idReceta")
 	private Recetas idReceta;
 	
 	private String urlFoto;

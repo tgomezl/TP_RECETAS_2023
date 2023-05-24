@@ -87,7 +87,7 @@ public class GenericoControlador {
 	}
 	
 	//data mock
-	public void crearAlgunaReceta() {
+	public void crearAlgunaRecetaConUser() {
 		List<Usuarios> listausers=null;
 		listausers=usuariocontrolador.TraerLista();
 		if (!listausers.isEmpty()) {
@@ -110,9 +110,7 @@ public class GenericoControlador {
 				
 				//aca hago ambos save
 				recetasservice.save(nuevaReceta);
-				//hago save del user
-				
-				//hago save de la receta
+			
 				
 				
 			}
@@ -135,6 +133,14 @@ public class GenericoControlador {
 		nuevotipo.setDescripcion("carne");
 		tiposervice.save(nuevotipo);
 		
+	}
+
+	public void crearAlgunaRecetaSINUser() {
+		// carga recetas sin user
+		/*
+		Recetas receta=new Recetas();
+		receta.set
+		*/
 	}
 
 

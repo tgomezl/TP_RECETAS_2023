@@ -31,11 +31,13 @@ public class Utilizado implements Serializable{
 	private Recetas idReceta;
 	
 	@ManyToOne
+	@JoinColumn(name="idIngrediente")
 	private Ingrediente idIngrediente;
 	
 	private Integer cantidad ;
 	
 	@ManyToOne
+	@JoinColumn(name="idUnidad")
 	private Unidades idUnidad;
 	
 	
