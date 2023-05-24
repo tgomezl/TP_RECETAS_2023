@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.example.demo.controlador.GenericoControlador;
 import com.example.demo.controlador.UsuarioControlador;
 import com.example.demo.entidades.Usuarios;
 
@@ -27,7 +28,7 @@ public class TpRecetas2023Application {
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner(UsuarioControlador usuariocontrolador) {
+	CommandLineRunner commandLineRunner(UsuarioControlador usuariocontrolador, GenericoControlador generico) {
 			return args-> {
 				
 	
@@ -39,8 +40,8 @@ public class TpRecetas2023Application {
 				System.out.println("");
 				System.out.println("");
 			
-				/*cargo algunos usuarios pero solo si la bbdd esta vacia*/
-				usuariocontrolador.cargarData();
+	/*cargo algunos usuarios pero solo si la bbdd esta vacia*/
+				generico.cargarUsuarios();
 				
 				System.out.println("  **************");
 				System.out.println("buscar todos los usuarios");
@@ -52,7 +53,7 @@ public class TpRecetas2023Application {
 				
 				
 					
-				/*busco un user por id*/
+	/*busco un user por id*/
 				System.out.println("  **************");
 				System.out.println("buscando user por id");
 				Usuarios userbuscado = usuariocontrolador.BuscarUser(6);
@@ -60,8 +61,15 @@ public class TpRecetas2023Application {
 				
 				
 				/*cargo algunos ingredientes*/
-				System.out.println("  **************");
+				System.out.println("  ******TODO********");
 				
+				
+	/*cargo algunos tipos de receta*/
+				generico.crearTipos();
+				
+		/*cargo algunas recetas*/
+				/*tiene que ser despues de haber creado algun user*/
+				generico.crearAlgunaReceta();
 			};
 	}
 	

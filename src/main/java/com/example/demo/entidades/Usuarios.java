@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -45,10 +49,22 @@ public class Usuarios implements Serializable{
 	private String avatar; //url de la imagen del avatar.
 	private String tipo_usuario; //usuario o visitante
 	
-
+	private String contrasenia;
+	
+	
 	//@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<Recetas> recetas=new ArrayList<>();
+	//SON LAS RECETAS CREDAS POR EL USER
+	
+	
+//OJO.estas son sus recetas seguidas, pero no creadas por el
+	@OneToMany
+	@JoinTable(name="usuario_lista",
+	joinColumns=@JoinColumn(name="userId"),
+	inverseJoinColumns=@JoinColumn(name="listaId"))
+	private List<ListaRecetas> listas=new ArrayList<>();
 	
 	/*-----------------------------------------------------------------------*/
 	public Usuarios() {
@@ -107,22 +123,53 @@ public class Usuarios implements Serializable{
 	}
 
 
-	public void setRecetas(ArrayList<Recetas> recetas) {
+
+	
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+	
+	
+	
+
+	/*------------------*/
+
+	public List<ListaRecetas> getlistas() {
+		return listas;
+	}
+
+
+	public void setlistas(List<ListaRecetas> misListasrecetas) {
+		this.listas = misListasrecetas;
+	}
+
+
+	public void setRecetas(List<Recetas> recetas) {
 		this.recetas = recetas;
 	}
 
 
-
-
-	/*------------------*/
-	
-	
 	@Override
 	public String toString() {
 		return "Usuarios [idUsuario=" + idUsuario + ", mail=" + mail + ", nickname=" + nickname + ", habilitado="
 				+ habilitado + ", nombre=" + nombre + ", avatar=" + avatar + ", tipo_usuario=" + tipo_usuario + "]";
 	}
 
+
+	public void addReceta(Recetas receta) {
+		// TODO Auto-generated method stub
+		this.recetas.add(receta);
+	}
+
+	public void quitarReceta(Recetas receta) {
+		this.recetas.remove(receta);
+		
+	}
 	
 	
 

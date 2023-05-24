@@ -1,8 +1,11 @@
 package com.example.demo.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,11 +38,14 @@ public class Recetas implements Serializable{
 	private String descripcion;
 	
 	
+	private LocalDate fechaCreacion;
+	
 	/*recetas--N----------1--usuario. 	*/
 	/*deberia ser bidireccional??*/
 	@ManyToOne
 	@JoinColumn(name="idUsuario")
-	private Usuarios usuario;
+	@JsonBackReference
+	private Usuarios usuario;  //es el user que creo la receta!!!!!!!!!
 	
 	/*recetas-1-----------N--fotos es bider */
 	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER)
@@ -70,11 +76,16 @@ public class Recetas implements Serializable{
 	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER)
 	private List<Utilizado> utilizados=new ArrayList<>();
 	
+	
+	
 	/*-----------------------------------------------------------------------*/
 	public Recetas() {
 		
-		
+		fechaCreacion=LocalDate.now();
 	}
+	
+	
+
 
 	public Integer getIdReceta() {
 		return idReceta;
@@ -170,6 +181,70 @@ public class Recetas implements Serializable{
 
 	public void setUtilizados(ArrayList<Utilizado> utilizados) {
 		this.utilizados = utilizados;
+	}
+
+	public LocalDate getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(LocalDate fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public void setFotos(List<Foto> fotos) {
+		this.fotos = fotos;
+	}
+
+	public void setPasos(List<Pasos> pasos) {
+		this.pasos = pasos;
+	}
+
+	public void setCalificaciones(List<Calificaciones> calificaciones) {
+		this.calificaciones = calificaciones;
+	}
+
+	public void setUtilizados(List<Utilizado> utilizados) {
+		this.utilizados = utilizados;
+	}
+
+
+
+	//es solo para crear recetas mock
+	public void setearParametrosMock(Usuarios user, Tipo tipo) {
+		// TODO Auto-generated method stub
+		this.nombre="tarta de atun";
+		
+		this.descripcion="receta de atun de mi abuela";
+		
+		
+		this.fechaCreacion=LocalDate.now();
+		
+		
+		this.usuario=user;  //No DeJARLO COMO NULL
+		
+	
+		this.fotos=new ArrayList<Foto>();
+		
+		
+		this.pasos=new ArrayList<Pasos>();
+		
+	
+		this.calificaciones=new ArrayList<>();
+		
+		this.porciones=6;
+		
+		this.cantidadPersonas=2;
+		
+
+		this.fotounica="url de una foto";
+		
+
+		this.idTipo=tipo;
+		
+		this.utilizados=new ArrayList<>();
+		
+		
+		
 	}
 	
 	

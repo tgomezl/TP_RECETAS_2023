@@ -30,6 +30,13 @@ public class UsuariosRest {
 	private UsuarioControlador usercontrolador;
 	
 	
+	@GetMapping("/probar")
+	public String probar() {
+		return "el endpoint funciona";
+	}
+	
+	
+	
 	@PostMapping
     public ResponseEntity<?> crearUser(@RequestBody Usuarios user){ 
 		Usuarios creado = usercontrolador.crearUser(user);
