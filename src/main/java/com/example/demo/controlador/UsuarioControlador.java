@@ -85,6 +85,11 @@ public class UsuarioControlador {
 			return null;
 		}else {
 			//lo piso
+			
+			Integer idbuscado =userbuscado.getIdUsuario();
+			//ya no necesito recibirlo en el body
+			user.setIdUsuario(idbuscado);
+			
 			userbuscado=userservice.save(user);
 			return userbuscado;
 		}

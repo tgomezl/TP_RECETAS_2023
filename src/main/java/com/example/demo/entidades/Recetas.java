@@ -63,6 +63,8 @@ public class Recetas implements Serializable{
 	
 	private Integer cantidadPersonas;
 	
+	private Boolean aprobada=false; //por defecto se crean con aprobacion pendiente
+	
 	@Column(name="foto")/*siempre tiene al menos una*/
 	private String fotounica;
 	
@@ -192,21 +194,30 @@ public class Recetas implements Serializable{
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public void setFotos(List<Foto> fotos) {
-		this.fotos = fotos;
+
+
+//metodo para agregar pasos
+	public void ADDpasos(Pasos paso) {
+		//va y viene
+		this.pasos.add(paso);
+		
+		paso.setIdreceta(this);
+		
 	}
 
-	public void setPasos(List<Pasos> pasos) {
-		this.pasos = pasos;
+	
+	
+	public Boolean getAprobada() {
+		return aprobada;
 	}
 
-	public void setCalificaciones(List<Calificaciones> calificaciones) {
-		this.calificaciones = calificaciones;
+
+
+
+	public void setAprobada(Boolean aprobada) {
+		this.aprobada = aprobada;
 	}
 
-	public void setUtilizados(List<Utilizado> utilizados) {
-		this.utilizados = utilizados;
-	}
 
 
 

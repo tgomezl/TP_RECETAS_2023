@@ -52,11 +52,16 @@ public class Usuarios implements Serializable{
 	private String contrasenia;
 	
 	
+	private Integer claveDeRecu;
+	
+	
+	private Boolean esadmin=false;
+	
 	//@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
 	@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<Recetas> recetas=new ArrayList<>();
-	//SON LAS RECETAS CREDAS POR EL USER
+	//SON LAS RECETAS CREDAS POR EL USER!!!
 	
 	
 //OJO.estas son sus recetas seguidas, pero no creadas por el
@@ -160,16 +165,39 @@ public class Usuarios implements Serializable{
 				+ habilitado + ", nombre=" + nombre + ", avatar=" + avatar + ", tipo_usuario=" + tipo_usuario + "]";
 	}
 
-
+//metodo para agregar recetas
 	public void addReceta(Recetas receta) {
 		// TODO Auto-generated method stub
 		this.recetas.add(receta);
+		receta.setUsuario(this);
 	}
 
 	public void quitarReceta(Recetas receta) {
 		this.recetas.remove(receta);
 		
 	}
+
+
+	public Integer getClaveDeRecu() {
+		return claveDeRecu;
+	}
+
+
+	public void setClaveDeRecu(Integer claveDeRecu) {
+		this.claveDeRecu = claveDeRecu;
+	}
+
+
+	public Boolean getEsadmin() {
+		return esadmin;
+	}
+
+
+	public void setEsadmin(Boolean esadmin) {
+		this.esadmin = esadmin;
+	}
+	
+	
 	
 	
 

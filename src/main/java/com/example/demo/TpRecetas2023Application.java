@@ -60,9 +60,9 @@ public class TpRecetas2023Application {
 				System.out.println(userbuscado);
 				
 				
-				/*cargo algunos ingredientes*/
+		/*cargo algunos ingredientes*/
 				System.out.println("  ******TODO********");
-				
+				generico.crearIngredientes();
 				
 	/*cargo algunos tipos de receta*/
 				generico.crearTipos();
