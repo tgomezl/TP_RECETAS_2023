@@ -86,6 +86,7 @@ public class UsuariosRest {
 	//borrar usuario
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> eliminarUser(@PathVariable(value="id") String id){
+//que pasa con las recetas de un user cuando ese user se elimina???
 		Boolean borrado= usercontrolador.borrarUser(Integer.parseInt(id));
 		if(borrado) {
 			return ResponseEntity.ok().build();

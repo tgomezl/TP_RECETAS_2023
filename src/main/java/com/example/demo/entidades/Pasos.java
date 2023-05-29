@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +39,7 @@ public class Pasos implements Serializable{
 	
 	private String texto;
 	
-	@OneToMany(mappedBy="idPaso")
+	@OneToMany(mappedBy="idPaso",cascade = CascadeType.REMOVE)
 	private List<Multimedia> multimedia=new ArrayList<>();
 	
 	public Pasos() {

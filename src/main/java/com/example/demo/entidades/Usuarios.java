@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -65,7 +66,7 @@ public class Usuarios implements Serializable{
 	
 	
 //OJO.estas son sus recetas seguidas, pero no creadas por el
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(name="usuario_lista",
 	joinColumns=@JoinColumn(name="userId"),
 	inverseJoinColumns=@JoinColumn(name="listaId"))

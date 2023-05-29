@@ -50,7 +50,7 @@ public class Recetas implements Serializable{
 	private Usuarios usuario;  //es el user que creo la receta!!!!!!!!!
 	
 	/*recetas-1-----------N--fotos es bider */
-	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
 	private List<Foto> fotos=new ArrayList<Foto>();
 	
 	/*recetas-1------------N-pasos  es bider*/
@@ -59,7 +59,7 @@ public class Recetas implements Serializable{
 	private List<Pasos> pasos=new ArrayList<Pasos>();
 	
 	/* recetas--1-----------N-calificaciones es bider*/
-	@OneToMany(mappedBy="receta",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="receta",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Calificaciones> calificaciones=new ArrayList<>();
 	
 	private Integer porciones;
@@ -79,7 +79,7 @@ public class Recetas implements Serializable{
 	private Tipo idTipo;
 	
 	/*recetas-1-----------N--utilizados  es bider*/
-	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
 	private List<Utilizado> utilizados=new ArrayList<>();
 	
 	
