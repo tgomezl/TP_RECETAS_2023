@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +31,7 @@ public class Pasos implements Serializable{
 	/*paso--N---------1--receta es bider*/
 	@ManyToOne
 	@JoinColumn(name="idreceta")
+	@JsonBackReference
 	private Recetas idreceta;
 	
 	private Integer nroPaso;

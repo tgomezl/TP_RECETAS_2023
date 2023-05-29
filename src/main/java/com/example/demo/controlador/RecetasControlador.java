@@ -190,9 +190,26 @@ public class RecetasControlador {
 		
 		return aprobada;
 	}
+//metodo solo para testear
+	public Recetas metododetesteo(int idreceta) {
+		// HACE FALTA HACER EL SAVE??
+		Recetas modificada=null;
+		Recetas recetabuscada= busacarUnaReceta(idreceta);
+		if(recetabuscada!=null) {
+			//alguna modificacion
+			recetabuscada.setPorciones(45);
+			//hago el save
+			recetasservice.save(recetabuscada);
+			//la retorna
+			modificada=recetabuscada;
+		}
+		return modificada;
+	}
 	
 	
-	
+	public void pisarReceta(Recetas receta) {
+		recetasservice.save(receta);
+	}
 	
 	
 

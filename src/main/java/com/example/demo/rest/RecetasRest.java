@@ -30,6 +30,7 @@ public class RecetasRest {
 	private RecetasControlador recetacontrolador;
 	
 	//CREAR una receta!!!!!!!!!!
+	//deberia pasarle el id del user creador de la receta
 	@PostMapping("")
 	public ResponseEntity<?> crearReceta(@RequestBody Recetas receta){
 		
@@ -165,6 +166,19 @@ public class RecetasRest {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	/*metodo de testeo!!!!!!*/
+	//@GetMapping("/testing/{idreceta}")
+	@PutMapping("/testing/{idreceta}")
+	public ResponseEntity<?> metododetesteo(@PathVariable(value="idreceta") String id){
+		
+		Recetas buscada= recetacontrolador.metododetesteo(Integer.parseInt(id));
+		if(buscada!=null) {
+			return ResponseEntity.ok(buscada);
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
 
 }
 	

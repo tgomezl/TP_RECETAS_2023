@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,6 +54,7 @@ public class Recetas implements Serializable{
 	
 	/*recetas-1------------N-pasos  es bider*/
 	@OneToMany(mappedBy="idreceta",fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<Pasos> pasos=new ArrayList<Pasos>();
 	
 	/* recetas--1-----------N-calificaciones es bider*/
@@ -204,7 +206,14 @@ public class Recetas implements Serializable{
 		paso.setIdreceta(this);
 		
 	}
-
+//metodo para quitar paso
+	public void QUITARpasos(Pasos paso) {
+		//va y viene
+		this.pasos.remove(paso);
+		
+		paso.setIdreceta(null);
+		
+	}
 	
 	
 	public Boolean getAprobada() {

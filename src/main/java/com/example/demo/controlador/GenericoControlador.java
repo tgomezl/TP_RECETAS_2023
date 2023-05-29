@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entidades.Ingrediente;
+import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Tipo;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.service.IngredienteService;
 import com.example.demo.service.MultimediaService;
+import com.example.demo.service.PasoService;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.TipoService;
 import com.example.demo.service.UsuarioService;
@@ -48,6 +50,10 @@ public class GenericoControlador {
 	@Autowired
 	private IngredienteService ingredienteservice;
 	
+	
+	/*pasos*/
+	@Autowired
+	private PasoService pasoservice;
 	
 	public GenericoControlador() {
 		
@@ -202,6 +208,25 @@ public class GenericoControlador {
 		ing.setNombre("tomate");
 		ingredienteservice.save(ing);
 		
+		
+		
+	}
+
+	public void agregarPasos() {
+		// le agrega pasos a alguna receta ya cargada
+		List<Recetas> recetas=recetasservice.findAll();
+		if(!recetas.isEmpty()) {
+			//creo el paso y lo agrego
+			Pasos paso =new Pasos();
+			paso.setNroPaso(1);
+			paso.setTexto("texto del paso uno");
+			Recetas estareceta=recetas.get(0);
+			estareceta.ADDpasos(paso);
+	//hago el save de ambas
+			pasoservice.save(paso);
+			recetasservice.save(estareceta);
+			
+		}
 		
 		
 	}

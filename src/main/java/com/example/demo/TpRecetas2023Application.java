@@ -72,6 +72,10 @@ public class TpRecetas2023Application {
 				generico.crearAlgunaRecetaConUser();
 				
 				generico.crearAlgunaRecetaSINUser();
+				
+				generico.agregarPasos();
+				
+				
 			};
 	}
 	
