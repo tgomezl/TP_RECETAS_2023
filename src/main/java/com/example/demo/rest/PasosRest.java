@@ -1,5 +1,7 @@
 package com.example.demo.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +55,18 @@ public class PasosRest {
 		
 	}
 	
-	
+	//agregarle una LISTA de PASOS a una receta existente
+		@PostMapping("/agregarPasos/{idreceta}")
+		public ResponseEntity<?> agregarListaDePasos(@PathVariable(value="idreceta") String idreceta ,@RequestBody List<Pasos> pasos){
+			//crea y agrega un paso a una receta existente
+			
+			boolean agregado=pasocontrolador.agregarListaDePasos(Integer.parseInt(idreceta), pasos);
+			if(agregado) {
+				return ResponseEntity.ok().build();
+			}
+			return ResponseEntity.badRequest().build();
+			
+		}
 	
 	//modificar un paso de receta existente
 	

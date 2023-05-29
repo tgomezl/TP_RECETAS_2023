@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.service.RecetasService;
@@ -18,6 +19,9 @@ public class RecetasControlador {
 	
 	@Autowired
 	private RecetasService recetasservice;
+	
+	@Autowired
+	private UsuarioService usuarioservice;
 	
 	/*
 	@Autowired
@@ -113,10 +117,12 @@ public class RecetasControlador {
 				boolean permiso=checkPermisoVerReceta(user, recetabuscada);
 				if(permiso) {
 					//tiene permiso
-					//remove + delete
-					//OJO ACAAAA
+					//receta esta atada a los pasos y al usuario
+					this.desatarUseryReceta(recetabuscada);
+					recetasservice.deleteById(idreceta);//deberia eliminar tambien los pasos
+	//OJO ACAAAA
 	//OJO xq la receta esta referenciadad de muchos lugares
-					recetasservice.deleteById(idreceta);
+					
 					eliminado=true;
 				}
 			}
@@ -124,6 +130,18 @@ public class RecetasControlador {
 		return eliminado;
 	}
 
+
+	
+	public void desatarUseryReceta(Recetas receta) {
+// la receta esta anclada al user y a los pasos
+		Usuarios usuario=receta.getUsuario();
+		if(usuario!=null) {
+			usuario.quitarReceta(receta);
+		}
+		
+		
+	}
+	 
 
 	public Recetas editarReceta(Integer idreceta, Integer iduser,Recetas receta) {
 		//se fija si tiene permiso

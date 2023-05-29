@@ -30,7 +30,8 @@ public class RecetasRest {
 	private RecetasControlador recetacontrolador;
 	
 	//CREAR una receta!!!!!!!!!!
-	//deberia pasarle el id del user creador de la receta
+	//deberia pasarle el id del user creador de la receta!!!
+	//por ahora la crea sin user
 	@PostMapping("")
 	public ResponseEntity<?> crearReceta(@RequestBody Recetas receta){
 		

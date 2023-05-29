@@ -8,6 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -53,7 +54,7 @@ public class Recetas implements Serializable{
 	private List<Foto> fotos=new ArrayList<Foto>();
 	
 	/*recetas-1------------N-pasos  es bider*/
-	@OneToMany(mappedBy="idreceta",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="idreceta",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JsonManagedReference
 	private List<Pasos> pasos=new ArrayList<Pasos>();
 	
@@ -267,6 +268,15 @@ public class Recetas implements Serializable{
 		
 		
 	}
+
+
+
+
+
+
+
+
+	
 	
 	
 	

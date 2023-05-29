@@ -1,5 +1,6 @@
 package com.example.demo.controlador;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,29 @@ public class PasoControlador {
 			buscado=paso.get();
 		}
 		return buscado;
+	}
+
+	public boolean agregarListaDePasos(int idreceta, List<Pasos> listapasos) {
+		// agrega los pasos en batch
+		boolean agregado=false;
+		Recetas buscada=recetacontrolador.busacarUnaReceta(idreceta);
+		if(buscada!=null) {
+			for(Pasos p:listapasos) {
+				buscada.ADDpasos(p);
+			}
+			
+		
+			//aca iria el save de la receta
+			recetacontrolador.pisarReceta(buscada);
+			//save del paso
+			for(Pasos p:listapasos) {
+				pasoservice.save(p);
+			}
+			
+			agregado=true;
+		}
+		return agregado;
+		
 	}
 	
 	

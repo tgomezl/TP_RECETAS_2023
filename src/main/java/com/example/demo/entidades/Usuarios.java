@@ -174,6 +174,7 @@ public class Usuarios implements Serializable{
 
 	public void quitarReceta(Recetas receta) {
 		this.recetas.remove(receta);
+		receta.setUsuario(null);
 		
 	}
 
