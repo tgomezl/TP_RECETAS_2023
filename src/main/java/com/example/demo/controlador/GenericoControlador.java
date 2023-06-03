@@ -1,5 +1,7 @@
 package com.example.demo.controlador;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +80,8 @@ public class GenericoControlador {
 			user1.setNombre("homero simpson");
 			user1.setTipo_usuario("Alumno");
 			user1.setRecetas(null);
-			//homero es admin
+			user1.setContrasenia("admin");
+	//homero es admin
 			user1.setEsadmin(true);
 			
 			usuarioservice.save(user1);
@@ -92,6 +95,7 @@ public class GenericoControlador {
 			user2.setNombre("bart simpson");
 			user2.setTipo_usuario("Alumno");
 			user2.setRecetas(null);
+			user2.setContrasenia("contra");
 			
 			usuarioservice.save(user2);
 			
@@ -103,6 +107,7 @@ public class GenericoControlador {
 			user3.setNickname("nickname22");
 			user3.setNombre("lisa simpson");
 			user3.setTipo_usuario("Visitante");
+			user3.setContrasenia("contra");
 			user3.setRecetas(null);
 			
 			usuarioservice.save(user3);
@@ -116,36 +121,53 @@ public class GenericoControlador {
 	
 	//data mock
 	public void crearAlgunaRecetaConUser() {
-		List<Usuarios> listausers=null;
-		listausers=usuariocontrolador.TraerLista();
-		if (!listausers.isEmpty()) {
-			Usuarios user=listausers.get(0);
-			//busco algun tipo ya cargado
-			List<Tipo> listatipos=tiposervice.findAll();
-			if (!listatipos.isEmpty()) {
-				Tipo tipo=listatipos.get(0);
-				//creo la receta
-				Recetas nuevaReceta=new Recetas();
-				nuevaReceta.setearParametrosMock(user, tipo);
+		List<String> titulos=new ArrayList<>();
+		titulos.add("tarta de atun");
+		titulos.add("pollo a la portuguesa");
+		titulos.add( "tallarines al pesto");
+		
+		List<Integer> porciones=new ArrayList<>();
+		porciones.add(2);
+		porciones.add(4);
+		porciones.add(6);
+		porciones.add(8);
+		for(int i=0;i<2;i++) {
+			List<Usuarios> listausers=null;
+			listausers=usuariocontrolador.TraerLista();
+			if (!listausers.isEmpty()) {
+				Collections.shuffle(listausers);
+				Usuarios user=listausers.get(0);
+				//busco algun tipo ya cargado
+				List<Tipo> listatipos=tiposervice.findAll();
 				
-				//le agrego al receta al user y el user a la receta
-				user.addReceta(nuevaReceta);   
-				
-				
-//tengo que hace save de ambos???????RTA:siiiii
-				usuarioservice.save(user);
-				
-				//aca hago ambos save
-				recetasservice.save(nuevaReceta);
-			
+				if (!listatipos.isEmpty()) {
+					Collections.shuffle(titulos);
+					Collections.shuffle(listatipos);
+					Collections.shuffle(porciones);
+					Tipo tipo=listatipos.get(0);
+					//creo la receta
+					Recetas nuevaReceta=new Recetas();
+					nuevaReceta.setearParametrosMock(user, tipo);
+					nuevaReceta.setNombre(titulos.get(0));
+					nuevaReceta.setPorciones(porciones.get(0));
+					
+					//le agrego al receta al user y el user a la receta
+					user.addReceta(nuevaReceta);   
+					
+					
+	//tengo que hace save de ambos???????RTA:siiiii
+					usuarioservice.save(user);
+					
+					//aca hago ambos save
+					recetasservice.save(nuevaReceta);	
+					
+				}
 				
 				
 			}
 			
-
-			
-			
 		}
+		
 		
 	}
 
@@ -208,6 +230,18 @@ public class GenericoControlador {
 		ing.setNombre("tomate");
 		ingredienteservice.save(ing);
 		
+		ing=new Ingrediente();
+		ing.setNombre("zanahorias");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("albaca");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("ajo");
+		ingredienteservice.save(ing);
+		
 		
 		
 	}
@@ -222,8 +256,17 @@ public class GenericoControlador {
 			paso.setTexto("texto del paso uno");
 			Recetas estareceta=recetas.get(0);
 			estareceta.ADDpasos(paso);
-	//hago el save de ambas
 			pasoservice.save(paso);
+			
+			
+			paso =new Pasos();
+			paso.setNroPaso(2);
+			paso.setTexto("texto del paso dos");
+			estareceta.ADDpasos(paso);
+			pasoservice.save(paso);
+
+			//hago el save de ambas
+	
 			recetasservice.save(estareceta);
 			
 		}

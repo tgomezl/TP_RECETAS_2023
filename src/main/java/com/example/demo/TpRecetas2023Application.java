@@ -39,8 +39,16 @@ public class TpRecetas2023Application {
 				System.out.println("             corriendo");
 				System.out.println("");
 				System.out.println("");
+				
+				
+		/*1) cargo algunos ingredientes*/
+				System.out.println("  ******TODO********");
+				generico.crearIngredientes();
+				
+		/*2)cargo algunos "tipos" de receta*/
+				generico.crearTipos();
 			
-	/*cargo algunos usuarios pero solo si la bbdd esta vacia*/
+	/*3)cargo algunos usuarios pero solo si la bbdd esta vacia*/
 				generico.cargarUsuarios();
 				
 				System.out.println("  **************");
@@ -59,20 +67,15 @@ public class TpRecetas2023Application {
 				Usuarios userbuscado = usuariocontrolador.BuscarUser(6);
 				System.out.println(userbuscado);
 				
+
 				
-		/*cargo algunos ingredientes*/
-				System.out.println("  ******TODO********");
-				generico.crearIngredientes();
-				
-	/*cargo algunos tipos de receta*/
-				generico.crearTipos();
 				
 		/*cargo algunas recetas*/
 				/*tiene que ser despues de haber creado algun user*/
 				generico.crearAlgunaRecetaConUser();
-				
-				generico.crearAlgunaRecetaSINUser();
-				
+		/*sin user*/
+				//generico.crearAlgunaRecetaSINUser();
+			/*cargo algun paso*/
 				generico.agregarPasos();
 				
 				
