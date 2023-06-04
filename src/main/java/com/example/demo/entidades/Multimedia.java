@@ -38,7 +38,7 @@ public class Multimedia implements Serializable{
 	/*-----------------------------------------------------------------------*/
 	
 	public Multimedia() {
-		
+		idPaso=null;
 	}
 
 

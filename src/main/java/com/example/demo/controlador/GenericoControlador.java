@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entidades.Ingrediente;
+import com.example.demo.entidades.Multimedia;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Tipo;
@@ -80,17 +81,20 @@ public class GenericoControlador {
 		//quiero contar cuantos usuarios hay cargados en la bbdd
 		List<Usuarios> listausers=null;
 		listausers=usuariocontrolador.TraerLista();
+		Integer clave;
 		if (listausers.size()<2) {
 			System.out.println("cargando algunos users");
 			Usuarios user1=new Usuarios();
-			user1.setAvatar("avatar");
+			user1.setAvatar("avatar1");
 			user1.setHabilitado("Si");
-			user1.setMail("mailfalso@gmail.com");
-			user1.setNickname("nickname");
+			user1.setMail("hsimpson@gmail.com");
+			user1.setNickname("homero01");
 			user1.setNombre("homero simpson");
 			user1.setTipo_usuario("Alumno");
 			user1.setRecetas(null);
 			user1.setContrasenia("admin");
+			clave=usuariocontrolador.generarClaveAleatoria();
+			user1.setClaveDeRecu(clave);
 	//homero es admin
 			user1.setEsadmin(true);
 			
@@ -100,27 +104,45 @@ public class GenericoControlador {
 			Usuarios user2=new Usuarios();
 			user2.setAvatar("avatar2");
 			user2.setHabilitado("Si");
-			user2.setMail("mailfalso222@gmail.com");
-			user2.setNickname("nickname22");
+			user2.setMail("bart@gmail.com");
+			user2.setNickname("el barto");
 			user2.setNombre("bart simpson");
 			user2.setTipo_usuario("Alumno");
 			user2.setRecetas(null);
 			user2.setContrasenia("contra");
+			clave=usuariocontrolador.generarClaveAleatoria();
+			user2.setClaveDeRecu(clave);
 			
 			usuarioservice.save(user2);
 			
 			
 			Usuarios user3=new Usuarios();
-			user3.setAvatar("avatar2");
+			user3.setAvatar("avatar3");
 			user3.setHabilitado("Si");
-			user3.setMail("mailfalso222@gmail.com");
-			user3.setNickname("nickname22");
+			user3.setMail("lisa@gmail.com");
+			user3.setNickname("lisa_l");
 			user3.setNombre("lisa simpson");
 			user3.setTipo_usuario("Visitante");
 			user3.setContrasenia("contra");
 			user3.setRecetas(null);
+			clave=usuariocontrolador.generarClaveAleatoria();
+			user3.setClaveDeRecu(clave);
 			
 			usuarioservice.save(user3);
+			
+			Usuarios user4=new Usuarios();
+			user4.setAvatar("avatar4");
+			user4.setHabilitado("Si");
+			user4.setMail("marge@gmail.com");
+			user4.setNickname("marge22");
+			user4.setNombre("marge simpson");
+			user4.setTipo_usuario("Visitante");
+			user4.setContrasenia("contra");
+			user4.setRecetas(null);
+			clave=usuariocontrolador.generarClaveAleatoria();
+			user4.setClaveDeRecu(clave);
+			
+			usuarioservice.save(user4);
 			
 			
 		}
@@ -130,25 +152,32 @@ public class GenericoControlador {
 	}
 	
 	//data mock
-	public void crearAlgunaRecetaConUser() {
+	public void crearRecetasConUser() {
 		List<String> titulos=new ArrayList<>();
 		titulos.add("tarta de atun");
 		titulos.add("pollo a la portuguesa");
 		titulos.add( "tallarines al pesto");
+		titulos.add( "tarta de manzana");
+		titulos.add( "ravioles de pollo");
 		
 		List<Integer> porciones=new ArrayList<>();
 		porciones.add(2);
 		porciones.add(4);
 		porciones.add(6);
 		porciones.add(8);
-		for(int i=0;i<2;i++) {
-			List<Usuarios> listausers=null;
+		
+		List<Usuarios> listausers=null;
+		Usuarios user=null;
+		
+		//busco algun tipo ya cargado
+		List<Tipo> listatipos=tiposervice.findAll();
+		for(int i=0;i<4;i++) {
+			
 			listausers=usuariocontrolador.TraerLista();
 			if (!listausers.isEmpty()) {
 				Collections.shuffle(listausers);
-				Usuarios user=listausers.get(0);
-				//busco algun tipo ya cargado
-				List<Tipo> listatipos=tiposervice.findAll();
+				user=listausers.get(0);
+				
 				
 				if (!listatipos.isEmpty()) {
 					Collections.shuffle(titulos);
@@ -166,7 +195,7 @@ public class GenericoControlador {
 					
 					
 	//tengo que hace save de ambos???????RTA:siiiii
-					usuarioservice.save(user);
+					//usuarioservice.save(user);
 					
 					//aca hago ambos save
 					recetasservice.save(nuevaReceta);	
@@ -180,6 +209,41 @@ public class GenericoControlador {
 		
 		
 	}
+	
+	//data mock
+		public void cargarUnicaREcetaConUSer() {
+			List<Usuarios> listausers=usuariocontrolador.TraerLista();
+			if (!listausers.isEmpty()) {
+				Collections.shuffle(listausers);
+				Usuarios user=listausers.get(0);
+				List<Tipo> listatipos=tiposervice.findAll();
+				Tipo tipo=listatipos.get(0);
+				Recetas nuevaReceta=new Recetas();
+				nuevaReceta.setAprobada(false);
+				nuevaReceta.setCantidadPersonas(22);
+				nuevaReceta.setDescripcion("receta de prueba");
+				nuevaReceta.setFotounica("url de foto unica");
+				nuevaReceta.setNombre("receta false");
+				
+				
+				//le agrego al receta al user y el user a la receta
+				user.addReceta(nuevaReceta);   
+				
+				System.out.println("     ");
+				System.out.println("     ");
+				System.out.println("     imprimo al user");
+				System.out.println("user "+user);
+				System.out.println("su receta " +user.getRecetas().get(0));
+//tengo que hace save de ambos???????RTA:siiiii
+				
+				//usuarioservice.save(user);
+				
+				recetasservice.save(nuevaReceta);
+			}
+				
+		}
+			
+			
 
 	public void crearTipos() {
 		// TODO Auto-generated method stub
@@ -194,6 +258,10 @@ public class GenericoControlador {
 		
 		nuevotipo=new Tipo();
 		nuevotipo.setDescripcion("pescado");
+		tiposervice.save(nuevotipo);
+		
+		nuevotipo=new Tipo();
+		nuevotipo.setDescripcion("vegetariano");
 		tiposervice.save(nuevotipo);
 		
 	}
@@ -277,7 +345,24 @@ public class GenericoControlador {
 
 			//hago el save de ambas
 	
-			recetasservice.save(estareceta);
+			//recetasservice.save(estareceta);
+			
+			if(recetas.size()>1) {
+				estareceta=recetas.get(1);
+				paso =new Pasos();
+				paso.setNroPaso(1);
+				paso.setTexto("texto del paso uno");
+				estareceta.ADDpasos(paso);
+				
+				pasoservice.save(paso);
+				
+				paso =new Pasos();
+				paso.setNroPaso(2);
+				paso.setTexto("texto del paso dos");
+				estareceta.ADDpasos(paso);
+				pasoservice.save(paso);
+				//recetasservice.save(estareceta);
+			}
 			
 		}
 		
@@ -287,6 +372,15 @@ public class GenericoControlador {
 	//email sender
 	public void enviarEmail() {
 		emailsender.sendEmail();
+	}
+
+	public void agregarMultimedia() {
+		// TODO Auto-generated method stub
+		Multimedia multi=new Multimedia();
+		multi.setExtension("JPG");
+		multi.setTipo_contenido("imagen");
+		multi.setUrlContenido("url de prueba");
+		multimediaservice.save(multi);
 	}
 
 }

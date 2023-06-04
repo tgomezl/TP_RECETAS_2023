@@ -64,7 +64,7 @@ public class TpRecetas2023Application {
 	/*busco un user por id*/
 				System.out.println("  **************");
 				System.out.println("buscando user por id");
-				Usuarios userbuscado = usuariocontrolador.BuscarUser(6);
+				Usuarios userbuscado = usuariocontrolador.BuscarUser(2);
 				System.out.println(userbuscado);
 				
 
@@ -72,11 +72,15 @@ public class TpRecetas2023Application {
 				
 		/*cargo algunas recetas*/
 				/*tiene que ser despues de haber creado algun user*/
-				generico.crearAlgunaRecetaConUser();
+				generico.crearRecetasConUser();
+				//generico.cargarUnicaREcetaConUSer();
 		/*sin user*/
 				//generico.crearAlgunaRecetaSINUser();
 			/*cargo algun paso*/
 				generico.agregarPasos();
+				
+				//sin FK
+				generico.agregarMultimedia();
 				
 				//pruebo enviar email
 				//generico.enviarEmail();

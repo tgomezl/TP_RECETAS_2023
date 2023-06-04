@@ -39,7 +39,7 @@ public class Pasos implements Serializable{
 	
 	private String texto;
 	
-	@OneToMany(mappedBy="idPaso",cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="idPaso",cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Multimedia> multimedia=new ArrayList<>();
 	
 	public Pasos() {
@@ -84,6 +84,12 @@ public class Pasos implements Serializable{
 
 	public void setMultimedia(ArrayList<Multimedia> multimedia) {
 		this.multimedia = multimedia;
+	}
+
+	public void ADDmultimedia(Multimedia multimedia2) {
+		// TODO Auto-generated method stub
+		this.multimedia.add(multimedia2);
+		multimedia2.setIdPaso(this);
 	}
 	
 	

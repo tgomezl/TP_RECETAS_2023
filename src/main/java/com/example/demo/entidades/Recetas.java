@@ -50,16 +50,16 @@ public class Recetas implements Serializable{
 	private Usuarios usuario;  //es el user que creo la receta!!!!!!!!!
 	
 	/*recetas-1-----------N--fotos es bider */
-	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER,cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Foto> fotos=new ArrayList<Foto>();
 	
 	/*recetas-1------------N-pasos  es bider*/
-	@OneToMany(mappedBy="idreceta",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="idreceta",fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	@JsonManagedReference
 	private List<Pasos> pasos=new ArrayList<Pasos>();
 	
 	/* recetas--1-----------N-calificaciones es bider*/
-	@OneToMany(mappedBy="receta",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="receta",fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Calificaciones> calificaciones=new ArrayList<>();
 	
 	private Integer porciones;
@@ -242,7 +242,7 @@ public class Recetas implements Serializable{
 		this.fechaCreacion=LocalDate.now();
 		
 		
-		this.usuario=user;  //No DeJARLO COMO NULL
+		//this.usuario=user;  //No DeJARLO COMO NULL
 		
 	
 		this.fotos=new ArrayList<Foto>();

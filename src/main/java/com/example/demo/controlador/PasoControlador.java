@@ -29,7 +29,8 @@ public class PasoControlador {
 			//save de ambas???
 		
 			//aca iria el save de la receta
-			recetacontrolador.pisarReceta(buscada);
+			//recetacontrolador.pisarReceta(buscada);
+			
 			//save del paso
 			pasoservice.save(paso);
 			agregado=true;
@@ -78,12 +79,12 @@ public class PasoControlador {
 		Recetas buscada=recetacontrolador.busacarUnaReceta(idreceta);
 		if(buscada!=null) {
 			for(Pasos p:listapasos) {
-				buscada.ADDpasos(p);
+				buscada.ADDpasos(p); //va y viene
 			}
 			
 		
 			//aca iria el save de la receta
-			recetacontrolador.pisarReceta(buscada);
+			//recetacontrolador.pisarReceta(buscada);
 			//save del paso
 			for(Pasos p:listapasos) {
 				pasoservice.save(p);
@@ -91,8 +92,34 @@ public class PasoControlador {
 			
 			agregado=true;
 		}
+		else {
+			System.out.println("no existe esa receta con id "+idreceta);
+		}
 		return agregado;
 		
+	}
+
+	public Pasos editarunpaso(int idrececta, int nropaso, Pasos paso) {
+		// TODO Auto-generated method stub
+		Recetas buscada=recetacontrolador.busacarUnaReceta(idrececta);
+		if(buscada!=null) {
+			Pasos buscado=null;
+			List<Pasos> pasos=buscada.getPasos();
+			for(Pasos p:pasos) {
+				if(p.getNroPaso()==nropaso) {
+					buscado=p;
+					break;
+				}
+			}
+			if(buscado!=null) {
+				//edito y guardo
+				
+				
+				
+			}
+			
+		}
+		return null;
 	}
 	
 	

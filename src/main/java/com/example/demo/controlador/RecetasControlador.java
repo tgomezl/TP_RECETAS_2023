@@ -86,18 +86,26 @@ public class RecetasControlador {
 		// la receta DEBE pertenecer al usuario
 		Recetas buscada=null;
 		Usuarios userbuscado=usuariocontrolador.BuscarUser(iduser);
+		System.out.println("el user es "+userbuscado.getMail());
+		
 		if (userbuscado!=null) {
 			List<Recetas> susrecetas= userbuscado.getRecetas();
-			
+			//System.out.println(susrecetas.get(0).getNombre());
 			if(!susrecetas.isEmpty()) {
 				//recorre y busca la receta por nombre
 				for(Recetas r:susrecetas ) {
+					System.out.println("comparando");
+					System.out.println(r.getNombre()+ "y ");
+					System.out.println(                   nombre);
 					if(r.getNombre().equalsIgnoreCase(nombre)) {
+						
 						buscada=r;
 						break;
 					}
 				}
 			}
+		}else {
+			System.out.println("no tiene recetas");
 		}
 		
 		return buscada;
@@ -187,7 +195,7 @@ public class RecetasControlador {
 	}
 
 	public Recetas aprobarReceta(Integer idreceta,Integer idadmin ) {
-		//solo el admin puede
+		//solo el admin puede!!!
 		Recetas aprobada=null;
 		
 		//busco al admin
@@ -227,6 +235,22 @@ public class RecetasControlador {
 	
 	public void pisarReceta(Recetas receta) {
 		recetasservice.save(receta);
+	}
+
+	public Recetas crearRecetaConUser(int iduser, Recetas receta) {
+		// TODO Auto-generated method stub
+		Recetas creada=null;
+		//el user debe existir
+		Usuarios user = usuariocontrolador.BuscarUser(iduser);
+		if(user!=null) {
+			user.addReceta(receta);//va y viene
+			//usuarioservice.save(user);
+			//que pasa si hago doble save??
+			creada= recetasservice.save(receta);
+			
+			
+		}
+		return creada;
 	}
 	
 	

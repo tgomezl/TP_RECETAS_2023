@@ -30,14 +30,14 @@ public class UsuariosRest {
 	@Autowired
 	private UsuarioControlador usercontrolador;
 	
-	
+	//end point de prueba
 	@GetMapping("/probar")
 	public String probar() {
 		return "el endpoint funciona";
 	}
 	
 	
-	//full body
+	//full body(este no)
 	@PostMapping
     public ResponseEntity<?> crearUser(@RequestBody Usuarios user){ 
 		Usuarios creado = usercontrolador.crearUser(user);
@@ -49,7 +49,7 @@ public class UsuariosRest {
 		}
 	}
 	
-	//solo mail y alias
+	//POST con solo mail y alias
 	@PostMapping("/nuevousuario")
 	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
 		Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
@@ -132,6 +132,7 @@ public class UsuariosRest {
 		
 	}
 	
+	//una vez que recibe el codgio por mail
 	@PatchMapping("/terminaralta/{iduser}/{codigo}")
 	public ResponseEntity<?> terminaraltaUser(@PathVariable(value="iduser") String id,
 			@PathVariable(value="codigo") String codigo, @RequestBody Usuarios cuerpo){

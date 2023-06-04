@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,7 +70,19 @@ public class PasosRest {
 		}
 	
 	//modificar un paso de receta existente
-	
+		/*
+		@PatchMapping("/editar/{idreceta}/{nropaso}")
+		public ResponseEntity<?> editarunpaso(@PathVariable(value="idreceta") String idreceta,
+				@PathVariable(value="nropaso") String nropaso,@RequestBody Pasos paso){
+			
+			Pasos editado = pasocontrolador.editarunpaso(Integer.parseInt(idreceta),
+					Integer.parseInt(nropaso),paso){
+				
+			}
+			
+			return null;
+		}
+	*/
 	
 	//acceder a un paso con su id paso
 

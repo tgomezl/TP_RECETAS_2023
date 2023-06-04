@@ -59,14 +59,14 @@ public class Usuarios implements Serializable{
 	private Boolean esadmin=false;
 	
 	//@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
-	@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="usuario",fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JsonManagedReference
 	private List<Recetas> recetas=new ArrayList<>();
-	//SON LAS RECETAS CREDAS POR EL USER!!!
+	//SON LAS RECETAS CREADAS POR EL USER!!!
 	
 	
 //OJO.estas son sus recetas seguidas, pero no creadas por el
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	@JoinTable(name="usuario_lista",
 	joinColumns=@JoinColumn(name="userId"),
 	inverseJoinColumns=@JoinColumn(name="listaId"))
@@ -156,6 +156,7 @@ public class Usuarios implements Serializable{
 
 
 	public void setRecetas(List<Recetas> recetas) {
+		//son las recetas creadas por el
 		this.recetas = recetas;
 	}
 

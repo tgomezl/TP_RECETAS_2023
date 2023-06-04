@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.service.EmailSenderService;
+import com.example.demo.service.RecetasService;
 import com.example.demo.service.UsuarioService;
 //aca tendria que estar la logica
 @Component
@@ -21,6 +22,9 @@ public class UsuarioControlador {
 	
 	@Autowired
 	private EmailSenderService emailsender;
+	
+	@Autowired
+	private RecetasService recetaservice;
 	
 
 	//crear
@@ -76,6 +80,14 @@ public class UsuarioControlador {
 			return false;
 		}
 		//lo encontro
+		
+		List<Recetas> susrecetas=buscado.getRecetas();
+		for(Recetas r:susrecetas) {
+			r.setUsuario(null);
+			System.out.println("hago el update");
+			recetaservice.save(r);
+		}
+		buscado.setRecetas(null);
 		userservice.deleteById(id);
 		return true;
 	}
@@ -135,7 +147,7 @@ public class UsuarioControlador {
 	}
 	
 	
-	private Integer generarClaveAleatoria() {
+	public Integer generarClaveAleatoria() {
 		//genera un int entre 
 		Integer num_max=9999;
 		Integer num_min=1000;
@@ -174,6 +186,12 @@ public class UsuarioControlador {
 		if(userbuscado!=null) {
 			//chquea el codigo recibido con el codigo de lla bbdd
 			Integer clavedelabbdd=userbuscado.getClaveDeRecu();
+			if(clavedelabbdd==null) {
+				//todavia no la tiene seteada
+				return null;
+			}
+			System.out.println("calvedelabbd "+clavedelabbdd);
+			System.out.println("codigo recibido" +codigo);
 			if(clavedelabbdd.equals(codigorecibido)) {
 				//
 				

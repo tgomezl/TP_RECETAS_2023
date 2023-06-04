@@ -48,7 +48,22 @@ public class RecetasRest {
 		}
 	}
 	
-	//
+	//crear una receta CON usuario
+	@PostMapping("/{iduser}")
+	public ResponseEntity<?> crearRecetaConUsuario(@PathVariable(value="iduser") String iduser,@RequestBody Recetas receta){
+		
+		
+		Recetas creada=recetacontrolador.crearRecetaConUser(Integer.parseInt(iduser),receta);
+		if(creada!=null) {
+			
+			return ResponseEntity.ok(creada);
+		}
+	
+		else {
+			return ResponseEntity.notFound().build();	
+		
+		}
+	}
 	
 	
 	//traer TODAS las recetas APROBADAS!!! de la bbdd
@@ -137,7 +152,7 @@ public class RecetasRest {
 	
 	//aprobar receta
 	//solo el admin
-	@PatchMapping("aprobar/{idreceta}/{idadmin}")
+	@PatchMapping("/aprobar/{idreceta}/{idadmin}")
 	public ResponseEntity<?> aprobarReceta(@PathVariable(value="idreceta") String idreceta, 
 			@PathVariable(value="idadmin") String idadmin){
 		
@@ -160,7 +175,7 @@ public class RecetasRest {
 	//buscar receta por nombre. la receta debe PERTENECER al usuario
 	@GetMapping("/{iduser}/{nombre}")
 	public ResponseEntity<?> traerRecetaPorNombre(@PathVariable(value="nombre") String nombre, @PathVariable(value="iduser") String id){
-		
+		System.out.println("traer receta por nombre");
 		Recetas buscada= recetacontrolador.busacarUnaRecetaPorNombre(nombre, Integer.parseInt(id));
 		if(buscada!=null) {
 			return ResponseEntity.ok(buscada);
