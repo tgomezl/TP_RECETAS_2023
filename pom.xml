@@ -45,9 +45,8 @@
 		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-gmail -->
 		<!-- para enviar mails con gmail -->
 		<dependency>
-    		<groupId>com.google.apis</groupId>
-    		<artifactId>google-api-services-gmail</artifactId>
-    		<version>v1-rev110-1.25.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 	</dependencies>
 

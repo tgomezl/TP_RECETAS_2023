@@ -18,6 +18,7 @@ import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Tipo;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.IngredienteService;
 import com.example.demo.service.MultimediaService;
 import com.example.demo.service.PasoService;
@@ -62,6 +63,9 @@ public class GenericoControlador {
 	/*pasos*/
 	@Autowired
 	private PasoService pasoservice;
+	
+	@Autowired
+	private EmailSenderService emailsender;
 	
 	public GenericoControlador() {
 		
@@ -281,6 +285,8 @@ public class GenericoControlador {
 	}
 	
 	//email sender
-	
+	public void enviarEmail() {
+		emailsender.sendEmail();
+	}
 
 }
