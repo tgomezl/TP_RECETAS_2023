@@ -125,8 +125,10 @@ public class UsuariosRest {
 	@PatchMapping("/aprobar/{iduser}")
 	public ResponseEntity<?> aprobarUser(@PathVariable(value="iduser") String id){
 		boolean aprobado = usercontrolador.aprobaruser(Integer.parseInt(id));
-		
-		return null;
+		if(aprobado) {
+			return ResponseEntity.ok(null);
+		}
+		return ResponseEntity.notFound().build();
 		
 	}
 	
@@ -134,8 +136,10 @@ public class UsuariosRest {
 	public ResponseEntity<?> terminaraltaUser(@PathVariable(value="iduser") String id,
 			@PathVariable(value="codigo") String codigo, @RequestBody Usuarios cuerpo){
 		Usuarios modificado = usercontrolador.terminaralta(Integer.parseInt(id), Integer.parseInt(codigo), cuerpo);
-		
-		return null;
+		if(modificado!=null) {
+			return ResponseEntity.ok(modificado); 
+		}
+		return ResponseEntity.notFound().build();
 		
 	}
 
