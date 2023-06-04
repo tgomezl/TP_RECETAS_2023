@@ -79,7 +79,7 @@ public class TpRecetas2023Application {
 				generico.agregarPasos();
 				
 				//pruebo enviar email
-				generico.enviarEmail();
+				//generico.enviarEmail();
 				
 			};
 	}

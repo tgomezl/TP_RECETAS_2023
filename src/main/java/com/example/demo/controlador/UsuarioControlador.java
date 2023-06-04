@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.UsuarioService;
 //aca tendria que estar la logica
 @Component
@@ -17,6 +18,9 @@ public class UsuarioControlador {
 	//-------------------------------------------------------------------------------------------------
 	@Autowired
 	private UsuarioService userservice;
+	
+	@Autowired
+	private EmailSenderService emailsender;
 	
 
 	//crear
@@ -123,13 +127,68 @@ public class UsuarioControlador {
 		if(habilitado) {
 			//solo setea mail y nickname
 			user.borrarDatosingreso();
+			
+			
 			creado=userservice.save(user);
 		}
 		return creado;
 	}
 	
 	
+	private Integer generarClaveAleatoria() {
+		//genera un int entre 
+		Integer num_max=9999;
+		Integer num_min=1000;
+		Integer num = (Integer)(int) (Math.random()* (num_max + 1 - num_min)) + num_min;
+		return num;
+	}
 
+	public boolean aprobaruser(int id) {
+		boolean aprobado=false;
+		Usuarios user=BuscarUser(id);
+		if(user!=null) {
+			user.setHabilitado("Si");
+			//envio el mail
+			Integer numero=generarClaveAleatoria();
+			user.setClaveDeRecu(numero);
+			String mail=user.getMail();
+			//destinatario, String subject, String cuerpo
+			emailsender.sendEmail(mail, "codigo para alta", "el codigo para continuar el alta es "+numero);
+			//este numero LUEGO se envia por mail
+			System.out.println("             ");
+			System.out.println("enviado mail con codigo de alta");
+			System.out.println("          la clave de alta es "+numero);
+			
+			//hago el save
+			
+			userservice.save(user);
+			aprobado=true;
+		}
+		return aprobado;
+	}
+
+	public Usuarios terminaralta(int iduser, int codigo, Usuarios cuerpo) {
+		// le carga al user los campos faltantes
+		Integer codigorecibido=(Integer)codigo;
+		Usuarios userbuscado=BuscarUser(iduser);
+		if(userbuscado!=null) {
+			//chquea el codigo recibido con el codigo de lla bbdd
+			Integer clavedelabbdd=userbuscado.getClaveDeRecu();
+			if(clavedelabbdd.equals(codigorecibido)) {
+				//
+				
+				cuerpo.setMail(userbuscado.getMail());
+				cuerpo.setNickname(cuerpo.getNickname());
+				cuerpo.setEsadmin(false);
+				cuerpo.setHabilitado("Si");
+				cuerpo.setIdUsuario(iduser);
+				cuerpo.setClaveDeRecu(clavedelabbdd);
+				userbuscado=userservice.save(cuerpo);
+				return userbuscado;
+			}
+		}
+		return null;
+	}
 
 	
 	
