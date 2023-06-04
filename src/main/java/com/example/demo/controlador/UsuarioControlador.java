@@ -57,8 +57,8 @@ public class UsuarioControlador {
 		System.out.println(" ");
 		System.out.println("              buscando en traer lista");
 		System.out.println("   ");
-		 List<Usuarios> listaActores = (List<Usuarios>) userservice.findAll();
-	     return listaActores;
+		 List<Usuarios> listausuarios = (List<Usuarios>) userservice.findAll();
+	     return listausuarios;
 	}
 
 
@@ -94,6 +94,38 @@ public class UsuarioControlador {
 			return userbuscado;
 		}
 	
+	}
+
+	public Usuarios crearUsersolomailyalias(Usuarios user) {
+		Usuarios creado=null;
+		System.out.println("datos recibidos ");
+		System.out.println(user);
+		String mail=user.getMail();
+		String nickname=user.getNickname();
+		//es una bandera
+		boolean habilitado=true;
+		if(mail.isBlank()) {
+			return creado;
+		}
+		if(nickname.isBlank()) {
+			return creado;
+		}
+		/*valido los datos recibidos (mail y nickname)*/
+		List<Usuarios> listausers=TraerLista();
+		/*recorro y valido mail y nickname*/
+		for(Usuarios u: listausers) {
+			if(u.getMail().equalsIgnoreCase(mail) || u.getNickname().equalsIgnoreCase(nickname)) {
+				//esos datos ya existen
+				habilitado=false;
+			}
+		}
+		System.out.println("                   ");
+		if(habilitado) {
+			//solo setea mail y nickname
+			user.borrarDatosingreso();
+			creado=userservice.save(user);
+		}
+		return creado;
 	}
 	
 	

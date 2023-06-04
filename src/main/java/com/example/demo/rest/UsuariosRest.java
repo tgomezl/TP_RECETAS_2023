@@ -36,7 +36,7 @@ public class UsuariosRest {
 	}
 	
 	
-	
+	//full body
 	@PostMapping
     public ResponseEntity<?> crearUser(@RequestBody Usuarios user){ 
 		Usuarios creado = usercontrolador.crearUser(user);
@@ -47,6 +47,18 @@ public class UsuariosRest {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	//solo mail y alias
+	@PostMapping("/nuevousuario")
+	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
+		Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
+		if (creado != null) {
+			return ResponseEntity.ok(creado);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarUsuario(@PathVariable(value="id") String id) {

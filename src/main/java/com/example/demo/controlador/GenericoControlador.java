@@ -3,6 +3,12 @@ package com.example.demo.controlador;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
+
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -273,6 +279,8 @@ public class GenericoControlador {
 		
 		
 	}
-
+	
+	//email sender
+	
 
 }

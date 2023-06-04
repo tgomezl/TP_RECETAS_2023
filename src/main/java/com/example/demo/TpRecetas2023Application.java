@@ -78,6 +78,8 @@ public class TpRecetas2023Application {
 			/*cargo algun paso*/
 				generico.agregarPasos();
 				
+				//pruebo enviar email
+				//generico.enviarEmail();
 				
 			};
 	}

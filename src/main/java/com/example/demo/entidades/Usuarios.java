@@ -198,6 +198,36 @@ public class Usuarios implements Serializable{
 	public void setEsadmin(Boolean esadmin) {
 		this.esadmin = esadmin;
 	}
+
+
+	public void borrarDatosingreso() {
+		//solo aceptara mail y alias del user
+
+		
+
+		
+		habilitado="no"; //si o no 
+		nombre=null;
+		avatar=null; //url de la imagen del avatar.
+		tipo_usuario=null; //usuario o visitante
+		
+		contrasenia=null;
+		
+		
+		claveDeRecu=null;
+		
+		
+		esadmin=false;
+		
+		recetas=new ArrayList<>();
+		//SON LAS RECETAS CREDAS POR EL USER!!!
+		
+		
+	//OJO.estas son sus recetas seguidas, pero no creadas por el
+		listas=new ArrayList<>();
+		
+		
+	}
 	
 	
 	
