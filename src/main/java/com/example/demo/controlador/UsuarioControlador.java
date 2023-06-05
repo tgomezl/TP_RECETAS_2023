@@ -208,6 +208,28 @@ public class UsuarioControlador {
 		return null;
 	}
 
+	public Usuarios login(String nickname, String contrasenia) {
+		// TODO 
+		Integer id=null;
+		List<Usuarios> usuarios=userservice.findAll();
+		for(Usuarios u:usuarios) {
+			if(u.getNickname().equals(nickname)) {
+				id=u.getIdUsuario();
+				break;
+			}
+		}
+		if(id!=null) {
+			Usuarios user=BuscarUser(id);
+			if(user!=null) {
+				user.setClaveDeRecu(null);
+				return user;
+			}
+			
+		}
+		//recorro y busco el user con ese nick
+		return null;
+	}
+
 	
 	
 }

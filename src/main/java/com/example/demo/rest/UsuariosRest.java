@@ -52,6 +52,7 @@ public class UsuariosRest {
 	//POST con solo mail y alias
 	@PostMapping("/nuevousuario")
 	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
+		System.out.println("llego");
 		Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
 		if (creado != null) {
 			return ResponseEntity.ok(creado);
@@ -139,6 +140,19 @@ public class UsuariosRest {
 		Usuarios modificado = usercontrolador.terminaralta(Integer.parseInt(id), Integer.parseInt(codigo), cuerpo);
 		if(modificado!=null) {
 			return ResponseEntity.ok(modificado); 
+		}
+		return ResponseEntity.notFound().build();
+		
+	}
+	
+	//login
+	@GetMapping("/login/{nickname}/{contrasenia}")
+	public ResponseEntity<?> hacerlogin(@PathVariable(value="nickname") String nickname,
+			@PathVariable(value="contrasenia")String contrasenia){
+		
+		Usuarios logueado =usercontrolador.login(nickname, contrasenia);
+		if(logueado!=null) {
+			return ResponseEntity.ok(logueado);
 		}
 		return ResponseEntity.notFound().build();
 		
