@@ -1,8 +1,14 @@
 package com.example.demo.rest;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,6 +62,7 @@ public class MultimediaRest {
 	
 	@GetMapping("/all")
 	public ResponseEntity<?> getall(){
+		//jackson problem cuando el multimedia tiene pasos!!!
 		List<Multimedia> lista=multimediacontrolador.getallmultimedia();
 		return ResponseEntity.ok(lista);
 	}
@@ -65,13 +72,15 @@ public class MultimediaRest {
 	@PostMapping("/addREAL/{idreceta}/{nropaso}")
 	public ResponseEntity<?> agregarMultimediaREAL(@PathVariable(value = "idreceta") String idreceta,
 			@PathVariable(value = "nropaso") String nropaso, @RequestBody MultipartFile file) {
-		
+		System.out.println("cargar multimedia real");
 		try {
-			boolean agregado = multimediacontrolador.agregarMultimediaREAL(Integer.parseInt(idreceta),
-					Integer.parseInt(nropaso), file);
-			if (agregado) {
-				return ResponseEntity.ok(null);
+			String url = multimediacontrolador.agregarMultimediaREAL(Integer.parseInt(idreceta),Integer.parseInt(nropaso), file);
+			if (!url.isEmpty()) {
+				System.out.println("no esta vacia");
+				return ResponseEntity.ok(url);
 			}
+			
+			System.out.println("url vacia");
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
@@ -82,6 +91,7 @@ public class MultimediaRest {
 	@DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarImagen(@PathVariable String id){
 		boolean borrado=multimediacontrolador.deleteImagen(Integer.parseInt(id));
+		//NO ESTA HECHO!!!
 		if(borrado) {
 			return ResponseEntity.ok().build();
 		}
@@ -89,10 +99,30 @@ public class MultimediaRest {
         
     }
 	
-	
+	//GET DE UN MULTIMEDIA REAL
+	@GetMapping("/getreal/{ruta}")
 	public ResponseEntity<?> getIMagenREALporRuta (@PathVariable String ruta){
-		byte[] bytes = multimediacontrolador.getIMagenREALporRuta(ruta);
-		return ResponseEntity.ok().build();
+		//me da la ruta total
+		String rutatotal=multimediacontrolador.getRuta(ruta);
+		
+		try {
+			Resource resource= multimediacontrolador.getIMagenREALporRuta(rutatotal);
+			if(resource!=null) {
+				Path path = Paths.get(rutatotal);
+				
+				//headers
+				//org.springframework.http.HttpHeaders header=new org.springframework.http.HttpHeaders();
+				
+				return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(path))).body(resource);
+			}
+			
+			return ResponseEntity.notFound().build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+		
 	}
 
 }

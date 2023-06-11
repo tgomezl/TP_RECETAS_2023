@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.UploadFileService;
-
+//ENDPOINT PARA PRUEBAS
 @RestController
 @RequestMapping("/cargarimagenes")
 @CrossOrigin(origins = "*")
@@ -66,15 +66,18 @@ public class CargarImagenesRest {
 		String rutatotal=upload_folder+ruta;
 		
 		try {
-			Resource resource= uploadFileService.getFile(ruta);
-			Path path = Paths.get(upload_folder +ruta);
+			Resource resource= uploadFileService.getFile(rutatotal);
+			if(resource!=null) {
+				Path path = Paths.get(rutatotal);
+				
+				//headers
+				//org.springframework.http.HttpHeaders header=new org.springframework.http.HttpHeaders();
+				
+				return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(path))).body(resource);
+			}
 			
-			//headers
-			//org.springframework.http.HttpHeaders header=new org.springframework.http.HttpHeaders();
 			
-			return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(path))).body(resource);
-			
-			
+			return ResponseEntity.notFound().build();
 			//return ResponseEntity.ok(resource);
 					
 					

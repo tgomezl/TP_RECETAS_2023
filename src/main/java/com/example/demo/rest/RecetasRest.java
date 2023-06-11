@@ -78,6 +78,7 @@ public class RecetasRest {
 	// traer TODAS las recetas (aprobadas o no)!!!
 	@GetMapping("/todas")
 	public ResponseEntity<?> traerTodasrecetas() {
+		//quilombo con jackson
 		List<Recetas> lista = recetacontrolador.traerRecetas();
 		return ResponseEntity.ok(lista);
 	}

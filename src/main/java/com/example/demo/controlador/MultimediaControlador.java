@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,14 +85,17 @@ public class MultimediaControlador {
 	}
 
 
-	public boolean agregarMultimediaREAL(int idreceta, int nropaso, MultipartFile file) throws IOException {
+	public String agregarMultimediaREAL(int idreceta, int nropaso, MultipartFile file) throws IOException {
 		// TODO Auto-generated method stub
-		boolean agregado=false;
-		//me fijo siexiste la receta
+		//boolean agregado=false;
+		String url="";
+		
+		System.out.println("busco la receta");
 		Recetas receta = recetacontrolador.busacarUnaReceta(idreceta);
 		Integer nrop=(Integer)nropaso;
 		Pasos buscado=null;
 		if(receta!=null) {
+			System.out.println("encontre la receta");
 			List<Pasos> pasos=receta.getPasos();
 			//me fijo si existe el paso
 			for(Pasos p:pasos) {
@@ -102,9 +106,12 @@ public class MultimediaControlador {
 				}
 			}
 			if(buscado!=null) {
-		//aca hago el save!!!
-				String url = uploadFileService.saveFile(file);
+				System.out.println("encontre el paso");
+				//aca hago el save!!!
+				url = uploadFileService.saveFile(file);
+				System.out.println("la url es "+url);
 				
+				System.out.println("aca noi llega");
 				//creo el multimedia usando el file
 				Multimedia multimedia= new Multimedia();
 				
@@ -117,10 +124,15 @@ public class MultimediaControlador {
 				multimediaservice.save(multimedia); //paso-1-----N-multimedia
 				//y hago el save del paso
 				//pasoservice.save(buscado);
-				agregado=true;
+				
+			}else {
+				System.out.println("buscado es null");
 			}
+		}else {
+			System.out.println("la receta es null");
 		}
-		return agregado;
+		System.out.println("por aca pasa");
+		return url;
 	}
 
 
@@ -130,9 +142,18 @@ public class MultimediaControlador {
 	}
 
 
-	public byte[] getIMagenREALporRuta(String ruta) {
-		// TODO Auto-generated method stub
-		return null;
+	public Resource getIMagenREALporRuta(String rutatotal) throws IOException {
+		
+		Resource resource= uploadFileService.getFile(rutatotal);
+		return resource;
+	}
+
+
+	public String getRuta(String ruta) {
+		String rutafolder= uploadFileService.getRutaalfolder();
+		
+		System.out.println("la ruta es: " +rutafolder+ruta);
+		return rutafolder+ruta;
 	}
 	
 	
