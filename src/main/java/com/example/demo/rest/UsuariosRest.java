@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controlador.UsuarioControlador;
 
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.vistas.UsuariosVista;
 
 
 /*     http://localhost:8080/usuarios*/
@@ -157,5 +158,25 @@ public class UsuariosRest {
 		return ResponseEntity.notFound().build();
 		
 	}
+	
+	//OJO te devuelve una vista del user. USUARIOS!=USUARIOSVISTA
+		@GetMapping("/vista/{id}")
+		public ResponseEntity<?> buscarUsuarioVista(@PathVariable(value="id") String id) {
+			// llamo al metodo del controlador.(busca usando Integer)
+			System.out.println("el id es    "+id);
+			UsuariosVista buscado = usercontrolador.BuscarUserVista(Integer.parseInt(id));
+			System.out.println("     ");
+			System.out.println("     ");
+			System.out.println("     ");
+			System.out.println("el di es    "+buscado);
+			if (buscado == null) {
+				// no estaba
+				return ResponseEntity.notFound().build();
+			}
+			System.out.println(" ");
+			System.out.println("-----------------------------actorbuscado: " + buscado);
+			System.out.println(" ");
+			return ResponseEntity.ok(buscado);
+		}
 
 }

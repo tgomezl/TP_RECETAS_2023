@@ -11,6 +11,7 @@ import com.example.demo.entidades.Usuarios;
 import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UsuarioService;
+import com.example.demo.vistas.UsuariosVista;
 //aca tendria que estar la logica
 @Component
 public class UsuarioControlador {
@@ -228,6 +229,21 @@ public class UsuarioControlador {
 		}
 		//recorro y busco el user con ese nick
 		return null;
+	}
+	
+	public UsuariosVista BuscarUserVista(int id) {
+		// TODO Auto-generated method stub
+		
+		UsuariosVista usuariovista=null;
+		
+		Usuarios user=BuscarUser(id);
+		
+		if(user!=null) {
+			usuariovista=user.crearUsuarioVista(user);
+		}
+		
+		return usuariovista;
+		
 	}
 
 	

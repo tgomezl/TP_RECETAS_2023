@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.UsuariosVista;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -229,7 +230,22 @@ public class Usuarios implements Serializable{
 		
 		
 	}
-	
+	public UsuariosVista crearUsuarioVista(Usuarios user) {
+		
+		UsuariosVista uservista= new UsuariosVista();
+		
+		uservista.setIdUsuario(user.getIdUsuario());
+		uservista.setAvatar(user.getAvatar());
+		uservista.setHabilitado(user.getHabilitado());
+		uservista.setMail(user.getMail());
+		uservista.setNickname(user.getNickname());
+		uservista.setNombre(user.getNombre());
+		uservista.setRecetas(user.getRecetas()); 
+		uservista.setTipo_usuario(user.getTipo_usuario());
+		
+		return uservista;
+		
+	}
 	
 	
 	
