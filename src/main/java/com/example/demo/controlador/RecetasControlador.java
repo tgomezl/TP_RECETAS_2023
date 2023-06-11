@@ -1,17 +1,22 @@
 package com.example.demo.controlador;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.comparadores.CompararRecetasPorFecha;
+import com.example.demo.comparadores.CompararRecetasPorNombre;
+import com.example.demo.comparadores.CompararRecetasPorNombreUsuario;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UsuarioService;
+import com.example.demo.vistas.RecetasVista;
 
 //toda la logica de las recetas
 @Component
@@ -45,6 +50,7 @@ public class RecetasControlador {
 	public List<Recetas> traerRecetas() {
 		// devuelve todas las recetas de la bbbdd
 		return recetasservice.findAll();
+		
 	}
 
 	public List<Recetas> traerRecetasdeunuser(int id) {
@@ -252,7 +258,79 @@ public class RecetasControlador {
 		}
 		return creada;
 	}
+
+	public List<Recetas> ordenarPorNombreAsc() {
+		// TODO Auto-generated method stub
+		List<Recetas> recetas =traerRecetas();
+		// devuelve todas las recetas de la bbbdd
+		if(!recetas.isEmpty()) {
+			//comparar y ordenar
+			
+			Collections.sort(recetas, new CompararRecetasPorNombre());
+			
+		}
+		return recetas;
+	}
 	
+	public List<Recetas> ordenarPorNombreUsuarioAsc() {
+		// TODO Auto-generated method stub
+		List<Recetas> recetas =traerRecetas();
+		// devuelve todas las recetas de la bbbdd
+		if(!recetas.isEmpty()) {
+			//comparar y ordenar
+			
+			Collections.sort(recetas, new CompararRecetasPorNombreUsuario());
+			
+		}
+		return recetas;
+	}
+
+	public List<Recetas> ordenarPorFechaCreacion() {
+		// TODO Auto-generated method stub
+		List<Recetas> recetas =traerRecetas();
+		// devuelve todas las recetas de la bbbdd
+		if(!recetas.isEmpty()) {
+			//comparar y ordenar
+			
+			Collections.sort(recetas, new CompararRecetasPorFecha());
+			
+		}
+		return recetas;
+	}
+	//RV:recetasVista
+	public List<RecetasVista> ordenarRVPorFechaCreacion() {
+		// TODO Auto-generated method stub
+		List<RecetasVista>recetasvista=new ArrayList<RecetasVista>();
+		List<Recetas> recetas =traerRecetas();
+		// devuelve todas las recetas de la bbbdd
+		if(!recetas.isEmpty()) {
+			//comparar y ordenar
+			
+			Collections.sort(recetas, new CompararRecetasPorFecha());
+			for(Recetas r:recetas) {
+				recetasvista.add(r.crearRecetaVista(r));
+			}
+			
+		}
+		return recetasvista;
+	}
+	//RV:recetasVista
+	public List<RecetasVista> ordenarRVPorNombreUsuarioAsc() {
+		List<RecetasVista>recetasvista=new ArrayList<RecetasVista>();
+		List<Recetas> recetas =traerRecetas();
+		// devuelve todas las recetas de la bbbdd
+		if(!recetas.isEmpty()) {
+			//comparar y ordenar
+			
+			Collections.sort(recetas, new CompararRecetasPorNombreUsuario());
+			for(Recetas r:recetas) {
+				recetasvista.add(r.crearRecetaVista(r));
+			}
+			
+		}
+		return recetasvista;
+	}
+}
 	
 
-}
+

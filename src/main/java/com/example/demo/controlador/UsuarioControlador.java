@@ -66,8 +66,7 @@ public class UsuarioControlador {
 		System.out.println(" ");
 		System.out.println("              buscando en traer lista");
 		System.out.println("   ");
-		 List<Usuarios> listausuarios = (List<Usuarios>) userservice.findAll();
-	     return listausuarios;
+		return userservice.findAll();
 	}
 
 

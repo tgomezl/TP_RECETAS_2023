@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controlador.RecetasControlador;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.vistas.RecetasVista;
 
 @RestController
 @RequestMapping("/recetas")
@@ -193,6 +194,29 @@ public class RecetasRest {
 			return ResponseEntity.ok(buscada);
 		}
 		return ResponseEntity.notFound().build();
+	}
+	
+	
+	@GetMapping("/recetasordenalfabetico")
+	public ResponseEntity<?> ordenarPorNombreAsc(){
+		System.out.println("compararndo");
+		List<Recetas> listarecetas= recetacontrolador.ordenarPorNombreAsc();
+		return ResponseEntity.ok(listarecetas);
+	}
+	
+
+	@GetMapping("/recetaspornombreusuario")
+	public ResponseEntity<?> ordenarPorNombreUsuarioAsc(){
+		System.out.println("compararndo");
+		List<RecetasVista> listarecetas= recetacontrolador.ordenarRVPorNombreUsuarioAsc();
+		return ResponseEntity.ok(listarecetas);
+	}
+	
+	@GetMapping("/recetasporfechacreacion")
+	public ResponseEntity<?> ordenarPorFechaCreacion(){
+		System.out.println("compararndo");
+		List<RecetasVista> listarecetasvista= recetacontrolador.ordenarRVPorFechaCreacion();
+		return ResponseEntity.ok(listarecetasvista);
 	}
 	
 

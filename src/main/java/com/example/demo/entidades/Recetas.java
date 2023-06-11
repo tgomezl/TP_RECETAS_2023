@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.RecetasVista;
+import com.example.demo.vistas.UsuariosVista;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -266,6 +268,32 @@ public class Recetas implements Serializable{
 		this.utilizados=new ArrayList<>();
 		
 		
+		
+	}
+	
+	public RecetasVista crearRecetaVista(Recetas r) {
+		
+		RecetasVista recetavista= new RecetasVista();
+		
+		recetavista.setAprobada(r.getAprobada());
+		recetavista.setCalificaciones(r.getCalificaciones());
+		recetavista.setCantidadPersonas(r.getCantidadPersonas());
+		recetavista.setDescripcion(r.getDescripcion());
+		recetavista.setFechaCreacion(r.getFechaCreacion());
+		recetavista.setFotos(r.getFotos());
+		recetavista.setFotounica(r.getFotounica());
+		recetavista.setIdReceta(r.getIdReceta());
+		recetavista.setIdTipo(r.getIdTipo());
+		recetavista.setNombre(r.getNombre());
+		if(r.getUsuario()!=null) {
+			recetavista.setNombreUsuario(r.getUsuario().getNombre());
+		}
+		
+		recetavista.setPasos(r.getPasos());
+		recetavista.setPorciones(r.getPorciones());
+		recetavista.setUtilizados(r.getUtilizados());
+		
+		return recetavista;
 		
 	}
 
