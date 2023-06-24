@@ -1,6 +1,7 @@
 package com.example.demo.controlador;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.example.demo.entidades.Recetas;
 import com.example.demo.service.MultimediaService;
 import com.example.demo.service.PasoService;
 import com.example.demo.service.UploadFileService;
+import com.example.demo.vistas.MultimediaVista;
 
 
 @Component
@@ -79,9 +81,14 @@ public class MultimediaControlador {
 	}
 
 
-	public List<Multimedia> getallmultimedia() {
+	public List<MultimediaVista> getallmultimedia() {
 		// TODO Auto-generated method stub
-		return multimediaservice.findAll();
+		List<Multimedia> multimedias= multimediaservice.findAll();
+		List<MultimediaVista> vistas= new ArrayList<MultimediaVista>();
+		for(Multimedia m:multimedias) {
+			vistas.add(m.toView(m));
+		}
+		return vistas;
 	}
 
 

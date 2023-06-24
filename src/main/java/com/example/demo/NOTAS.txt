@@ -1,0 +1,57 @@
+***************************
+EL PROYECTO LEVANTA SQL CON:
+****************************
+-algunos ingredientes
+-un multimedia SIN id de paso. modificar esto!!
+-algunos pasos
+-algunas recetas
+-algunos tipos
+-algunos users habilitados. uno de ellos es admin!!
+
+
+********************
+METODOS QUE FALTAN:
+*******************
+filtrar recetas por fecha, por ingrediente, etc
+
+cuando habilito un user no me deberia dejar usar el mismo mail
+
+un metodo para recuperar la contraseña
+
+**********************
+METODOS QUE NO ANDAN:
+***********************
+
+recursiviadad en postman
+
+
+*****************
+FLUJOS A PROBAR:
+*****************
+
+**cargar usuario
+**recibir mail y hacer login
+
+**crear receta
+**aprobar la receta desde el back
+
+**agregar una receta a una lista de recetas del user
+
+**calificar una receta
+
+**subir imagen a una receta
+**acceder a la imagen 
+
+**filtrar recetas por algun campo
+
+******************
+FLUJOS YA PROBADOS:
+*****************
+POSTUSARIOMAILYNICKNAME
+	esto genera un codigo que se envia por mail
+APROBARUSUARIO
+	(esto envia mail al usuario)
+TERMINAR ALTA
+	con esto el usuario quedo creado
+LOGIN?
+

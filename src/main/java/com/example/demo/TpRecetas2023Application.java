@@ -54,7 +54,7 @@ public class TpRecetas2023Application {
 				System.out.println("  **************");
 				System.out.println("buscar todos los usuarios");
 				/*recupero todos los usuarios*/
-				List<Usuarios> milista = usuariocontrolador.TraerLista();
+				List<Usuarios> milista = usuariocontrolador.TraerListaUsers();
 				for(Usuarios u:milista) {
 					System.out.println(u);
 				}

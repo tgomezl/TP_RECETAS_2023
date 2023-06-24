@@ -1,5 +1,6 @@
 package com.example.demo.controlador;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,10 +9,16 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.repositorio.UsuarioRepo;
 import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UsuarioService;
-import com.example.demo.vistas.UsuariosVista;
+import com.example.demo.vistas.UserConReceta;
+import com.example.demo.vistas.UserLogin;
+import com.example.demo.vistas.UsuarioConClaveDeRecu;
+
+
+
 //aca tendria que estar la logica
 @Component
 public class UsuarioControlador {
@@ -61,13 +68,26 @@ public class UsuarioControlador {
 	}
 
 	//traer todos
-	public List<Usuarios> TraerLista() {
-		//te devuelve la lista
+	public List<UserConReceta> TraerLista() {
+		//te devuelve la USERCONRECETA
 		System.out.println(" ");
 		System.out.println("              buscando en traer lista");
 		System.out.println("   ");
-		return userservice.findAll();
+		List<Usuarios> lista=userservice.findAll();
+		List<UserConReceta> listavistas=new  ArrayList<>();
+		for(Usuarios u:lista) {
+			listavistas.add(u.crearUserConReceta(u));
+		}
+		return listavistas;
 	}
+	
+	
+	public List<Usuarios> TraerListaUsers(){
+		//te devulve usuarios
+		return userservice.findAll();
+	
+	}
+	
 
 
 	//buscar uno + borrar
@@ -93,21 +113,30 @@ public class UsuarioControlador {
 	}
 
 	//busca y modifica
-	public Usuarios updateUser(int id, Usuarios user) {
+	public Usuarios updateUser(int id, UsuarioConClaveDeRecu user) {
 		// lo busca y si lo encuentra lo modifica
 		Usuarios userbuscado=this.BuscarUser(id);
 		if (userbuscado==null){
 			//no lo encontro
+			System.out.println(" no existe ese usuario");
 			return null;
 		}else {
 			//lo piso
+			if(user.getClavederecu().equals(userbuscado.getClaveDeRecu())) {
+				//si las claves coninciden, tiene permiso de modificar al usuario
+				
+				userbuscado.setNombre(user.getNombre());
+				userbuscado.setAvatar(user.getAvatar());
+				userbuscado.setContrasenia(user.getContrasenia());
+		 
+				
+				userbuscado=userservice.save(userbuscado);
+				return userbuscado;
+			}else {
+				System.out.println("     la clavederecu recibida no coincide");
+			}
 			
-			Integer idbuscado =userbuscado.getIdUsuario();
-			//ya no necesito recibirlo en el body
-			user.setIdUsuario(idbuscado);
-			
-			userbuscado=userservice.save(user);
-			return userbuscado;
+			return null;
 		}
 	
 	}
@@ -127,7 +156,7 @@ public class UsuarioControlador {
 			return creado;
 		}
 		/*valido los datos recibidos (mail y nickname)*/
-		List<Usuarios> listausers=TraerLista();
+		List<Usuarios> listausers=TraerListaUsers();
 		/*recorro y valido mail y nickname*/
 		for(Usuarios u: listausers) {
 			if(u.getMail().equalsIgnoreCase(mail) || u.getNickname().equalsIgnoreCase(nickname)) {
@@ -208,41 +237,86 @@ public class UsuarioControlador {
 		return null;
 	}
 
-	public Usuarios login(String nickname, String contrasenia) {
-		// TODO 
+	public Usuarios login(UserLogin dto) {
+		// recibe nickname y contrasenia
+		
+		String nickname =dto.getNickname();
+		String contrarecibida=dto.getContrasenia();
 		Integer id=null;
-		List<Usuarios> usuarios=userservice.findAll();
-		for(Usuarios u:usuarios) {
-			if(u.getNickname().equals(nickname)) {
-				id=u.getIdUsuario();
-				break;
-			}
-		}
-		if(id!=null) {
-			Usuarios user=BuscarUser(id);
-			if(user!=null) {
-				user.setClaveDeRecu(null);
+		Usuarios user =userservice.findByNickName(nickname);
+		if(user!=null) {
+			//chequeo que la contrasenia coincida
+			if(user.getContrasenia().equals(contrarecibida)) {
 				return user;
+			}else {
+				System.out.println(   "las contrasenia no coinciden");
 			}
 			
 		}
-		//recorro y busco el user con ese nick
+		System.out.println(" no existe ese user ");
 		return null;
 	}
 	
-	public UsuariosVista BuscarUserVista(int id) {
+	public UserConReceta BuscarUserConReceta(int id) {
 		// TODO Auto-generated method stub
 		
-		UsuariosVista usuariovista=null;
+		UserConReceta usuariovista=null;
 		
 		Usuarios user=BuscarUser(id);
 		
 		if(user!=null) {
-			usuariovista=user.crearUsuarioVista(user);
+			usuariovista=user.crearUserConReceta(user);
 		}
 		
 		return usuariovista;
 		
+	}
+
+	public Usuarios terminaralta(UsuarioConClaveDeRecu cuerpo) {
+		// le carga al user los campos faltantes
+		Integer codigorecibido = (Integer) cuerpo.getClavederecu();
+		
+		//aca tendria que usar el mail para decirme que usuario es
+		
+		Usuarios userbuscado = userservice.findByMail(cuerpo.getMail());
+		if (userbuscado != null) {
+			// chquea el codigo recibido con el codigo de lla bbdd
+			Integer clavedelabbdd = userbuscado.getClaveDeRecu();
+			if (clavedelabbdd == null) {
+				// todavia no la tiene seteada
+				return null;
+			}
+			System.out.println("clavedelabbd " + clavedelabbdd);
+			System.out.println("clave recibida" + cuerpo.getClavederecu());
+			if (clavedelabbdd.equals(codigorecibido)) {
+				//tiene permise de modificar los datos del usuario
+				
+				System.out.println("   pisando los datos del user");
+				userbuscado.setNombre(cuerpo.getNombre());
+				userbuscado.setAvatar(cuerpo.getAvatar());
+				userbuscado.setTipo_usuario(cuerpo.getTipo_usuario());
+				userbuscado.setContrasenia(cuerpo.getContrasenia());
+				userbuscado.setHabilitado("Si");
+				userbuscado = userservice.save(userbuscado);
+				return userbuscado;
+			}
+		}
+		return null;
+	}
+
+	public boolean recuperarcontra(String mail) {
+		//te envia tu calve de recu, con ella podes usar el metodo updateuser
+		//busca al user usando el mail
+		boolean mailenviado=false;
+		Usuarios user=userservice.findByMail(mail);
+		if(user!=null) {
+			//envia por mail la clave de recuperacion
+			Integer numero=user.getClaveDeRecu();
+			emailsender.sendEmail(mail, "codigo para recuperar contrasenia", "el codigo es "+numero);
+			mailenviado=true;
+		}
+		System.out.println("no existe un user con ese mail");
+		return mailenviado;
 	}
 
 	

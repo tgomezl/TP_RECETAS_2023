@@ -2,6 +2,8 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 
+import com.example.demo.vistas.CalificacionesVista;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -93,6 +95,22 @@ public class Calificaciones implements Serializable{
 
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
+	}
+
+
+	public CalificacionesVista toView(Calificaciones c) {
+		// TODO Auto-generated method stub
+		
+		System.out.println(" dentro de calificaiones vista");
+		CalificacionesVista vista= new CalificacionesVista();
+		
+		
+		vista.setCalificacion(c.getCalificacion());
+		vista.setComentarios(c.getComentarios());
+		vista.setIdCalificacion(c.getIdCalificacion());
+		vista.setIdreceta(c.getReceta().getIdReceta());
+		vista.setIdusuario(c.getUsuario().getIdUsuario());
+		return vista;
 	}
 
 	

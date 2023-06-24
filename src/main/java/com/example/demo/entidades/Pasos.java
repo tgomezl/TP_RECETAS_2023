@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.MultimediaVista;
+import com.example.demo.vistas.PasosVista;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
@@ -90,6 +92,26 @@ public class Pasos implements Serializable{
 		// TODO Auto-generated method stub
 		this.multimedia.add(multimedia2);
 		multimedia2.setIdPaso(this);
+	}
+
+	public PasosVista toView(Pasos p) {
+		
+		System.out.println("dentro de pasos toview");
+		// TODO Auto-generated method stub
+		PasosVista nuevo =new PasosVista();
+		nuevo.setIdPaso(p.getIdPaso());
+		nuevo.setIdreceta(p.getIdreceta().getIdReceta());
+		nuevo.setNroPaso(p.getNroPaso());
+		List<Multimedia> multiemdias=p.getMultimedia();
+		List<MultimediaVista> multiemdiavista=new ArrayList<>();
+		//convierte el multiemdia a multimediavista
+		for(Multimedia m:multiemdias) {
+			multiemdiavista.add(m.toView(m));
+		}
+		nuevo.setTexto(p.getTexto());
+		nuevo.setMultimedia(multiemdiavista);
+		System.out.println(" fin del toview");
+		return nuevo;
 	}
 	
 	

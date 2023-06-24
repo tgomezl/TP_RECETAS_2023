@@ -2,6 +2,8 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 
+import com.example.demo.vistas.FotoVista;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -89,6 +91,19 @@ public class Foto implements Serializable{
 
 	public void setExtension(String extension) {
 		this.extension = extension;
+	}
+
+
+	
+	public FotoVista toview(Foto f) {
+		// TODO Auto-generated method stub
+		System.out.println("dentro de foto toview");
+		FotoVista vista=new FotoVista();
+		vista.setExtension(f.getExtension());
+		vista.setIdfoto(f.getIdfoto());
+		vista.setIdReceta(f.getIdReceta().getIdReceta());
+		vista.setUrlFoto(f.getUrlFoto());
+		return vista;
 	}
 	
 	

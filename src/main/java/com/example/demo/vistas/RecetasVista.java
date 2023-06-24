@@ -1,5 +1,6 @@
 package com.example.demo.vistas;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,28 +21,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-public class RecetasVista {
+public class RecetasVista implements Serializable{
 	
-private Integer idReceta;
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer idReceta;
+	
+	private Integer idusuario;
 	
 	private String nombre;
 	
 	private String descripcion;
 	
-	
-	private LocalDate fechaCreacion;
-	
-
-	//private Usuarios usuario;  //es el user que creo la receta!!!!!!!!!
-	
-	
-	private List<Foto> fotos=new ArrayList<Foto>();
-	
-	
-	private List<Pasos> pasos=new ArrayList<Pasos>();
-	
-	
-	private List<Calificaciones> calificaciones=new ArrayList<>();
 	
 	private Integer porciones;
 	
@@ -50,17 +44,23 @@ private Integer idReceta;
 	private Boolean aprobada=false; //por defecto se crean con aprobacion pendiente
 	
 
-	private String fotounica;
-	
+	private String URLfotounica;
 	
 
 	private Tipo idTipo;
 	
-
-	private List<Utilizado> utilizados=new ArrayList<>();
+	private LocalDate fechaCreacion;
 	
 	private String nombreUsuario;
 	
+	private List<FotoVista> fotos=new ArrayList<>();
+
+	
+	private List<UtilizadoVista> utilizados=new ArrayList<>();
+	
+	private List<CalificacionesVista> calificaciones=new ArrayList<>();
+	
+	private List<PasosVista> pasos=new ArrayList<>();
 	
 	public RecetasVista() {
 		
@@ -117,34 +117,6 @@ private Integer idReceta;
 	}
 */
 
-	public List<Foto> getFotos() {
-		return fotos;
-	}
-
-
-	public void setFotos(List<Foto> fotos) {
-		this.fotos = fotos;
-	}
-
-
-	public List<Pasos> getPasos() {
-		return pasos;
-	}
-
-
-	public void setPasos(List<Pasos> pasos) {
-		this.pasos = pasos;
-	}
-
-
-	public List<Calificaciones> getCalificaciones() {
-		return calificaciones;
-	}
-
-
-	public void setCalificaciones(List<Calificaciones> calificaciones) {
-		this.calificaciones = calificaciones;
-	}
 
 
 	public Integer getPorciones() {
@@ -177,14 +149,6 @@ private Integer idReceta;
 	}
 
 
-	public String getFotounica() {
-		return fotounica;
-	}
-
-
-	public void setFotounica(String fotounica) {
-		this.fotounica = fotounica;
-	}
 
 
 	public Tipo getIdTipo() {
@@ -197,14 +161,6 @@ private Integer idReceta;
 	}
 
 
-	public List<Utilizado> getUtilizados() {
-		return utilizados;
-	}
-
-
-	public void setUtilizados(List<Utilizado> utilizados) {
-		this.utilizados = utilizados;
-	}
 
 
 	public String getNombreUsuario() {
@@ -214,6 +170,66 @@ private Integer idReceta;
 
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
+	}
+
+
+	public Integer getIdusuario() {
+		return idusuario;
+	}
+
+
+	public void setIdusuario(Integer idusuario) {
+		this.idusuario = idusuario;
+	}
+
+
+	public String getURLfotounica() {
+		return URLfotounica;
+	}
+
+
+	public void setURLfotounica(String uRLfotounica) {
+		URLfotounica = uRLfotounica;
+	}
+
+
+	public List<FotoVista> getFotos() {
+		return fotos;
+	}
+
+
+	public void setFotos(List<FotoVista> fotos) {
+		this.fotos = fotos;
+	}
+
+
+	public List<UtilizadoVista> getUtilizados() {
+		return utilizados;
+	}
+
+
+	public void setUtilizados(List<UtilizadoVista> utilizados) {
+		this.utilizados = utilizados;
+	}
+
+
+	public List<CalificacionesVista> getCalificaciones() {
+		return calificaciones;
+	}
+
+
+	public void setCalificaciones(List<CalificacionesVista> calificaciones) {
+		this.calificaciones = calificaciones;
+	}
+
+
+	public List<PasosVista> getPasos() {
+		return pasos;
+	}
+
+
+	public void setPasos(List<PasosVista> pasos) {
+		this.pasos = pasos;
 	}
 	
 	

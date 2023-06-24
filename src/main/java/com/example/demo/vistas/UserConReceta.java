@@ -1,24 +1,18 @@
 package com.example.demo.vistas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.entidades.ListaRecetas;
-import com.example.demo.entidades.Recetas;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+//ES UNA VISTA,devuelve solo las datos del user y de sus recetas
+public class UserConReceta implements Serializable{
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
-
-public class UsuariosVista {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
+
 	private Integer idUsuario;
 
 	private String mail;
@@ -31,7 +25,7 @@ public class UsuariosVista {
 	private String tipo_usuario; //usuario o visitante
 
 //TENDRIAN QUE SER RECETAS-VISTA??????
-	private List<Recetas> recetas=new ArrayList<>();
+	private List<RecetasVista> recetas=new ArrayList<>();
 	//SON LAS RECETAS CREADAS POR EL USER!!!
 	
 /*
@@ -39,7 +33,7 @@ public class UsuariosVista {
 	
 	ESTO ES TODO
 */	
-	public UsuariosVista() {
+	public UserConReceta() {
 		
 	}
 
@@ -91,11 +85,11 @@ public class UsuariosVista {
 		this.tipo_usuario = tipo_usuario;
 	}
 
-	public List<Recetas> getRecetas() {
+	public List<RecetasVista> getRecetas() {
 		return recetas;
 	}
 
-	public void setRecetas(List<Recetas> recetas) {
+	public void setRecetas(List<RecetasVista> recetas) {
 		this.recetas = recetas;
 	}
 
@@ -108,14 +102,6 @@ public class UsuariosVista {
 	}
 	
 	
+	
 
-	/*
-	public List<ListaRecetas> getListas() {
-		return listas;
-	}
-
-	public void setListas(List<ListaRecetas> listas) {
-		this.listas = listas;
-	}
-	*/
 }

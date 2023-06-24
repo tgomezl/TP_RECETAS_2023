@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.controlador.MultimediaControlador;
 import com.example.demo.entidades.Multimedia;
+import com.example.demo.vistas.MultimediaVista;
 
 
 @RestController
@@ -63,7 +64,7 @@ public class MultimediaRest {
 	@GetMapping("/all")
 	public ResponseEntity<?> getall(){
 		//jackson problem cuando el multimedia tiene pasos!!!
-		List<Multimedia> lista=multimediacontrolador.getallmultimedia();
+		List<MultimediaVista> lista=multimediacontrolador.getallmultimedia();
 		return ResponseEntity.ok(lista);
 	}
 	

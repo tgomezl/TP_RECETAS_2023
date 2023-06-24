@@ -46,10 +46,29 @@ public class RecetasControlador {
 		return null;
 		
 	}
+	
+	
+	public RecetasVista crearRecetaVista(Recetas receta) {
+		// si pasa las validaciones TODO
+		//todo
+		if(!receta.getNombre().isEmpty()) {
+			//paso las validaciones
+			Recetas esta=recetasservice.save(receta);
+			return esta.toView(esta);
+		}
+		return null;
+		
+	}
 
-	public List<Recetas> traerRecetas() {
+	public List<RecetasVista> traerRecetas() {
 		// devuelve todas las recetas de la bbbdd
-		return recetasservice.findAll();
+		List<Recetas> recetas=recetasservice.findAll();
+		List<RecetasVista> vistas= new ArrayList<RecetasVista>();
+		for(Recetas r:recetas) {
+			vistas.add(r.toView(r));
+		}
+		
+		return vistas;
 		
 	}
 
@@ -65,6 +84,19 @@ public class RecetasControlador {
 		
 	}
 
+	public RecetasVista busacarUnaRecetaVista(int id) {
+		// TODO Auto-generated method stub
+		RecetasVista encontrada=null;
+		Optional<Recetas> buscada= recetasservice.findById(id);
+		if(buscada.isPresent()) {
+			Recetas receta=buscada.get();
+			encontrada=receta.toView(receta);
+		}
+		
+		
+		return encontrada;
+	}
+	
 	public Recetas busacarUnaReceta(int id) {
 		// TODO Auto-generated method stub
 		Recetas encontrada=null;
@@ -72,25 +104,27 @@ public class RecetasControlador {
 		if(buscada.isPresent()) {
 			encontrada=buscada.get();
 		}
+		
+		
 		return encontrada;
 	}
 
-	public List<Recetas> traerRecetasAprobadas() {
+	public List<RecetasVista> traerRecetasAprobadas() {
 		// devuelve todas las recetas APROBADAS de la bbbdd
 		List<Recetas> lista= recetasservice.findAll();
-		List<Recetas> listadeaprobadas=new ArrayList<>();
+		List<RecetasVista> listadeaprobadas=new ArrayList<>();
 		for(Recetas r:lista) {
 			if(r.getAprobada()) {
-				listadeaprobadas.add(r);
+				listadeaprobadas.add(r.toView(r));
 			}
 		}
 		
 		return listadeaprobadas;
 	}
 
-	public Recetas busacarUnaRecetaPorNombre(String nombre, Integer iduser) {
+	public RecetasVista busacarUnaRecetaPorNombre(String nombre, Integer iduser) {
 		// la receta DEBE pertenecer al usuario
-		Recetas buscada=null;
+		RecetasVista buscada=null;
 		Usuarios userbuscado=usuariocontrolador.BuscarUser(iduser);
 		System.out.println("el user es "+userbuscado.getMail());
 		
@@ -105,12 +139,14 @@ public class RecetasControlador {
 					System.out.println(                   nombre);
 					if(r.getNombre().equalsIgnoreCase(nombre)) {
 						
-						buscada=r;
+						
+						buscada=r.toView(r);
 						break;
 					}
 				}
 			}
-		}else {
+		}
+		else {
 			System.out.println("no tiene recetas");
 		}
 		
@@ -259,6 +295,15 @@ public class RecetasControlador {
 		return creada;
 	}
 
+	public List<RecetasVista> ordenarRVPorFechaCreacion() {
+		//RVP:RECETAVISTA
+		List<RecetasVista> lista= recetasservice.ordenarRVPorFechaCreacion();
+		return lista;
+	}
+	
+
+
+	/*
 	public List<Recetas> ordenarPorNombreAsc() {
 		// TODO Auto-generated method stub
 		List<Recetas> recetas =traerRecetas();
@@ -297,6 +342,8 @@ public class RecetasControlador {
 		}
 		return recetas;
 	}
+	
+	/*
 	//RV:recetasVista
 	public List<RecetasVista> ordenarRVPorFechaCreacion() {
 		// TODO Auto-generated method stub
@@ -330,6 +377,8 @@ public class RecetasControlador {
 		}
 		return recetasvista;
 	}
+
+	*/
 }
 	
 

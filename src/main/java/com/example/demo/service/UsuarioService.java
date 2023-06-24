@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entidades.Usuarios;
@@ -44,6 +45,11 @@ public class UsuarioService implements BaseInterface<Usuarios> {
 
 	
 	
+	//NO ESTA EN USO
+	public List<Usuarios> buscarUsuarioConSorting(String field) {
+		return userrepo.findAll(Sort.by(Sort.Direction.ASC,field));
+	}
+	
 
 	
 	
@@ -79,5 +85,25 @@ public class UsuarioService implements BaseInterface<Usuarios> {
 	
 	
 	*/
+	
+	public Usuarios findByMail(String mail) {
+		Usuarios buscado=null;
+		List<Usuarios> lista= userrepo.findByMail(mail);
+		if(!lista.isEmpty()) {
+			buscado=lista.get(0);
+		}
+		System.out.println("    no encontre user con ese mail");
+		return buscado;
+	}
+	
+	public Usuarios findByNickName(String nick) {
+		Usuarios buscado=null;
+		List<Usuarios> lista= userrepo.findByNickname(nick);
+		if(!lista.isEmpty()) {
+			buscado=lista.get(0);
+		}
+		System.out.println("    no encontre user con ese nick");
+		return buscado;
+	}
 
 }

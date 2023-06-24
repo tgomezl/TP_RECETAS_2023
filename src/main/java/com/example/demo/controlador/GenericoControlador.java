@@ -80,7 +80,7 @@ public class GenericoControlador {
 		// crea usuarios y los almacena en la bbdd
 		//quiero contar cuantos usuarios hay cargados en la bbdd
 		List<Usuarios> listausers=null;
-		listausers=usuariocontrolador.TraerLista();
+		listausers=usuariocontrolador.TraerListaUsers();
 		Integer clave;
 		if (listausers.size()<2) {
 			System.out.println("cargando algunos users");
@@ -173,7 +173,7 @@ public class GenericoControlador {
 		List<Tipo> listatipos=tiposervice.findAll();
 		for(int i=0;i<4;i++) {
 			
-			listausers=usuariocontrolador.TraerLista();
+			listausers=usuariocontrolador.TraerListaUsers();
 			if (!listausers.isEmpty()) {
 				Collections.shuffle(listausers);
 				user=listausers.get(0);
@@ -212,7 +212,7 @@ public class GenericoControlador {
 	
 	//data mock
 		public void cargarUnicaREcetaConUSer() {
-			List<Usuarios> listausers=usuariocontrolador.TraerLista();
+			List<Usuarios> listausers=usuariocontrolador.TraerListaUsers();
 			if (!listausers.isEmpty()) {
 				Collections.shuffle(listausers);
 				Usuarios user=listausers.get(0);

@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controlador.UsuarioControlador;
 
 import com.example.demo.entidades.Usuarios;
-import com.example.demo.vistas.UsuariosVista;
+import com.example.demo.vistas.UserConReceta;
+import com.example.demo.vistas.UserLogin;
+import com.example.demo.vistas.UsuarioConClaveDeRecu;
+
 
 
 /*     http://localhost:8080/usuarios*/
@@ -38,7 +41,7 @@ public class UsuariosRest {
 	}
 	
 	
-	//full body(este no)
+	//full body(NO USAR ESTE METODO!!!!)
 	@PostMapping
     public ResponseEntity<?> crearUser(@RequestBody Usuarios user){ 
 		Usuarios creado = usercontrolador.crearUser(user);
@@ -67,7 +70,7 @@ public class UsuariosRest {
 	public ResponseEntity<?> buscarUsuario(@PathVariable(value="id") String id) {
 		// llamo al metodo del controlador.(busca usando Integer)
 		System.out.println("el id es    "+id);
-		Usuarios buscado = usercontrolador.BuscarUser(Integer.parseInt(id));
+		UserConReceta buscado = usercontrolador.BuscarUserConReceta(Integer.parseInt(id));
 		System.out.println("     ");
 		System.out.println("     ");
 		System.out.println("     ");
@@ -85,7 +88,7 @@ public class UsuariosRest {
 	@GetMapping
 	public ResponseEntity<?> buscarUsers() {
 		// llamo al metodo del controlador.(busca usando Integer)
-		List<Usuarios> lista = usercontrolador.TraerLista();
+		List<Usuarios> lista = usercontrolador.TraerListaUsers();
 		//de ultima te devuelve una lista vacia
 		System.out.println("");
 		System.out.println("");
@@ -113,7 +116,7 @@ public class UsuariosRest {
 	
 	//update de usuario
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable(value="id") String id, @RequestBody Usuarios user){
+	public ResponseEntity<?> updateUser(@PathVariable(value="id") String id, @RequestBody UsuarioConClaveDeRecu user){
 		//necesito pasarle el id actual dentro del body
 		Usuarios modificado=usercontrolador.updateUser(Integer.parseInt(id), user);
 		if(modificado!=null) {
@@ -135,10 +138,9 @@ public class UsuariosRest {
 	}
 	
 	//una vez que recibe el codgio por mail
-	@PatchMapping("/terminaralta/{iduser}/{codigo}")
-	public ResponseEntity<?> terminaraltaUser(@PathVariable(value="iduser") String id,
-			@PathVariable(value="codigo") String codigo, @RequestBody Usuarios cuerpo){
-		Usuarios modificado = usercontrolador.terminaralta(Integer.parseInt(id), Integer.parseInt(codigo), cuerpo);
+	@PatchMapping("/terminaralta")
+	public ResponseEntity<?> terminaraltaUser(@RequestBody UsuarioConClaveDeRecu cuerpo){
+		Usuarios modificado = usercontrolador.terminaralta( cuerpo);
 		if(modificado!=null) {
 			return ResponseEntity.ok(modificado); 
 		}
@@ -147,11 +149,10 @@ public class UsuariosRest {
 	}
 	
 	//login
-	@GetMapping("/login/{nickname}/{contrasenia}")
-	public ResponseEntity<?> hacerlogin(@PathVariable(value="nickname") String nickname,
-			@PathVariable(value="contrasenia")String contrasenia){
+	@GetMapping("/login")
+	public ResponseEntity<?> hacerlogin(@RequestBody UserLogin user){
 		
-		Usuarios logueado =usercontrolador.login(nickname, contrasenia);
+		Usuarios logueado =usercontrolador.login(user);
 		if(logueado!=null) {
 			return ResponseEntity.ok(logueado);
 		}
@@ -164,7 +165,7 @@ public class UsuariosRest {
 		public ResponseEntity<?> buscarUsuarioVista(@PathVariable(value="id") String id) {
 			// llamo al metodo del controlador.(busca usando Integer)
 			System.out.println("el id es    "+id);
-			UsuariosVista buscado = usercontrolador.BuscarUserVista(Integer.parseInt(id));
+			UserConReceta buscado = usercontrolador.BuscarUserConReceta(Integer.parseInt(id));
 			System.out.println("     ");
 			System.out.println("     ");
 			System.out.println("     ");
@@ -177,6 +178,18 @@ public class UsuariosRest {
 			System.out.println("-----------------------------actorbuscado: " + buscado);
 			System.out.println(" ");
 			return ResponseEntity.ok(buscado);
+		}
+		
+		//un metodo para recuperar la contraseña!!!
+		@GetMapping("/enviarcodigopormail")
+		public ResponseEntity<?> recuperarcontraseña(@RequestBody UserConReceta user){
+			//solo uso el mail de ese json
+			boolean mailenviado =usercontrolador.recuperarcontra(user.getMail());
+			if(mailenviado) {
+				return ResponseEntity.ok("mail enviado");
+			}
+			return ResponseEntity.notFound().build();
+			
 		}
 
 }

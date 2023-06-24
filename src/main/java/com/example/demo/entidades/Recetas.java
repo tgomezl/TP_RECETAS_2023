@@ -5,8 +5,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.FotoVista;
+import com.example.demo.vistas.PasosVista;
 import com.example.demo.vistas.RecetasVista;
-import com.example.demo.vistas.UsuariosVista;
+import com.example.demo.vistas.UtilizadoVista;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -271,36 +274,115 @@ public class Recetas implements Serializable{
 		
 	}
 	
-	public RecetasVista crearRecetaVista(Recetas r) {
+	public RecetasVista toView(Recetas r) {
+		//la receta tiene que converitr todo en una vista
+		System.out.println("dentro de recetas toview");
 		
 		RecetasVista recetavista= new RecetasVista();
 		
 		recetavista.setAprobada(r.getAprobada());
-		recetavista.setCalificaciones(r.getCalificaciones());
+
 		recetavista.setCantidadPersonas(r.getCantidadPersonas());
 		recetavista.setDescripcion(r.getDescripcion());
 		recetavista.setFechaCreacion(r.getFechaCreacion());
-		recetavista.setFotos(r.getFotos());
-		recetavista.setFotounica(r.getFotounica());
+		recetavista.setURLfotounica(r.getFotounica());
 		recetavista.setIdReceta(r.getIdReceta());
+		recetavista.setIdusuario(r.getUsuario().getIdUsuario());
 		recetavista.setIdTipo(r.getIdTipo());
 		recetavista.setNombre(r.getNombre());
 		if(r.getUsuario()!=null) {
 			recetavista.setNombreUsuario(r.getUsuario().getNombre());
 		}
-		
-		recetavista.setPasos(r.getPasos());
 		recetavista.setPorciones(r.getPorciones());
-		recetavista.setUtilizados(r.getUtilizados());
 		
+		//la receta tiene paso y multimedia
+		List<Pasos> pasos=r.getPasos();
+		List<PasosVista> pasosvista =new ArrayList<PasosVista>();
+		for(Pasos p:pasos) {
+			//el paso tiene multimedia
+			pasosvista.add(p.toView(p));
+		}
+		
+		recetavista.setPasos(pasosvista);
+		
+		//tiene fotos
+		List<Foto>fotos=r.getFotos();
+		List<FotoVista> fotosvista=new ArrayList<>();
+		
+		for(Foto f:fotos) {
+			fotosvista.add(f.toview(f));
+		}
+		recetavista.setFotos(fotosvista);
+		
+		//tiene utilizados
+		List<Utilizado> utilizados=r.getUtilizados();
+		List<UtilizadoVista> utilizadosvista=new ArrayList<>();
+		for(Utilizado u:utilizados) {
+			utilizadosvista.add(u.toView(u));
+		}
+		
+		recetavista.setUtilizados(utilizadosvista);
+		//tiene calificaciones
+		List<Calificaciones> calificacioens=r.getCalificaciones();
+		List<CalificacionesVista> calivista=new ArrayList<>();
+		for(Calificaciones c:calificacioens) {
+			calivista.add(c.toView(c));
+			
+		}
+		recetavista.setCalificaciones(calivista);
+		
+		//tiene el ID del user
+		System.out.println(" construi la recetavista");
 		return recetavista;
 		
 	}
 
 
 
+/*
+	public RecetasVista crearVistaCompleta(Recetas r) {
+		// TODO Auto-generated method stub
+		RecetasVista recetavista= new RecetasVista();
+		
+		recetavista.setAprobada(r.getAprobada());
+		recetavista.setAprobada(r.getAprobada());
+
+		recetavista.setCantidadPersonas(r.getCantidadPersonas());
+		recetavista.setDescripcion(r.getDescripcion());
+		recetavista.setFechaCreacion(r.getFechaCreacion());
+		recetavista.setURLfotounica(r.getFotounica());
+		recetavista.setIdReceta(r.getIdReceta());
+		recetavista.setIdTipo(r.getIdTipo());
+		recetavista.setNombre(r.getNombre());
+		if(r.getUsuario()!=null) {
+			recetavista.setNombreUsuario(r.getUsuario().getNombre());
+		}
+		recetavista.setPorciones(r.getPorciones());
+		
+		//OJO:a la recetavista le faltan mas cosas
+		//paso y multimedia
+		List<Pasos> pasos=r.getPasos();
+		List<PasosVista> pasosvista=new ArrayList<>();
+		for(Pasos p:pasos) {
+			pasosvista.add(p.toView(p));
+		}
+		//foto
+		
+		//utilizado
+		
+		//calificaion
+		
+		//usuario
+		
+		
+		
+		return recetavista;
+		
+	
+	}
 
 
+*/
 
 
 

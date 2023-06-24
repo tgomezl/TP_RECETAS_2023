@@ -2,6 +2,8 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 
+import com.example.demo.vistas.UtilizadoVista;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -93,6 +95,21 @@ public class Utilizado implements Serializable{
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	public UtilizadoVista toView(Utilizado u) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("  dentro de utilizado to view");
+		UtilizadoVista utilizado=new UtilizadoVista();
+		utilizado.setCantidad(u.getCantidad());
+		utilizado.setIdIngrediente(u.getIdIngrediente());
+		utilizado.setIdReceta(u.getIdReceta().getIdReceta());
+		utilizado.setIdUnidad(u.getIdUnidad().getIdUnidad());
+		utilizado.setObservaciones(u.getObservaciones());
+		utilizado.setIdUtilizado(u.getIdUtilizado());
+	
+		return utilizado;
 	}
 	
 	

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.UploadFileService;
-//ENDPOINT PARA PRUEBAS
+//ENDPOINT PARA PRUEBAS!!
 @RestController
 @RequestMapping("/cargarimagenes")
 @CrossOrigin(origins = "*")

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.service.PasoService;
+import com.example.demo.vistas.PasosVista;
 
 @Component
 public class PasoControlador {
@@ -123,7 +124,16 @@ public class PasoControlador {
 	}
 	
 	
-	
+	public PasosVista buscarPAsoVista(Integer idpaso) {
+		PasosVista buscado=null;
+		Optional<Pasos> paso =pasoservice.findById(idpaso);
+		if(paso.isPresent()) {
+			Pasos encontrado=paso.get();
+			System.out.println(" lo encontre");
+			buscado=encontrado.toView(encontrado);
+		}
+		return buscado;
+	}
 	
 	
 

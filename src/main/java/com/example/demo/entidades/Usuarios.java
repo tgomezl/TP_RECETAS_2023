@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.vistas.UsuariosVista;
+import com.example.demo.vistas.RecetasVista;
+import com.example.demo.vistas.UserConReceta;
+import com.example.demo.vistas.UsuarioVista;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -230,9 +232,9 @@ public class Usuarios implements Serializable{
 		
 		
 	}
-	public UsuariosVista crearUsuarioVista(Usuarios user) {
+	public UserConReceta crearUserConReceta(Usuarios user) {
 		
-		UsuariosVista uservista= new UsuariosVista();
+		UserConReceta uservista= new UserConReceta();
 		
 		uservista.setIdUsuario(user.getIdUsuario());
 		uservista.setAvatar(user.getAvatar());
@@ -240,11 +242,23 @@ public class Usuarios implements Serializable{
 		uservista.setMail(user.getMail());
 		uservista.setNickname(user.getNickname());
 		uservista.setNombre(user.getNombre());
-		uservista.setRecetas(user.getRecetas()); 
+		//convierte sus recetas en recetas vista
+		List<Recetas> recetas=user.getRecetas();
+		List<RecetasVista> recetasvista=new ArrayList<>();
+		for(Recetas r:recetas) {
+			recetasvista.add(r.toView(r));
+		}
+		uservista.setRecetas(recetasvista ); 
 		uservista.setTipo_usuario(user.getTipo_usuario());
 		
 		return uservista;
 		
+	}
+	
+	public UsuarioVista toView(Usuarios user) {
+		System.out.println(" dentro de usuario to view");
+		System.out.println("falta implementar");
+		return null;
 	}
 	
 	

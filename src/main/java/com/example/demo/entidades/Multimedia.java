@@ -2,6 +2,8 @@ package com.example.demo.entidades;
 
 import java.io.Serializable;
 
+import com.example.demo.vistas.MultimediaVista;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -89,6 +91,20 @@ public class Multimedia implements Serializable{
 
 	public void setUrlContenido(String urlContenido) {
 		this.urlContenido = urlContenido;
+	}
+
+
+	public MultimediaVista toView(Multimedia m) {
+		// TODO Auto-generated method stub
+		System.out.println("dentro de multimedia toview");
+		
+		MultimediaVista nuevo = new MultimediaVista();
+		nuevo.setExtension(m.getExtension());
+		nuevo.setIdContenido(m.getIdContenido());
+		nuevo.setIdpaso(m.getIdPaso().getIdPaso());
+		nuevo.setTipo_contenido(m.getTipo_contenido());
+		nuevo.setUrlContenido(m.getUrlContenido());
+		return nuevo;
 	}
 
 	

@@ -34,10 +34,10 @@ public class RecetasRest {
 	//deberia pasarle el id del user creador de la receta!!!
 	//por ahora la crea sin user
 	@PostMapping("")
-	public ResponseEntity<?> crearReceta(@RequestBody Recetas receta){
+	public ResponseEntity<?> postReceta(@RequestBody Recetas receta){
 		
 		
-		Recetas creada=recetacontrolador.crearReceta(receta);
+		RecetasVista creada=recetacontrolador.crearRecetaVista(receta);
 		if(creada!=null) {
 			
 			return ResponseEntity.ok(creada);
@@ -51,7 +51,7 @@ public class RecetasRest {
 	
 	//crear una receta CON usuario
 	@PostMapping("/{iduser}")
-	public ResponseEntity<?> crearRecetaConUsuario(@PathVariable(value="iduser") String iduser,@RequestBody Recetas receta){
+	public ResponseEntity<?> postRecetaConUsuario(@PathVariable(value="iduser") String iduser,@RequestBody Recetas receta){
 		
 		
 		Recetas creada=recetacontrolador.crearRecetaConUser(Integer.parseInt(iduser),receta);
@@ -69,17 +69,17 @@ public class RecetasRest {
 	
 	//traer TODAS las recetas APROBADAS!!! de la bbdd
 	@GetMapping
-	public ResponseEntity<?> traerAllrecetasAprobadas(){
-		List<Recetas> lista= recetacontrolador.traerRecetasAprobadas();
+	public ResponseEntity<?> getAllrecetasAprobadas(){
+		List<RecetasVista> lista= recetacontrolador.traerRecetasAprobadas();
 		return ResponseEntity.ok(lista);
 	}
 	
 	
 	// traer TODAS las recetas (aprobadas o no)!!!
 	@GetMapping("/todas")
-	public ResponseEntity<?> traerTodasrecetas() {
+	public ResponseEntity<?> getAllrecetas() {
 		//quilombo con jackson
-		List<Recetas> lista = recetacontrolador.traerRecetas();
+		List<RecetasVista> lista = recetacontrolador.traerRecetas();
 		return ResponseEntity.ok(lista);
 	}
 	
@@ -107,9 +107,9 @@ public class RecetasRest {
 	//buscar una receta por id
 	//ojo: no chequea si tenes permiso o no
 	@GetMapping("/{idreceta}")
-	public ResponseEntity<?> traerRecetaPorId(@PathVariable(value="idreceta") String id){
-		
-		Recetas buscada= recetacontrolador.busacarUnaReceta(Integer.parseInt(id));
+	public ResponseEntity<?> getRecetaById(@PathVariable(value="idreceta") String id){
+		//te devuelve una recetavistacompleta!!!
+		RecetasVista buscada= recetacontrolador.busacarUnaRecetaVista(Integer.parseInt(id));
 		if(buscada!=null) {
 			return ResponseEntity.ok(buscada);
 		}
@@ -178,7 +178,7 @@ public class RecetasRest {
 	@GetMapping("/{iduser}/{nombre}")
 	public ResponseEntity<?> traerRecetaPorNombre(@PathVariable(value="nombre") String nombre, @PathVariable(value="iduser") String id){
 		System.out.println("traer receta por nombre");
-		Recetas buscada= recetacontrolador.busacarUnaRecetaPorNombre(nombre, Integer.parseInt(id));
+		RecetasVista buscada= recetacontrolador.busacarUnaRecetaPorNombre(nombre, Integer.parseInt(id));
 		if(buscada!=null) {
 			return ResponseEntity.ok(buscada);
 		}
@@ -197,15 +197,16 @@ public class RecetasRest {
 		return ResponseEntity.notFound().build();
 	}
 	
-	
+	/*
 	@GetMapping("/recetasordenalfabetico")
 	public ResponseEntity<?> ordenarPorNombreAsc(){
 		System.out.println("compararndo");
 		List<Recetas> listarecetas= recetacontrolador.ordenarPorNombreAsc();
 		return ResponseEntity.ok(listarecetas);
 	}
-	
+	*/
 
+	/*
 	@GetMapping("/recetaspornombreusuario")
 	public ResponseEntity<?> ordenarPorNombreUsuarioAsc(){
 		System.out.println("compararndo");
@@ -213,13 +214,14 @@ public class RecetasRest {
 		return ResponseEntity.ok(listarecetas);
 	}
 	
+	*/
+	
 	@GetMapping("/recetasporfechacreacion")
 	public ResponseEntity<?> ordenarPorFechaCreacion(){
-		System.out.println("compararndo");
+		System.out.println("ordenadno recetas por fechacreacion");
 		List<RecetasVista> listarecetasvista= recetacontrolador.ordenarRVPorFechaCreacion();
 		return ResponseEntity.ok(listarecetasvista);
 	}
-	
 
 }
 	

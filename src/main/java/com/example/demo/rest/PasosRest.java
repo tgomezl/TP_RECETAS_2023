@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controlador.PasoControlador;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
+import com.example.demo.vistas.PasosVista;
 
 @RestController
 @RequestMapping("/pasos")
@@ -84,6 +86,16 @@ public class PasosRest {
 		}
 	*/
 	
-	//acceder a un paso con su id paso
+		// acceder a un paso con su id paso
+		@GetMapping("/{idpaso}")
+		public ResponseEntity<?> GetPasoById(@PathVariable Integer idpaso) {
+			System.out.println(" getpasobyid");
+			PasosVista nuevo = pasocontrolador.buscarPAsoVista(idpaso);
+			if (nuevo != null) {
+				return ResponseEntity.ok(nuevo);
+			}
+			return ResponseEntity.notFound().build();
+
+		}
 
 }
