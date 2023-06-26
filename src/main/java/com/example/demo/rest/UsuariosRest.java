@@ -3,6 +3,7 @@ package com.example.demo.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,7 +63,8 @@ public class UsuariosRest {
 		if (creado != null) {
 			return ResponseEntity.ok(creado);
 		} else {
-			return ResponseEntity.notFound().build();
+			
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ya registrado");
 		}
 	}
 	
@@ -151,14 +153,14 @@ public class UsuariosRest {
 	}
 	
 	//login
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> hacerlogin(@RequestBody UserLogin user){
 		
 		UsuarioVista logueado =usercontrolador.login(user);
 		if(logueado!=null) {
 			return ResponseEntity.ok(logueado);
 		}
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
 		
 	}
 	
