@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetasVista;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UsuarioVista;
@@ -258,7 +259,34 @@ public class Usuarios implements Serializable{
 	public UsuarioVista toView(Usuarios user) {
 		System.out.println(" dentro de usuario to view");
 		System.out.println("falta implementar");
-		return null;
+		
+		
+		UsuarioVista vista= new UsuarioVista();
+		vista.setAvatar(user.getAvatar());
+		vista.setIdUsuario(user.getIdUsuario());
+		vista.setMail(user.getMail());
+		vista.setNickname(user.getNickname());
+		vista.setNombre(user.getNombre());
+		vista.setTipo_usuario(user.getTipo_usuario());
+		List<RecetasVista> recetasvista=new ArrayList<>();
+		
+		List<Recetas> recetas=user.getRecetas();
+		for(Recetas r:recetas) {
+			recetasvista.add(r.toView(r));
+		}
+		
+		vista.setRecetas(recetasvista);
+		
+		List<ListaRecetasVista> listasrecetasvista=new ArrayList<>();
+		List<ListaRecetas> listasrecetas=user.getlistas();
+		for(ListaRecetas lr:listasrecetas) {
+			listasrecetasvista.add(lr.toView(lr));
+		}
+		vista.setListas(listasrecetasvista);
+		//SON LAS RECETAS CREADAS POR EL USER!!!
+		
+
+		return vista;
 	}
 	
 	

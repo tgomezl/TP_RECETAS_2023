@@ -22,6 +22,7 @@ import com.example.demo.entidades.Usuarios;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UserLogin;
 import com.example.demo.vistas.UsuarioConClaveDeRecu;
+import com.example.demo.vistas.UsuarioVista;
 
 
 
@@ -70,7 +71,8 @@ public class UsuariosRest {
 	public ResponseEntity<?> buscarUsuario(@PathVariable(value="id") String id) {
 		// llamo al metodo del controlador.(busca usando Integer)
 		System.out.println("el id es    "+id);
-		UserConReceta buscado = usercontrolador.BuscarUserConReceta(Integer.parseInt(id));
+		//UserConReceta buscado = usercontrolador.BuscarUserConReceta(Integer.parseInt(id));
+		UsuarioVista buscado = usercontrolador.BuscarUserVista(Integer.parseInt(id));
 		System.out.println("     ");
 		System.out.println("     ");
 		System.out.println("     ");
@@ -88,7 +90,7 @@ public class UsuariosRest {
 	@GetMapping
 	public ResponseEntity<?> buscarUsers() {
 		// llamo al metodo del controlador.(busca usando Integer)
-		List<Usuarios> lista = usercontrolador.TraerListaUsers();
+		List<UsuarioVista> lista = usercontrolador.TraerListaUsersVista();
 		//de ultima te devuelve una lista vacia
 		System.out.println("");
 		System.out.println("");
@@ -118,7 +120,7 @@ public class UsuariosRest {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable(value="id") String id, @RequestBody UsuarioConClaveDeRecu user){
 		//necesito pasarle el id actual dentro del body
-		Usuarios modificado=usercontrolador.updateUser(Integer.parseInt(id), user);
+		UsuarioVista modificado=usercontrolador.updateUser(Integer.parseInt(id), user);
 		if(modificado!=null) {
 			return ResponseEntity.ok(modificado); 
 		}
@@ -140,7 +142,7 @@ public class UsuariosRest {
 	//una vez que recibe el codgio por mail
 	@PatchMapping("/terminaralta")
 	public ResponseEntity<?> terminaraltaUser(@RequestBody UsuarioConClaveDeRecu cuerpo){
-		Usuarios modificado = usercontrolador.terminaralta( cuerpo);
+		UsuarioVista modificado = usercontrolador.terminaralta( cuerpo);
 		if(modificado!=null) {
 			return ResponseEntity.ok(modificado); 
 		}
@@ -152,7 +154,7 @@ public class UsuariosRest {
 	@GetMapping("/login")
 	public ResponseEntity<?> hacerlogin(@RequestBody UserLogin user){
 		
-		Usuarios logueado =usercontrolador.login(user);
+		UsuarioVista logueado =usercontrolador.login(user);
 		if(logueado!=null) {
 			return ResponseEntity.ok(logueado);
 		}

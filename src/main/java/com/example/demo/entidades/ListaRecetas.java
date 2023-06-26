@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.ListaRecetasVista;
+import com.example.demo.vistas.RecetasVista;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -83,6 +86,26 @@ public class ListaRecetas implements Serializable{
 
 	public void setRecetas(List<Recetas> recetas) {
 		this.recetas = recetas;
+	}
+
+	public ListaRecetasVista toView(ListaRecetas lr) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("  dentro del toview de listade recetas");
+		
+		ListaRecetasVista lrvista= new ListaRecetasVista();
+		lrvista.setId(lr.getId());
+		lrvista.setIdUsuario(lr.getIdUsuario().getIdUsuario());
+		lrvista.setNombrelista(lr.getNombrelista());
+		//tengo que convertir a view las recetas
+		List<Recetas>recetas=lr.getRecetas();
+		List<RecetasVista> vistas=new  ArrayList<RecetasVista>();
+		for(Recetas r:recetas) {
+			vistas.add(r.toView(r));
+		}
+		lrvista.setRecetas(vistas);
+		
+		return lrvista;
 	}
 	
 	

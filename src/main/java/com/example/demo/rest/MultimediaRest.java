@@ -74,7 +74,9 @@ public class MultimediaRest {
 	public ResponseEntity<?> agregarMultimediaREAL(@PathVariable(value = "idreceta") String idreceta,
 			@PathVariable(value = "nropaso") String nropaso, @RequestBody MultipartFile file) {
 		System.out.println("cargar multimedia real");
+		System.out.println("idreceta "+idreceta + " nropaso "+nropaso);
 		try {
+			System.out.println("  agrgando multimedia"); 
 			String url = multimediacontrolador.agregarMultimediaREAL(Integer.parseInt(idreceta),Integer.parseInt(nropaso), file);
 			if (!url.isEmpty()) {
 				System.out.println("no esta vacia");
@@ -84,6 +86,7 @@ public class MultimediaRest {
 			System.out.println("url vacia");
 			return ResponseEntity.notFound().build();
 		} catch (Exception e) {
+			System.out.println("    CATCH");
 			return ResponseEntity.notFound().build();
 		}
 

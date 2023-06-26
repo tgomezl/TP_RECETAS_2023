@@ -1,5 +1,7 @@
 package com.example.demo.rest;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.http.HttpHeaders;
 import java.nio.file.Files;
@@ -89,5 +91,17 @@ public class CargarImagenesRest {
 		
 	}
 	
+	//otr metodo
+	@PostMapping("/cargarusandostream")
+	public String guardararchivo(MultipartFile file) throws IOException {
+		System.out.println("cargando usando stream");
+		String upload_folder = ".//src//main//resources//frontend//administracion//src//imagenes//";
+		File path = new File(upload_folder + file.getOriginalFilename());
+		path.createNewFile();
+		FileOutputStream output = new FileOutputStream(path);
+		output.write(file.getBytes());
+		output.close();
+		return upload_folder;
+	}
 
 }

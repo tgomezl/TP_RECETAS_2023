@@ -16,6 +16,7 @@ import com.example.demo.service.UsuarioService;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UserLogin;
 import com.example.demo.vistas.UsuarioConClaveDeRecu;
+import com.example.demo.vistas.UsuarioVista;
 
 
 
@@ -49,6 +50,21 @@ public class UsuarioControlador {
 		}
 		return creado;
 	}
+	
+	public UsuarioVista crearUserVista(Usuarios user) {
+		// TODO Auto-generated method stub
+		UsuarioVista creado=null;
+		System.out.println("datos recibidos ");
+		System.out.println(user);
+		
+		/*valido los datos recibidos*/
+		System.out.println("                   ");
+		if(!user.getNombre().isBlank()) {
+			Usuarios encontrado=userservice.save(user);
+			creado=encontrado.toView(encontrado);
+		}
+		return creado;
+	}
 
 	//buscar
 	public Usuarios BuscarUser(int id) {
@@ -66,6 +82,24 @@ public class UsuarioControlador {
 		return null;
 	
 	}
+	
+	public UsuarioVista BuscarUserVista(int id) {
+		
+		Optional<Usuarios> buscado= userservice.findById(id);
+		if(buscado.isPresent()) {
+			// te devuelve un actor
+			System.out.println("");
+			System.out.println("");
+			System.out.println("-------------lo encontre");
+			System.out.println("");
+			Usuarios user = buscado.get();
+			UsuarioVista uservista=user.toView(user);
+			return uservista;
+		}
+		return null;
+	
+	}
+	
 
 	//traer todos
 	public List<UserConReceta> TraerLista() {
@@ -85,6 +119,17 @@ public class UsuarioControlador {
 	public List<Usuarios> TraerListaUsers(){
 		//te devulve usuarios
 		return userservice.findAll();
+	
+	}
+	
+	public List<UsuarioVista> TraerListaUsersVista(){
+		//te devulve usuarios
+		List<Usuarios> ussers=userservice.findAll();
+		List <UsuarioVista> vistas=new ArrayList<>();
+		for(Usuarios u:ussers) {
+			vistas.add(u.toView(u));
+		}
+		return vistas;
 	
 	}
 	
@@ -113,7 +158,7 @@ public class UsuarioControlador {
 	}
 
 	//busca y modifica
-	public Usuarios updateUser(int id, UsuarioConClaveDeRecu user) {
+	public UsuarioVista updateUser(int id, UsuarioConClaveDeRecu user) {
 		// lo busca y si lo encuentra lo modifica
 		Usuarios userbuscado=this.BuscarUser(id);
 		if (userbuscado==null){
@@ -131,7 +176,7 @@ public class UsuarioControlador {
 		 
 				
 				userbuscado=userservice.save(userbuscado);
-				return userbuscado;
+				return userbuscado.toView(userbuscado);
 			}else {
 				System.out.println("     la clavederecu recibida no coincide");
 			}
@@ -237,7 +282,7 @@ public class UsuarioControlador {
 		return null;
 	}
 
-	public Usuarios login(UserLogin dto) {
+	public UsuarioVista login(UserLogin dto) {
 		// recibe nickname y contrasenia
 		
 		String nickname =dto.getNickname();
@@ -247,7 +292,7 @@ public class UsuarioControlador {
 		if(user!=null) {
 			//chequeo que la contrasenia coincida
 			if(user.getContrasenia().equals(contrarecibida)) {
-				return user;
+				return user.toView(user);
 			}else {
 				System.out.println(   "las contrasenia no coinciden");
 			}
@@ -272,7 +317,7 @@ public class UsuarioControlador {
 		
 	}
 
-	public Usuarios terminaralta(UsuarioConClaveDeRecu cuerpo) {
+	public UsuarioVista terminaralta(UsuarioConClaveDeRecu cuerpo) {
 		// le carga al user los campos faltantes
 		Integer codigorecibido = (Integer) cuerpo.getClavederecu();
 		
@@ -298,7 +343,7 @@ public class UsuarioControlador {
 				userbuscado.setContrasenia(cuerpo.getContrasenia());
 				userbuscado.setHabilitado("Si");
 				userbuscado = userservice.save(userbuscado);
-				return userbuscado;
+				return userbuscado.toView(userbuscado);
 			}
 		}
 		return null;

@@ -215,13 +215,15 @@ public class RecetasRest {
 	}
 	
 	*/
-	
+	//funciona, las devuelve en orden descendente.osea de fechas mas reciente a mas antigua
 	@GetMapping("/recetasporfechacreacion")
 	public ResponseEntity<?> ordenarPorFechaCreacion(){
 		System.out.println("ordenadno recetas por fechacreacion");
 		List<RecetasVista> listarecetasvista= recetacontrolador.ordenarRVPorFechaCreacion();
 		return ResponseEntity.ok(listarecetasvista);
 	}
+	
+	//metodo para buscar las ultimas tres recetas mas nuevas de la bbdd
 
 }
 	

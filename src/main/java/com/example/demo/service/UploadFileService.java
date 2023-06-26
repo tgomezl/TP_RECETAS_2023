@@ -1,6 +1,11 @@
 package com.example.demo.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,15 +25,20 @@ public class UploadFileService {
     private String upload_folder = ".//src//main//resources//frontend//administracion//src//imagenes//";
 
     public String saveFile(MultipartFile file) throws IOException{
-    	System.out.println("guardando");
+    	System.out.println("       guardando en upload");
     	
-        byte[] bytes = file.getBytes();
+        //byte[] bytes = file.getBytes();
+        byte [] byteArr=file.getBytes();
+     //ACA ESTA EL ERROR!!!!
+        InputStream inputStream = new ByteArrayInputStream(byteArr);
+        //inputstrem??
         System.out.println("content tipe" +file.getContentType());
         System.out.println("original file name: "+ file.getOriginalFilename() );
         
         Path path = Paths.get(upload_folder +  file.getOriginalFilename());
-        Files.write(path,bytes);
-
+        Files.write(path,byteArr);
+        System.out.println(" fin de guardado");
+        
         return   file.getOriginalFilename();
     }
     
@@ -58,4 +68,15 @@ public class UploadFileService {
     public String getRutaalfolder() {
     	return upload_folder;
     }
+    /*
+    public String guardararchivo(MultipartFile file) throws IOException {
+		File path = new File(upload_folder + file.getOriginalFilename());
+		path.createNewFile();
+		FileOutputStream output = new FileOutputStream(path);
+		output.write(file.getBytes());
+		output.close();
+		return upload_folder;
+	}
+	*/
+ 
 }
