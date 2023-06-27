@@ -60,10 +60,13 @@ public class UsuariosRest {
 	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
 		System.out.println("llego");
 		Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
+		if (user.getMail() == null || user.getNickname() == null) {
+        	return ResponseEntity.status(HttpStatus.CONFLICT).body("No se ingresaron datos!");
+    	}
+		System.out.println(creado.getMail() + creado.getNickname());
 		if (creado != null) {
 			return ResponseEntity.ok(creado);
 		} else {
-			
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ya registrado");
 		}
 	}
