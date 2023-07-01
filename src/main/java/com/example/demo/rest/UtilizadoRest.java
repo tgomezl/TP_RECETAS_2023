@@ -1,18 +1,42 @@
 package com.example.demo.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.controlador.GenericoControlador;
+import com.example.demo.entidades.Recetas;
+import com.example.demo.vistas.UtilizadoconingredienteexistenteDTO;
 
 @RestController
 @RequestMapping("/utilizados")
 @CrossOrigin(origins = "*")
 public class UtilizadoRest {
 	
-	//agregar utilizado a una receta existente
+	@Autowired
+	private GenericoControlador genericocontrolador;
 	
-	//CON INGREDIENTE EXISTENTE
+	//agregar utilizado a una receta existente:
+			//CON INGREDIENTE EXISTENTE recibe el idingrdiente
+			//si no existe el ingrediente debe recibir un -1 como idingrdiente
 	
-	//el ingrediente, no existe, entonces lo creo
+	@PostMapping("/agregarutilizado")
+	public ResponseEntity<?> agregarutilizadoarecetaexistente(@RequestBody 
+			UtilizadoconingredienteexistenteDTO entidad){
+			boolean creado=genericocontrolador.agregarutilizadoarecetaexistente(entidad);
+			if(creado) {
+				return ResponseEntity.ok("receta modificada");
+			}
+				return ResponseEntity.notFound().build();
+		
+		
+	}
+	
+	
+		//el ingrediente, no existe, entonces lo creo
 
 }

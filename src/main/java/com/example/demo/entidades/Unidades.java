@@ -22,7 +22,9 @@ public class Unidades implements Serializable{
 	private Integer idUnidad ;
 
 	private String descripcion;
-	
+	/*
+	pirvate List<>
+	*/
 	/*-----------------------------------------------------------------------*/
 	public Unidades() {
 		

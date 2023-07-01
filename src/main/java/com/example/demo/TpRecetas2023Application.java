@@ -44,6 +44,7 @@ public class TpRecetas2023Application {
 		/*1) cargo algunos ingredientes*/
 				System.out.println("  ******TODO********");
 				generico.crearIngredientes();
+				generico.crearUnidadesYconversiones();
 				
 		/*2)cargo algunos "tipos" de receta*/
 				generico.crearTipos();
@@ -84,6 +85,9 @@ public class TpRecetas2023Application {
 				
 				//pruebo enviar email
 				//generico.enviarEmail();
+				System.out.println("*****************************************");
+				System.out.println("************FIN****************");
+				System.out.println("*********************");
 				
 			};
 	}

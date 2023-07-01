@@ -84,7 +84,7 @@ public class Recetas implements Serializable{
 	private Tipo idTipo;
 	
 	/*recetas-1-----------N--utilizados  es bider*/
-	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy="idReceta",fetch = FetchType.EAGER,cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Utilizado> utilizados=new ArrayList<>();
 	
 	
@@ -336,7 +336,14 @@ public class Recetas implements Serializable{
 		return recetavista;
 		
 	}
-
+	
+	public void ADDutilizado(Utilizado util) {
+		this.utilizados.add(util);
+	}
+	
+	public void REMOVEutilizado(Utilizado util) {
+		this.utilizados.remove(util);
+	}
 
 
 /*
