@@ -3,6 +3,7 @@ package com.example.demo.controlador;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 
@@ -13,12 +14,18 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.entidades.Conversiones;
 import com.example.demo.entidades.Ingrediente;
 import com.example.demo.entidades.Multimedia;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Tipo;
+import com.example.demo.entidades.Unidades;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.entidades.Utilizado;
+import com.example.demo.repositorio.ConversionesRepo;
+import com.example.demo.repositorio.UnidadRepo;
+import com.example.demo.repositorio.UtilizadoRepo;
 import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.IngredienteService;
 import com.example.demo.service.MultimediaService;
@@ -26,6 +33,7 @@ import com.example.demo.service.PasoService;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.TipoService;
 import com.example.demo.service.UsuarioService;
+import com.example.demo.vistas.UtilizadoconingredienteexistenteDTO;
 
 @Component
 public class GenericoControlador {
@@ -60,6 +68,9 @@ public class GenericoControlador {
 	@Autowired
 	private IngredienteService ingredienteservice;
 	
+	@Autowired
+	private UtilizadoRepo utilizadorepo;
+	
 	
 	/*pasos*/
 	@Autowired
@@ -67,6 +78,12 @@ public class GenericoControlador {
 	
 	@Autowired
 	private EmailSenderService emailsender;
+	
+	@Autowired
+	private UnidadRepo unidadrepo;
+	
+	@Autowired
+	private ConversionesRepo conversionrepo;
 	
 	public GenericoControlador() {
 		
@@ -320,7 +337,17 @@ public class GenericoControlador {
 		ing.setNombre("ajo");
 		ingredienteservice.save(ing);
 		
+		ing=new Ingrediente();
+		ing.setNombre("leche");
+		ingredienteservice.save(ing);
 		
+		ing=new Ingrediente();
+		ing.setNombre("arroz");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("harina");
+		ingredienteservice.save(ing);
 		
 	}
 
@@ -381,6 +408,157 @@ public class GenericoControlador {
 		multi.setTipo_contenido("imagen");
 		multi.setUrlContenido("url de prueba");
 		multimediaservice.save(multi);
+	}
+
+	public void crearUnidadesYconversiones() {
+		//gramos
+		 
+		
+		Unidades gramos=new Unidades();
+		gramos.setIdUnidad(1);
+		gramos.setDescripcion("gramos");
+		unidadrepo.save(gramos);
+		
+		Unidades kilos=new Unidades();
+		kilos.setIdUnidad(2);
+		kilos.setDescripcion("kilos");
+		unidadrepo.save(kilos);
+		
+		Unidades litros=new Unidades();
+		litros.setIdUnidad(3);
+		litros.setDescripcion("litros");
+		unidadrepo.save(litros);
+		
+		Unidades mllitros=new Unidades();
+		mllitros.setIdUnidad(4);
+		mllitros.setDescripcion("mililitros");
+		unidadrepo.save(mllitros);
+		
+		Unidades pieza=new Unidades();
+		pieza.setIdUnidad(5);
+		pieza.setDescripcion("pieza/unidad");
+		unidadrepo.save(pieza);
+		
+		//creo conversiones
+		
+	//de gramos a kilos
+		Conversiones gramosakilos=new Conversiones();
+		gramosakilos.setIdconversion(1);
+		gramosakilos.setUnidadorigen(gramos);
+		gramosakilos.setUnidaddestino(kilos);
+		gramosakilos.setFactorConversiones(1000.0);
+		conversionrepo.save(gramosakilos);
+		
+		
+		Conversiones kilosagramos=new Conversiones();
+		kilosagramos.setIdconversion(2);
+		kilosagramos.setUnidadorigen(kilos);
+		kilosagramos.setUnidaddestino(gramos);
+		kilosagramos.setFactorConversiones(0.001);
+		conversionrepo.save(kilosagramos);
+		
+		Conversiones litrosaml=new Conversiones();
+		litrosaml.setIdconversion(3);
+		litrosaml.setUnidadorigen(litros);
+		litrosaml.setUnidaddestino(mllitros);
+		litrosaml.setFactorConversiones(1000.0);
+		conversionrepo.save(litrosaml);
+		
+		Conversiones mlalitros=new Conversiones();
+		mlalitros.setIdconversion(4);
+		mlalitros.setUnidadorigen(mllitros);
+		mlalitros.setUnidaddestino(litros);
+		mlalitros.setFactorConversiones(0.001);
+		conversionrepo.save(mlalitros);
+		
+		
+		
+	}
+
+	public boolean agregarutilizadoarecetaexistente(UtilizadoconingredienteexistenteDTO entidad) {
+		 Recetas modificada=null;
+		 Integer idreceta=null;
+		//si no existe debe recibir un -1 como idingrdiente
+		 Integer idingrediente=null;
+		 Integer cantidad=0;
+		 Integer idunidad=null;
+		 String observacion="no recibi este patametro";
+		 
+		 idreceta=entidad.getIdreceta();
+		 //puede ser -1
+		 idingrediente=entidad.getIdingrediente();
+		 cantidad=entidad.getCantidad();
+		 idunidad=entidad.getIdunidad();
+		 observacion=entidad.getObservacion();
+		 
+		 //se fija que la receta existe,
+		 //se fija que la unidad existe
+		 //si ambos exsiten
+		 //si el iddelingrdiente. si es -1 lo debe crear
+		 		//si no es -1, lo debe traer
+		 Recetas recetaencontrada;
+		 Optional<Recetas> guardada=recetasservice.findById(idreceta);
+		 if(guardada.isPresent()) {
+			 System.out.println(" la receta existe");
+			 recetaencontrada=guardada.get();
+			 	//ya tengo la receta
+			 Unidades unidadencontrada;
+			 Optional<Unidades> unidadguardad=unidadrepo.findById(idunidad);
+			 if(unidadguardad.isPresent()) {
+				 System.out.println(" la unidad existe");
+				 unidadencontrada=unidadguardad.get();
+				 	//ya tengo la unidad
+				 
+				//creo el utilizado
+					Utilizado utilizado=new Utilizado();
+					utilizado.setCantidad(cantidad);
+					utilizado.setObservaciones(observacion);
+					utilizado.setIdReceta(recetaencontrada);
+					utilizado.setIdUnidad(unidadencontrada);
+					//falta setear el ingrediente!!!
+					//me fijo si existe
+				 if(!idingrediente.equals(-1)) {
+					System.out.println(" el ingrdiente debe existir"); 
+					
+					Ingrediente ingencontrado;
+					Optional<Ingrediente> ingredienteguardado=ingredienteservice.findById(idingrediente);
+					if(ingredienteguardado.isPresent()) {
+						System.out.println(" encontre el ingrediente");
+						ingencontrado=ingredienteguardado.get();
+						utilizado.setIdIngrediente(ingencontrado);
+					}else {
+						System.out.println(" mme dijeron que el ing existia pero no es verdad");
+					}
+				 }else {
+					 System.out.println(" debo crear el ingrediente");
+					 Ingrediente nuevoing=new Ingrediente();
+					 nuevoing.setNombre(entidad.getNombreingrediente());
+					
+					 //hago el save del ingrediente??
+					 		//NOO
+					 nuevoing=ingredienteservice.save(nuevoing);
+					 utilizado.setIdIngrediente(nuevoing);
+					 
+				 }
+				 //hago el save y retorno
+				 	//se lo seteo a la receta
+				 recetaencontrada.ADDutilizado(utilizado);
+				 System.out.println("guardando el utilizado");
+				 
+		//hago el save sobre el utilizado
+				 utilizadorepo.save(utilizado);
+				 
+				 return true;
+				 
+			 }else {
+				 System.out.println(" no existe la unidad");
+			 }
+		 }else{
+			 System.out.println(" no existe la receta");
+		 }
+
+		
+		return false;
 	}
 
 }

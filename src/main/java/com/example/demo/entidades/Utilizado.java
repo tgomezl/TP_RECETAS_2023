@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.example.demo.vistas.UtilizadoVista;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class Utilizado implements Serializable{
 	@JoinColumn(name="idReceta")
 	private Recetas idReceta;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="idIngrediente")
 	private Ingrediente idIngrediente;
 	
