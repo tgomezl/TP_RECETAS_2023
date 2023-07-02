@@ -51,8 +51,9 @@ public class UsuarioVista implements Serializable{
 	
 	
 
-	private List<ListaRecetasVista> listas=new ArrayList<>();
+	//private List<ListaRecetasVista> listas=new ArrayList<>();
 
+	private ListaRecetasVista recetasAintentar=new ListaRecetasVista();
 
 
 	public Integer getIdUsuario() {
@@ -187,6 +188,18 @@ public class UsuarioVista implements Serializable{
 
 
 
+	public ListaRecetasVista getRecetasAintentar() {
+		return recetasAintentar;
+	}
+
+
+
+	public void setRecetasAintentar(ListaRecetasVista recetasAintentar) {
+		this.recetasAintentar = recetasAintentar;
+	}
+
+
+/*
 	public List<ListaRecetasVista> getListas() {
 		return listas;
 	}
@@ -197,7 +210,7 @@ public class UsuarioVista implements Serializable{
 		this.listas = listas;
 	}
 	
-	
+	*/
 	
 
 }

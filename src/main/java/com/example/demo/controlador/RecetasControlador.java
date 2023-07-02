@@ -16,6 +16,7 @@ import com.example.demo.comparadores.CompararRecetasPorNombre;
 import com.example.demo.comparadores.CompararRecetasPorNombreUsuario;
 import com.example.demo.entidades.Calificaciones;
 import com.example.demo.entidades.Foto;
+import com.example.demo.entidades.ListaRecetas;
 import com.example.demo.entidades.Multimedia;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
@@ -27,6 +28,7 @@ import com.example.demo.service.RecetasService;
 import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetasVista;
 
 //toda la logica de las recetas
@@ -468,6 +470,44 @@ public class RecetasControlador {
 		return resource;
 		
 	
+	}
+
+
+	public boolean agregarrecetaaintentar(Integer iduser, Integer idreceta) {
+		// se fija que existan la receta y el usuario
+		
+		Optional<Recetas> buscada=recetasservice.findById(idreceta);
+		if(buscada.isPresent()) {
+			Recetas encontrada=buscada.get();
+			Optional<Usuarios> user=usuarioservice.findById(iduser);
+			if(user.isPresent()) {
+				Usuarios encontrado=user.get();
+				encontrado.getRecetasAintentar().ADDrecetaAintentar(encontrada);
+				System.out.println("agrega la receta a la lista de ese usuario");
+				//hago el save
+				usuarioservice.save(encontrado);
+				return true;
+			}else {
+				System.out.println(" no existe ese user");
+			}
+		}
+		else {
+			System.out.println(" no existe la receta");
+		}
+		return false;
+	}
+
+
+	public ListaRecetasVista getrecetaaintentar(Integer iduser) {
+		//
+		Optional<Usuarios> user=usuarioservice.findById(iduser);
+		if(user.isPresent()) {
+			Usuarios encontrado=user.get();
+			ListaRecetas listarecetas= encontrado.getRecetasAintentar();
+			ListaRecetasVista recetasvista=listarecetas.toView(listarecetas);
+			return recetasvista;
+		}
+		return null;
 	}
 
 	

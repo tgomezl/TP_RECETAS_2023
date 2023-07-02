@@ -31,9 +31,8 @@ public class TpRecetas2023Application {
 	CommandLineRunner commandLineRunner(UsuarioControlador usuariocontrolador, GenericoControlador generico) {
 			return args-> {
 				
-	
-				
-				
+				System.out.println("runing");
+
 				System.out.println("");
 				System.out.println("");
 				System.out.println("             corriendo");
@@ -88,6 +87,7 @@ public class TpRecetas2023Application {
 				System.out.println("*****************************************");
 				System.out.println("************FIN****************");
 				System.out.println("*********************");
+				
 				
 			};
 	}

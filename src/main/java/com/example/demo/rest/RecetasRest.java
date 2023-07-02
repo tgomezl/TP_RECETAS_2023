@@ -28,6 +28,7 @@ import com.example.demo.entidades.Calificaciones;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetasVista;
 
 @RestController
@@ -335,6 +336,32 @@ public class RecetasRest {
 			return ResponseEntity.notFound().build();
 		}
 
+	}
+	
+	//agregar UNA RECETA a LALISTA de un usuario
+		//a la lista de recetas a intentar
+	@PostMapping("/agregarrecetaaintentar/{iduser}/{idreceta}")
+	public ResponseEntity<?> agregarrecetaaintentar(@PathVariable Integer iduser,
+			@PathVariable Integer idreceta){
+		System.out.println("iduser "+iduser + "idreceta "+idreceta);
+		boolean agregada=recetacontrolador.agregarrecetaaintentar(iduser,idreceta);
+		if(agregada) {
+			return ResponseEntity.ok("receta agregada a la lista del usuario");
+		}
+		return ResponseEntity.notFound().build();
+		
+	}
+	
+	//GETlistaRecetasAINTENTARdeunuser
+	@GetMapping("/getrecetastaaintentar/{iduser}")
+	public ResponseEntity<?> agregarrecetaaintentar(@PathVariable Integer iduser){
+		System.out.println("iduser "+iduser);
+		ListaRecetasVista agregada=recetacontrolador.getrecetaaintentar(iduser);
+		if(agregada!=null) {
+			return ResponseEntity.ok(agregada);
+		}
+		return ResponseEntity.notFound().build();
+		
 	}
 	
 }

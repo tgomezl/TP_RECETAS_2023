@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,12 +35,15 @@ public class ListaRecetas implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String nombrelista;
+	private String nombrelista="recetas a intentar";
 	
-	//@ManyToOne   ESTA DEL OTRO LADO
+	//OneToOne   ESTA DEL OTRO LADO
 	/*usuario-1------------n--listarecetas*/
-	private Usuarios idUsuario;
 	
+	/*
+	@OneToOne(mappedBy = "recetasAintentar")
+	private Usuarios idUsuario=null;
+	*/
 	
 	/*listarecetas-N-----------------N-recetas
 	 * es unider*/
@@ -71,7 +75,7 @@ public class ListaRecetas implements Serializable{
 	public void setNombrelista(String nombrelista) {
 		this.nombrelista = nombrelista;
 	}
-
+/*
 	public Usuarios getIdUsuario() {
 		return idUsuario;
 	}
@@ -79,7 +83,7 @@ public class ListaRecetas implements Serializable{
 	public void setIdUsuario(Usuarios idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-
+*/
 	public List<Recetas> getRecetas() {
 		return recetas;
 	}
@@ -95,7 +99,7 @@ public class ListaRecetas implements Serializable{
 		
 		ListaRecetasVista lrvista= new ListaRecetasVista();
 		lrvista.setId(lr.getId());
-		lrvista.setIdUsuario(lr.getIdUsuario().getIdUsuario());
+		//lrvista.setIdUsuario(lr.getIdUsuario().getIdUsuario());
 		lrvista.setNombrelista(lr.getNombrelista());
 		//tengo que convertir a view las recetas
 		List<Recetas>recetas=lr.getRecetas();
@@ -108,6 +112,15 @@ public class ListaRecetas implements Serializable{
 		return lrvista;
 	}
 	
+	public void ADDrecetaAintentar(Recetas r) {
+		this.recetas.add(r);
+		
+	}
+	
+	public void REMOVErecetaAintentar(Recetas r) {
+		this.recetas.remove(r);
+		
+	}
 	
 	
 	

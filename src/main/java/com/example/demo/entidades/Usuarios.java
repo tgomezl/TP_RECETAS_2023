@@ -1,8 +1,9 @@
 package com.example.demo.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+
 
 import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetasVista;
@@ -20,6 +21,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -70,15 +72,17 @@ public class Usuarios implements Serializable{
 	
 	
 //OJO.estas son sus recetas seguidas, pero no creadas por el
-	@OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-	@JoinTable(name="usuario_lista",
-	joinColumns=@JoinColumn(name="userId"),
-	inverseJoinColumns=@JoinColumn(name="listaId"))
-	private List<ListaRecetas> listas=new ArrayList<>();
+	//one---to----one
+	//es unider
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="recetasAintentar")
+	private ListaRecetas recetasAintentar=new ListaRecetas();
+	//adentro tiene recetas
 	
 	/*-----------------------------------------------------------------------*/
 	public Usuarios() {
 		recetas=new ArrayList<>();
+		
 	}
 	
 	
@@ -149,15 +153,7 @@ public class Usuarios implements Serializable{
 
 	/*------------------*/
 
-	public List<ListaRecetas> getlistas() {
-		return listas;
-	}
-
-
-	public void setlistas(List<ListaRecetas> misListasrecetas) {
-		this.listas = misListasrecetas;
-	}
-
+	
 
 	public void setRecetas(List<Recetas> recetas) {
 		//son las recetas creadas por el
@@ -165,11 +161,7 @@ public class Usuarios implements Serializable{
 	}
 
 
-	@Override
-	public String toString() {
-		return "Usuarios [idUsuario=" + idUsuario + ", mail=" + mail + ", nickname=" + nickname + ", habilitado="
-				+ habilitado + ", nombre=" + nombre + ", avatar=" + avatar + ", tipo_usuario=" + tipo_usuario + "]";
-	}
+
 
 //metodo para agregar recetas
 	public void addReceta(Recetas receta) {
@@ -203,6 +195,16 @@ public class Usuarios implements Serializable{
 	public void setEsadmin(Boolean esadmin) {
 		this.esadmin = esadmin;
 	}
+	
+
+	public ListaRecetas getRecetasAintentar() {
+		return recetasAintentar;
+	}
+
+
+	public void setRecetasAintentar(ListaRecetas recetasAintentar) {
+		this.recetasAintentar = recetasAintentar;
+	}
 
 
 	public void borrarDatosingreso() {
@@ -229,7 +231,7 @@ public class Usuarios implements Serializable{
 		
 		
 	//OJO.estas son sus recetas seguidas, pero no creadas por el
-		listas=new ArrayList<>();
+		recetasAintentar=null;
 		
 		
 	}
@@ -268,6 +270,7 @@ public class Usuarios implements Serializable{
 		vista.setNickname(user.getNickname());
 		vista.setNombre(user.getNombre());
 		vista.setTipo_usuario(user.getTipo_usuario());
+		//lsa recetas creadas por el
 		List<RecetasVista> recetasvista=new ArrayList<>();
 		
 		List<Recetas> recetas=user.getRecetas();
@@ -277,12 +280,28 @@ public class Usuarios implements Serializable{
 		
 		vista.setRecetas(recetasvista);
 		
-		List<ListaRecetasVista> listasrecetasvista=new ArrayList<>();
-		List<ListaRecetas> listasrecetas=user.getlistas();
+		//sus recetas a intentar
+		ListaRecetas listasrecetasreal=user.getRecetasAintentar();
+	//las paso a vista
+		ListaRecetasVista listasrecetasvista=new ListaRecetasVista();
+		listasrecetasvista.setId(listasrecetasreal.getId());
+		listasrecetasvista.setNombrelista(listasrecetasreal.getNombrelista());
+		
+		//las recetas reales
+		List<Recetas> recetasposta=listasrecetasreal.getRecetas();
+		for(Recetas r:recetasposta) {
+			listasrecetasvista.ADDRECETAVISTA(r.toView(r));
+		}
+//ACA		
+		//setRecetasAintentar(ListaRecetasVista recetasAintentar)
+		vista.setRecetasAintentar(listasrecetasvista);
+		/*
 		for(ListaRecetas lr:listasrecetas) {
 			listasrecetasvista.add(lr.toView(lr));
 		}
-		vista.setListas(listasrecetasvista);
+		*/
+		
+		//vista.setListas(listasrecetasvista);
 		//SON LAS RECETAS CREADAS POR EL USER!!!
 		
 
