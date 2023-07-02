@@ -25,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.controlador.RecetasControlador;
 import com.example.demo.entidades.Calificaciones;
+import com.example.demo.entidades.Ingrediente;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.repositorio.IngredienteRepo;
 import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetaMultiplicadaVista;
@@ -40,6 +42,9 @@ public class RecetasRest {
 	
 	@Autowired
 	private RecetasControlador recetacontrolador;
+	
+	
+	
 	
 	//CREAR una receta!!!!!!!!!!
 	//deberia pasarle el id del user creador de la receta!!!
@@ -400,6 +405,12 @@ public class RecetasRest {
 		}
 		return ResponseEntity.ok(buscada);
 		
+	}
+	
+	@GetMapping("/getallingredientes")
+	public ResponseEntity<?> getallingredientes(){
+		List<Ingrediente> ingredientes=recetacontrolador.getallingredientes();
+		return ResponseEntity.ok(ingredientes);
 	}
 	
 	//ver si el alias esta en uso y ademas sugerir alias

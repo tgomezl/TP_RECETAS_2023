@@ -613,6 +613,13 @@ public class RecetasControlador {
 	}
 
 
+	public List<Ingrediente> getallingredientes() {
+		// trae todos los ingredientes de la bbdd
+
+		return ingrepo.findAll();
+	}
+
+
 	/*
 	public List<Recetas> ordenarPorNombreAsc() {
 		// TODO Auto-generated method stub
