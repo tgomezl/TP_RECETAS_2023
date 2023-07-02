@@ -143,9 +143,9 @@ public class Recetas implements Serializable{
 		return pasos;
 	}
 
-	public void setPasos(ArrayList<Pasos> pasos) {
-		this.pasos = pasos;
-	}
+	//public void setPasos(ArrayList<Pasos> pasos) {
+	//	this.pasos = pasos;
+	//}
 	
 	public void setPasos(List<Pasos> pasos) {
 		this.pasos = pasos;
