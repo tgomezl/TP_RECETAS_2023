@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.FotoVista;
 import com.example.demo.vistas.PasosVista;
@@ -145,6 +146,10 @@ public class Recetas implements Serializable{
 	public void setPasos(ArrayList<Pasos> pasos) {
 		this.pasos = pasos;
 	}
+	
+	public void setPasos(List<Pasos> pasos) {
+		this.pasos = pasos;
+	}
 
 	public List<Calificaciones> getCalificaciones() {
 		return calificaciones;
@@ -191,6 +196,10 @@ public class Recetas implements Serializable{
 	}
 
 	public void setUtilizados(ArrayList<Utilizado> utilizados) {
+		this.utilizados = utilizados;
+	}
+	
+	public void setUtilizados(List<Utilizado> utilizados) {
 		this.utilizados = utilizados;
 	}
 
@@ -408,6 +417,77 @@ public class Recetas implements Serializable{
 	
 	public void REMOVEfoto(Foto foto) {
 		this.fotos.remove(foto);
+	}
+
+
+
+
+	public Recetas multiplicar(Recetas esta, Integer factor) {
+		// TODO Auto-generated method stub
+		System.out.println("   multiplicando receta");
+		Recetas multiplicada =new Recetas();
+		multiplicada.setAprobada(esta.getAprobada());
+		multiplicada.setCantidadPersonas(esta.getCantidadPersonas()*factor);
+		multiplicada.setDescripcion(esta.getDescripcion());
+		multiplicada.setFotounica(esta.getFotounica());
+		multiplicada.setIdTipo(esta.getIdTipo());
+		multiplicada.setNombre(esta.getNombre());
+		multiplicada.setPasos(esta.getPasos());
+		multiplicada.setPorciones(esta.getPorciones()*factor);
+		multiplicada.setUsuario(null);
+		List<Utilizado> utilizadosmodificados=new ArrayList<Utilizado>();
+		List<Utilizado> utilizados=esta.getUtilizados();
+		for(Utilizado u:utilizados) {
+			Utilizado util=u.multiplicar(u,factor);
+			utilizadosmodificados.add(util);
+		}
+		multiplicada.setUtilizados( utilizadosmodificados);
+		
+		return multiplicada;
+		
+	}
+
+
+
+
+	public RecetaMultiplicadaVista toRecetaMultiplicadaVista(Recetas m) {
+		// TODO Auto-generated method stub
+		RecetaMultiplicadaVista nueva=new RecetaMultiplicadaVista();
+		nueva.setAprobada(m.getAprobada());
+		nueva.setCantidadPersonas(m.getCantidadPersonas());
+		nueva.setDescripcion(m.getDescripcion());
+		nueva.setFotounica(m.getFotounica());
+		nueva.setIdTipo(m.getIdTipo().getIdTipo());
+		nueva.setNombre(m.getNombre());
+		
+
+		//pasos to view???
+		List<Pasos> pasos=m.getPasos();
+		List<PasosVista> pasosvista =new ArrayList<PasosVista>();
+		for(Pasos p:pasos) {
+			//el paso tiene multimedia
+			pasosvista.add(p.toView(p));
+		}
+		
+		nueva.setPasos(pasosvista);
+		
+		
+		nueva.setPorciones(m.getPorciones());
+		
+		
+
+		//utilizados to view??
+		//tiene utilizados
+		List<Utilizado> utilizados=m.getUtilizados();
+		List<UtilizadoVista> utilizadosvista=new ArrayList<>();
+		for(Utilizado u:utilizados) {
+			utilizadosvista.add(u.toView(u));
+		}
+		
+		nueva.setUtilizados(utilizadosvista);
+		
+		
+		return nueva;
 	}
 
 

@@ -29,6 +29,7 @@ import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.ListaRecetasVista;
+import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.RecetasVista;
 
 //toda la logica de las recetas
@@ -506,6 +507,21 @@ public class RecetasControlador {
 			ListaRecetas listarecetas= encontrado.getRecetasAintentar();
 			ListaRecetasVista recetasvista=listarecetas.toView(listarecetas);
 			return recetasvista;
+		}
+		return null;
+	}
+
+
+	public RecetaMultiplicadaVista multiplicarReceta(Integer idreceta, Integer factor) {
+		// TODO Auto-generated method stub
+		Optional<Recetas> rece=recetasservice.findById(idreceta);
+		if(rece.isPresent()) {
+			Recetas esta=rece.get();
+			Recetas multiplicada=esta.multiplicar(esta,factor);
+			//no la gaurada, solo la devielve multiplicada
+			System.out.println("la receta ya fue multiplicada");
+			//la convierto en recetavista
+			return multiplicada.toRecetaMultiplicadaVista(multiplicada);
 		}
 		return null;
 	}

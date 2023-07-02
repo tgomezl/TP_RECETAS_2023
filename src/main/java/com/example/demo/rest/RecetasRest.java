@@ -29,6 +29,7 @@ import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.ListaRecetasVista;
+import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.RecetasVista;
 
 @RestController
@@ -357,6 +358,21 @@ public class RecetasRest {
 	public ResponseEntity<?> agregarrecetaaintentar(@PathVariable Integer iduser){
 		System.out.println("iduser "+iduser);
 		ListaRecetasVista agregada=recetacontrolador.getrecetaaintentar(iduser);
+		if(agregada!=null) {
+			return ResponseEntity.ok(agregada);
+		}
+		return ResponseEntity.notFound().build();
+		
+	}
+	
+	//multiplicarunareceta
+	@GetMapping("/multiplicar/{idreceta}/{factor}")
+	public ResponseEntity<?> multiplicarReceta(@PathVariable Integer idreceta,
+			@PathVariable Integer factor){
+		//multiplica la receta por el factor*cantidadpersonas
+		
+		RecetaMultiplicadaVista agregada=recetacontrolador.multiplicarReceta(idreceta,factor);
+		
 		if(agregada!=null) {
 			return ResponseEntity.ok(agregada);
 		}

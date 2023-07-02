@@ -112,6 +112,18 @@ public class Utilizado implements Serializable{
 	
 		return utilizado;
 	}
+
+	public Utilizado multiplicar(Utilizado u,Integer factor) {
+		// TODO Auto-generated method stub
+		System.out.println(" multiplicando un utilizado");
+		Utilizado utilizado=new Utilizado();
+		utilizado.setCantidad(u.getCantidad()*factor);
+		utilizado.setIdIngrediente(u.getIdIngrediente());
+		utilizado.setIdReceta(u.getIdReceta());
+		utilizado.setIdUnidad(u.getIdUnidad());
+		utilizado.setObservaciones(u.getObservaciones());
+		return utilizado;
+	}
 	
 	
 	
