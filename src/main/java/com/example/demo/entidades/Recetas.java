@@ -135,7 +135,7 @@ public class Recetas implements Serializable{
 		return fotos;
 	}
 
-	public void setFotos(ArrayList<Foto> fotos) {
+	public void setFotos(List<Foto> fotos) {
 		this.fotos = fotos;
 	}
 
@@ -143,19 +143,19 @@ public class Recetas implements Serializable{
 		return pasos;
 	}
 
-	public void setPasos(ArrayList<Pasos> pasos) {
-		this.pasos = pasos;
+	public void setPasos(List<Pasos> pasos2) {
+		this.pasos = pasos2;
 	}
-	
+	/*
 	public void setPasos(List<Pasos> pasos) {
 		this.pasos = pasos;
 	}
-
+*/
 	public List<Calificaciones> getCalificaciones() {
 		return calificaciones;
 	}
 
-	public void setCalificaciones(ArrayList<Calificaciones> calificaciones) {
+	public void setCalificaciones(List<Calificaciones> calificaciones) {
 		this.calificaciones = calificaciones;
 	}
 
@@ -195,13 +195,11 @@ public class Recetas implements Serializable{
 		return utilizados;
 	}
 
-	public void setUtilizados(ArrayList<Utilizado> utilizados) {
-		this.utilizados = utilizados;
-	}
-	
 	public void setUtilizados(List<Utilizado> utilizados) {
 		this.utilizados = utilizados;
 	}
+	
+
 
 	public LocalDate getFechaCreacion() {
 		return fechaCreacion;
@@ -432,7 +430,12 @@ public class Recetas implements Serializable{
 		multiplicada.setFotounica(esta.getFotounica());
 		multiplicada.setIdTipo(esta.getIdTipo());
 		multiplicada.setNombre(esta.getNombre());
-		multiplicada.setPasos(esta.getPasos());
+		List<Pasos>lista=esta.getPasos();
+		List<Pasos> pasos=new ArrayList<Pasos>();
+		for(Pasos p:lista) {
+			pasos.add(p);
+		}
+		multiplicada.setPasos(pasos);
 		multiplicada.setPorciones(esta.getPorciones()*factor);
 		multiplicada.setUsuario(null);
 		List<Utilizado> utilizadosmodificados=new ArrayList<Utilizado>();

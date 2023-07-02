@@ -84,7 +84,7 @@ public class Pasos implements Serializable{
 		return multimedia;
 	}
 
-	public void setMultimedia(ArrayList<Multimedia> multimedia) {
+	public void setMultimedia(List<Multimedia> multimedia) {
 		this.multimedia = multimedia;
 	}
 
