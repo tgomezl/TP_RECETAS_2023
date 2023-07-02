@@ -16,6 +16,7 @@ import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.MailYnickname;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UserLogin;
 import com.example.demo.vistas.UsuarioConClaveDeRecu;
@@ -222,6 +223,44 @@ public class UsuarioControlador {
 			
 			
 			creado=userservice.save(user);
+		}
+		return creado;
+	}
+	
+	public Usuarios crearUsersolomailyalias(MailYnickname user) {
+		Usuarios creado=null;
+		System.out.println("datos recibidos ");
+		System.out.println(user);
+		String mail=user.getMail();
+		String nickname=user.getNickname();
+		//es una bandera
+		boolean habilitado=true;
+		if(mail.isBlank()) {
+			return creado;
+		}
+		if(nickname.isBlank()) {
+			return creado;
+		}
+		/*valido los datos recibidos (mail y nickname)*/
+		List<Usuarios> listausers=TraerListaUsers();
+		/*recorro y valido mail y nickname*/
+		for(Usuarios u: listausers) {
+			if(u.getMail().equalsIgnoreCase(mail) || u.getNickname().equalsIgnoreCase(nickname)) {
+				System.out.println(" estos datos ya existen en la bbdd");
+				habilitado=false;
+			}
+		}
+		
+		if(habilitado) {
+			//solo setea mail y nickname
+			System.out.println("  creando user!!!");
+			Usuarios usernuevo=new Usuarios();
+			usernuevo.setMail(mail);
+			usernuevo.setNickname(nickname);
+			usernuevo.borrarDatosingreso();
+			creado=userservice.save(usernuevo);
+			
+
 		}
 		return creado;
 	}

@@ -211,7 +211,7 @@ public class Usuarios implements Serializable{
 		//solo aceptara mail y alias del user
 
 		
-
+		System.out.println("  borrando los datos de ingreso en la bbdd");
 		
 		habilitado="no"; //si o no 
 		nombre=null;
@@ -231,8 +231,8 @@ public class Usuarios implements Serializable{
 		
 		
 	//OJO.estas son sus recetas seguidas, pero no creadas por el
-		recetasAintentar=null;
-		
+		recetasAintentar=new ListaRecetas();
+		System.out.println("  datos borrado");
 		
 	}
 	public UserConReceta crearUserConReceta(Usuarios user) {

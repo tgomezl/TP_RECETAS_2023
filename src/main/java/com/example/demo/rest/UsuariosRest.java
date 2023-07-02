@@ -20,6 +20,7 @@ import com.example.demo.controlador.UsuarioControlador;
 
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.MailYnickname;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UserLogin;
 import com.example.demo.vistas.UsuarioConClaveDeRecu;
@@ -57,7 +58,9 @@ public class UsuariosRest {
 	
 	//POST con solo mail y alias
 	@PostMapping("/nuevousuario")
-	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
+	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody MailYnickname user) {
+		System.out.println("llego");
+		System.out.println("llego");
 		System.out.println("llego");
 		Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
 		if (creado != null) {
