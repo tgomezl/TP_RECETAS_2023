@@ -57,6 +57,9 @@ public class UsuariosRest {
 	}
 	
 	//POST con solo mail y alias
+	/*
+	SIN SUGERENCIA DE NICKNAMES PARECIDOS:
+	
 	@PostMapping("/nuevousuario")
 	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
 		System.out.println("llego");
@@ -68,7 +71,43 @@ public class UsuariosRest {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ya registrado");
 		}
 	}
-	
+	*/
+	@PostMapping("/nuevousuario")
+	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
+    if (user.getMail() == null || user.getNickname() == null) {
+        return ResponseEntity.badRequest().body("No se ingresaron datos");
+    }
+
+    Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
+    if (creado != null) {
+        return ResponseEntity.ok(creado);
+    } else {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Error, ese email ya se encuentra registrado en el sitio");
+    }
+	}
+
+	/* 
+//CON SUGERENCIA DE NICKNAMES PARECIDOS
+
+	@PostMapping("/nuevousuario")
+	public ResponseEntity<?> crearUsersolomailyalias(@RequestBody Usuarios user) {
+    System.out.println("llego");
+    Usuarios creado = usercontrolador.crearUsersolomailyalias(user);
+    
+    if (creado != null) {
+        return ResponseEntity.ok(creado);
+    } else {
+		// Obtener sugerencias de nicknames similares
+        List<String> suggestedNicknames = usercontrolador.obtenerSugerenciasNicknames(user.getNickname());
+        
+        if (suggestedNicknames.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ya registrado");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(suggestedNicknames);
+        }
+    }
+}
+*/
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarUsuario(@PathVariable(value="id") String id) {

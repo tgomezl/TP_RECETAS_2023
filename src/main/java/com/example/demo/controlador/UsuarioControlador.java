@@ -3,6 +3,7 @@ package com.example.demo.controlador;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -386,6 +387,33 @@ public class UsuarioControlador {
 		return adevolver;
 	}
 
-	
-	
+    public List<String> obtenerSugerenciasNicknames(String nickname) {
+    List<String> sugerencias = new ArrayList<>();
+    // Verificar disponibilidad del nickname proporcionado
+    boolean nicknameDisponible = verificarDisponibilidadNickname(nickname);
+    
+    if (!nicknameDisponible) {
+        // Generar sugerencias basadas en el nickname proporcionado
+        sugerencias.add(nickname + "1");
+        sugerencias.add(nickname + "_123");
+        sugerencias.add(nickname + "007");
+        // Agregar más sugerencias según sea necesario
+        
+        // Filtrar las sugerencias para obtener solo las disponibles
+        sugerencias = sugerencias.stream()
+                .filter(s -> verificarDisponibilidadNickname(s))
+                .collect(Collectors.toList());
+    }
+    
+    return sugerencias;
+	}
+
+	private boolean verificarDisponibilidadNickname(String nickname) {
+		Usuarios user = userservice.findByNickName(nickname);
+		if (user != null) {
+			return false; // El nickname ya está en uso
+		} else {
+			return true; // El nickname está disponible
+		}
+	}
 }
