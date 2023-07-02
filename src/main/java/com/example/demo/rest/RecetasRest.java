@@ -380,6 +380,30 @@ public class RecetasRest {
 		
 	}
 	
+	//GETRecetaQUEnoContengaTAlIngrdiente
+	@GetMapping("/buscarCONingrediente/{idingrediente}")
+	public ResponseEntity<?> buscarCONingrediente(@PathVariable Integer idingrediente){
+		List<RecetasVista> buscada=recetacontrolador.buscarCONingrediente(idingrediente);
+		if(buscada==null) {
+			ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(buscada);
+		
+	}
+	
+	//GETRecetaQUEnoContengaTAlIngrdiente
+	@GetMapping("/buscarSINingrediente/{idingrediente}")
+	public ResponseEntity<?> buscarSINingrediente(@PathVariable Integer idingrediente){
+		List<RecetasVista> buscada=recetacontrolador.buscarSINingrediente(idingrediente);
+		if(buscada==null) {
+			ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(buscada);
+		
+	}
+	
+	//ver si el alias esta en uso y ademas sugerir alias
+	
 }
 	
 

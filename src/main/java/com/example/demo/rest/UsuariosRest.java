@@ -206,4 +206,13 @@ public class UsuariosRest {
 			
 		}
 
+		@GetMapping("/comprobarnickname/{nick}")
+		public ResponseEntity<?> comprobarnickname(@PathVariable String nick){
+			List<String> respuesta=usercontrolador.comprobarnickname(nick);
+			if(respuesta.contains("OK")) {
+				return ResponseEntity.ok("puede usar ese alias");
+			}
+			return ResponseEntity.ok(respuesta);
+			
+		}
 }

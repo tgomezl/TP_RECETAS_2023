@@ -386,6 +386,46 @@ public class UsuarioControlador {
 		return adevolver;
 	}
 
+	public List<String> comprobarnickname(String nick) {
+		//crea una lista de alias sugeridos
+		List<String> adevolver=new ArrayList<String>();
+		Usuarios usuario=userservice.findByNickName(nick);
+		if(usuario==null) {
+			//esta disponible para usar
+			adevolver.add("OK");
+			adevolver.add("ok");
+		}else {
+			//esta en uso, sugerrir otro nick
+			adevolver=sugerirnick(nick);
+		}
+		return adevolver;
+	}
+
+	public List<String> sugerirnick(String nick) {
+		// TODO Auto-generated method stub
+		List<String> posiblesnickname=new ArrayList<String>();
+
+		posiblesnickname.add(nick + "02");
+		posiblesnickname.add(nick + "03");
+		posiblesnickname.add(nick + "04");
+		posiblesnickname.add(nick + "05");
+		posiblesnickname.add(nick.toUpperCase());
+		posiblesnickname.add(nick.toUpperCase() + "02");
+		posiblesnickname.add(nick.toUpperCase() + "03");
+		posiblesnickname.add(nick.toUpperCase() + "04");
+		
+		List<String> nickchequeados=new ArrayList<String>();
+		//comparar esa lista contra la bbdd
+		for(String s:posiblesnickname) {
+			Usuarios usuario=userservice.findByNickName(s);
+			if(usuario==null) {
+				//ese nick NO esta en uso
+				nickchequeados.add(s);
+			}
+		}
+		return nickchequeados;
+	}
+
 	
 	
 }

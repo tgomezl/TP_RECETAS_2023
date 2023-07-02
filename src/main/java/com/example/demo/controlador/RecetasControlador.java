@@ -16,14 +16,17 @@ import com.example.demo.comparadores.CompararRecetasPorNombre;
 import com.example.demo.comparadores.CompararRecetasPorNombreUsuario;
 import com.example.demo.entidades.Calificaciones;
 import com.example.demo.entidades.Foto;
+import com.example.demo.entidades.Ingrediente;
 import com.example.demo.entidades.ListaRecetas;
 import com.example.demo.entidades.Multimedia;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Tipo;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.entidades.Utilizado;
 import com.example.demo.repositorio.CalificacionesRepo;
 import com.example.demo.repositorio.FotoRepo;
+import com.example.demo.repositorio.IngredienteRepo;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UsuarioService;
@@ -31,6 +34,7 @@ import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.RecetasVista;
+import com.example.demo.vistas.UtilizadoVista;
 
 //toda la logica de las recetas
 @Component
@@ -55,6 +59,9 @@ public class RecetasControlador {
 	
 	@Autowired
 	private FotoRepo fotorepo;
+	
+	@Autowired
+	private IngredienteRepo ingrepo;
 	
 	@Autowired
 	private UsuarioControlador usuariocontrolador;
@@ -526,7 +533,84 @@ public class RecetasControlador {
 		return null;
 	}
 
-	
+
+	public List<RecetasVista> buscarCONingrediente(Integer idingrediente) {
+
+		List<RecetasVista> adevolver=new ArrayList<>();
+		
+		//se fija si el ingrediente existe
+		Optional<Ingrediente> ing=ingrepo.findById(idingrediente);
+		if(ing.isPresent()) {
+			List<Recetas> recetasaprobadas=getRecetasAprobadas();
+			//List<RecetasVista> aprobadas=traerRecetasAprobadas();
+			List<Recetas> aprobadasCONeseingrediente=new ArrayList<>();
+			for(Recetas r:recetasaprobadas) {
+				List<Utilizado> utilizados=r.getUtilizados();
+				for(Utilizado u:utilizados) {
+					if(u.getIdIngrediente().getIdIngrediente().equals(idingrediente)) {
+						//esta receta tiene ese ingrediente
+						aprobadasCONeseingrediente.add(r);
+					}
+					
+				}
+			}
+			//las paso a recetavista
+			for(Recetas rc:aprobadasCONeseingrediente) {
+				adevolver.add(rc.toView(rc));
+			}
+		}else {
+			System.out.println("no existe ese ingrediente");
+			return null;
+		}
+		return adevolver;
+		
+		
+	}
+
+	public List<Recetas> getRecetasAprobadas() {
+		// devuelve todas las recetas APROBADAS de la bbbdd
+		List<Recetas> lista= recetasservice.findAll();
+		List<Recetas> aprobadas=new ArrayList<>();
+		for(Recetas r:lista) {
+			if(r.getAprobada()) {
+				aprobadas.add(r);
+			}
+		}
+		
+		return aprobadas;
+	}
+
+
+	public List<RecetasVista> buscarSINingrediente(Integer idingrediente) {
+		// TODO Auto-generated method stub
+		List<RecetasVista> adevolver=new ArrayList<>();
+		
+		//se fija si el ingrediente existe
+		Optional<Ingrediente> ing=ingrepo.findById(idingrediente);
+		if(ing.isPresent()) {
+			List<Recetas> recetasaprobadas=getRecetasAprobadas();
+			//List<RecetasVista> aprobadas=traerRecetasAprobadas();
+			List<Recetas> aprobadasSINeseingrediente=new ArrayList<>();
+			for(Recetas r:recetasaprobadas) {
+				List<Utilizado> utili=r.getUtilizados();
+				boolean locotiene=false;
+				for(Utilizado u:utili) {
+					if(u.getIdIngrediente().getIdIngrediente().equals(idingrediente)) {
+						//esta receta contiene ese ing
+						locotiene=true;
+					}
+				}
+				if(locotiene==false) {
+					adevolver.add(r.toView(r));
+				}
+			}
+			
+		}else {
+			System.out.println(" no existe ese ingrediente");
+			return null;
+		}
+		return adevolver;
+	}
 
 
 	/*
