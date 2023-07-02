@@ -67,6 +67,7 @@ public class Foto implements Serializable{
 
 	public void setIdReceta(Recetas idReceta) {
 		this.idReceta = idReceta;
+		idReceta.ADDFoto(this);
 	}
 
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.controlador.UsuarioControlador;
 
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UserLogin;
 import com.example.demo.vistas.UsuarioConClaveDeRecu;
@@ -193,6 +194,17 @@ public class UsuariosRest {
 				return ResponseEntity.ok("mail enviado");
 			}
 			return ResponseEntity.notFound().build();
+			
+		}
+		
+		@GetMapping("/traersuscalificaciones/{iduser}")
+		public ResponseEntity<?> traersuscalificaciones(@PathVariable Integer iduser){
+			//solo uso el mail de ese json
+			List<CalificacionesVista> califica =usercontrolador.traersuscalificaciones(iduser);
+			
+			return ResponseEntity.ok(califica);
+		
+		
 			
 		}
 

@@ -23,7 +23,7 @@ public class ListaRecetasVista implements Serializable{
 	private String nombrelista;
 	
 
-	private Integer idUsuario;
+	//private Integer idUsuario;
 	
 	
 	private List<RecetasVista> recetas = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ListaRecetasVista implements Serializable{
 		this.nombrelista = nombrelista;
 	}
 
-
+/*
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
@@ -57,7 +57,7 @@ public class ListaRecetasVista implements Serializable{
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-
+*/
 
 	public List<RecetasVista> getRecetas() {
 		return recetas;
@@ -68,7 +68,9 @@ public class ListaRecetasVista implements Serializable{
 		this.recetas = recetas;
 	}
 	
-	
+	public void ADDRECETAVISTA(RecetasVista entidad) {
+		this.recetas.add(entidad);
+	}
 	
 	
 	

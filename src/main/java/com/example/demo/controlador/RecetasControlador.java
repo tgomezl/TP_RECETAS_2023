@@ -1,21 +1,35 @@
 package com.example.demo.controlador;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.comparadores.CompararRecetasPorFecha;
 import com.example.demo.comparadores.CompararRecetasPorNombre;
 import com.example.demo.comparadores.CompararRecetasPorNombreUsuario;
+import com.example.demo.entidades.Calificaciones;
+import com.example.demo.entidades.Foto;
+import com.example.demo.entidades.ListaRecetas;
+import com.example.demo.entidades.Multimedia;
 import com.example.demo.entidades.Pasos;
 import com.example.demo.entidades.Recetas;
+import com.example.demo.entidades.Tipo;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.repositorio.CalificacionesRepo;
+import com.example.demo.repositorio.FotoRepo;
 import com.example.demo.service.RecetasService;
+import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UsuarioService;
+import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.ListaRecetasVista;
+import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.RecetasVista;
 
 //toda la logica de las recetas
@@ -28,10 +42,19 @@ public class RecetasControlador {
 	@Autowired
 	private UsuarioService usuarioservice;
 	
+	@Autowired
+	private CalificacionesRepo calirepo;
+	
+	@Autowired
+	private UploadFileService uploadService;
+	
 	/*
 	@Autowired
 	private UsuarioService userservice;
 	*/
+	
+	@Autowired
+	private FotoRepo fotorepo;
 	
 	@Autowired
 	private UsuarioControlador usuariocontrolador;
@@ -44,7 +67,7 @@ public class RecetasControlador {
 			return recetasservice.save(receta);
 		}
 		return null;
-		
+
 	}
 	
 	
@@ -300,6 +323,209 @@ public class RecetasControlador {
 		List<RecetasVista> lista= recetasservice.ordenarRVPorFechaCreacion();
 		return lista;
 	}
+
+
+	public CalificacionesVista calificarreceta(CalificacionesVista entidad) {
+		// TODO Auto-generated method stub
+		System.out.println(entidad.getComentarios());
+		Integer idreceta=entidad.getIdreceta();
+		Integer calificacion=entidad.getCalificacion();
+		String comentarios=entidad.getComentarios();
+		Integer iduser=entidad.getIdusuario();
+		System.out.println("busacnado receta ");
+		//busco a la receta y al user
+		Optional<Recetas> receta=recetasservice.findById(idreceta);
+		if(receta.isPresent()) {
+			Recetas encontrada=receta.get();
+			System.out.println(" econtre la receta");
+			Optional<Usuarios> user=usuarioservice.findById(iduser);
+			if(user.isPresent()) {
+				System.out.println(" encontre al usuario");
+				Usuarios userencontrado=user.get();
+				//creo la calificaion
+				Calificaciones calificaion=new Calificaciones();
+				calificaion.setCalificacion(calificacion);
+				calificaion.setComentarios(comentarios);
+				//va y viene
+				calificaion.setReceta(encontrada);
+				//solo va
+				calificaion.setUsuario(userencontrado);
+				
+				//hago el save
+				calirepo.save(calificaion);
+				return calificaion.toView(calificaion);
+				
+			}	else {
+				System.out.println(  "no existe el user");
+			}
+		}
+		else {
+			System.out.println(" no existe la receta");
+		}
+		
+		
+		
+		return null;
+	}
+
+
+	public List<CalificacionesVista> devolversuscalificaiones(Integer idreceta) {
+		// devuelve todas las calificaiones de una receta
+		List<CalificacionesVista> adevolver=new ArrayList<CalificacionesVista>();
+		Optional<Recetas> receta=recetasservice.findById(idreceta);
+		if(receta.isPresent()) {
+			List<Calificaciones> calificaciones=receta.get().getCalificaciones();
+			for(Calificaciones c:calificaciones) {
+				adevolver.add(c.toView(c));
+			}
+		}
+		return adevolver;
+	}
+
+
+	public List<RecetasVista> contienenestetipo(Integer idtipo) {
+		// TODO Auto-generated method stub
+		
+		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
+		List<Recetas> recetas=recetasservice.findAll();
+		for(Recetas r:recetas) {
+			Tipo tiporeceta=r.getIdTipo();
+			if(tiporeceta.getIdTipo().equals(idtipo)) {
+				adevolver.add(r.toView(r));
+			}
+		}
+		return adevolver;
+	}
+
+
+	public List<RecetasVista> NOcontienenestetipo(Integer idtipo) {
+		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
+		List<Recetas> recetas=recetasservice.findAll();
+		for(Recetas r:recetas) {
+			Tipo tiporeceta=r.getIdTipo();
+			Integer idtiporeceta=tiporeceta.getIdTipo();
+			if(!tiporeceta.getIdTipo().equals(idtipo)) {
+				adevolver.add(r.toView(r));
+			}
+		}
+		return adevolver;
+	}
+
+
+	public String agregarFotoREAL(int idreceta, MultipartFile file) {
+		// se fija si existe la receta
+		Optional<Recetas> buscada=recetasservice.findById(idreceta);
+		if(buscada.isPresent()) {
+			System.out.println("la receta existe");
+			//le quiero agregar la foto
+			System.out.println("cargar FOTO real");
+			try {
+				System.out.println("  agrgando multimedia"); 
+				String url =this.ADDFOTOREAL(buscada.get(), file);
+				return url;
+			}catch (Exception e) {
+				System.out.println(" CATCH");
+				System.out.println(e.getMessage());
+			}
+		}
+		return "";
+	}
+
+
+	public String ADDFOTOREAL(Recetas receta, MultipartFile file) throws IOException {
+			// TODO Auto-generated method stub
+			//boolean agregado=false;
+			String url="";
+			
+			System.out.println("busco la receta");
+		
+			if(receta!=null) {
+				System.out.println("guardadno");
+				url = uploadService.saveFOTO(file);
+				System.out.println("la url es "+url);
+				
+				Foto foto =new Foto();
+				foto.setExtension(file.getContentType());
+				foto.setIdReceta(receta); //va y viene
+				foto.setUrlFoto(url);
+				
+				//hago el save de la foto
+				fotorepo.save(foto);
+				
+				
+			
+				//y hago el save del paso
+				//pasoservice.save(buscado);
+				return "foto agregada";
+			}else {
+				System.out.println("no encontre la receta");
+			}
+			return "";
+					
+	
+	}
+
+
+	public Resource getFOTOREALporRuta(String rutaparcial) throws IOException {
+		Resource resource= uploadService.getFOTO(rutaparcial);
+		return resource;
+		
+	
+	}
+
+
+	public boolean agregarrecetaaintentar(Integer iduser, Integer idreceta) {
+		// se fija que existan la receta y el usuario
+		
+		Optional<Recetas> buscada=recetasservice.findById(idreceta);
+		if(buscada.isPresent()) {
+			Recetas encontrada=buscada.get();
+			Optional<Usuarios> user=usuarioservice.findById(iduser);
+			if(user.isPresent()) {
+				Usuarios encontrado=user.get();
+				encontrado.getRecetasAintentar().ADDrecetaAintentar(encontrada);
+				System.out.println("agrega la receta a la lista de ese usuario");
+				//hago el save
+				usuarioservice.save(encontrado);
+				return true;
+			}else {
+				System.out.println(" no existe ese user");
+			}
+		}
+		else {
+			System.out.println(" no existe la receta");
+		}
+		return false;
+	}
+
+
+	public ListaRecetasVista getrecetaaintentar(Integer iduser) {
+		//
+		Optional<Usuarios> user=usuarioservice.findById(iduser);
+		if(user.isPresent()) {
+			Usuarios encontrado=user.get();
+			ListaRecetas listarecetas= encontrado.getRecetasAintentar();
+			ListaRecetasVista recetasvista=listarecetas.toView(listarecetas);
+			return recetasvista;
+		}
+		return null;
+	}
+
+
+	public RecetaMultiplicadaVista multiplicarReceta(Integer idreceta, Integer factor) {
+		// TODO Auto-generated method stub
+		Optional<Recetas> rece=recetasservice.findById(idreceta);
+		if(rece.isPresent()) {
+			Recetas esta=rece.get();
+			Recetas multiplicada=esta.multiplicar(esta,factor);
+			//no la gaurada, solo la devielve multiplicada
+			System.out.println("la receta ya fue multiplicada");
+			//la convierto en recetavista
+			return multiplicada.toRecetaMultiplicadaVista(multiplicada);
+		}
+		return null;
+	}
+
 	
 
 
