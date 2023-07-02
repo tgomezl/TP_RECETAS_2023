@@ -34,7 +34,7 @@ public class Multimedia implements Serializable{
 	@JoinColumn(name="idPaso")
 	private Pasos idPaso;
 	
-	private String extension;
+	private String extension="multimedia";
 	
 	private String urlContenido;
 	/*-----------------------------------------------------------------------*/

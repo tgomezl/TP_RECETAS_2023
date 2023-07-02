@@ -75,6 +75,7 @@ public class Calificaciones implements Serializable{
 
 	public void setReceta(Recetas receta) {
 		this.receta = receta;
+		receta.ADDcalificacaion(this);
 	}
 
 

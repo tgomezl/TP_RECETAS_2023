@@ -206,7 +206,7 @@ public class GenericoControlador {
 					nuevaReceta.setearParametrosMock(user, tipo);
 					nuevaReceta.setNombre(titulos.get(0));
 					nuevaReceta.setPorciones(porciones.get(0));
-					
+					nuevaReceta.setAprobada(true);
 					//le agrego al receta al user y el user a la receta
 					user.addReceta(nuevaReceta);   
 					

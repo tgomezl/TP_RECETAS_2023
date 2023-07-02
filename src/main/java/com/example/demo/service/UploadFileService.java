@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -78,5 +79,48 @@ public class UploadFileService {
 		return upload_folder;
 	}
 	*/
+
+	public String saveFOTO(MultipartFile file)throws IOException{
+		System.out.println("  agregandfo foto a una receta");
+		byte[] byteArr = file.getBytes();
+		// ACA ESTA EL ERROR!!!!
+		InputStream inputStream = new ByteArrayInputStream(byteArr);
+		// inputstrem??
+		System.out.println("content tipe" + file.getContentType());
+		System.out.println("original file name: " + file.getOriginalFilename());
+		String folderfotos=".//src//main//resources//frontend//administracion//src//fotos//";
+		Path path = Paths.get(folderfotos + file.getOriginalFilename());
+		Files.write(path, byteArr);
+		System.out.println(" fin de guardado");
+
+		return file.getOriginalFilename();
+
+	}
+
+	public Resource getFOTO(String rutaparcial) throws IOException{
+		// TODO Auto-generated method stub
+		System.out.println(" accediendo a la foto");
+		String folderfotos=".//src//main//resources//frontend//administracion//src//fotos//";
+		System.out.println("la ruta es : "+folderfotos+rutaparcial);
+  
+    	
+    	Path path = Paths.get(folderfotos+rutaparcial);
+    	Resource resource=null;
+    	
+    //aca habria que chequear si el path existe 
+    	if(Files.exists(path)) {
+    		resource=new UrlResource(path.toUri());
+    	}else {
+    		System.out.println("********************************************");
+        	System.out.println("el archivo "+folderfotos+rutaparcial + " no existe");
+    	}
+    	
+    	/*
+    	Path path = Paths.get(upload_folder +  ruta);
+    	byte[] bytes=Files.readAllBytes(path);
+    	*/
+    	return resource;
+	}
  
 }
+	

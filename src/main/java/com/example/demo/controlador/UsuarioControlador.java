@@ -7,12 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.entidades.Calificaciones;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.repositorio.CalificacionesRepo;
 import com.example.demo.repositorio.UsuarioRepo;
 import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UsuarioService;
+import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.UserConReceta;
 import com.example.demo.vistas.UserLogin;
 import com.example.demo.vistas.UsuarioConClaveDeRecu;
@@ -34,6 +37,9 @@ public class UsuarioControlador {
 	
 	@Autowired
 	private RecetasService recetaservice;
+	
+	@Autowired
+	private CalificacionesRepo calirepo;
 	
 
 	//crear
@@ -362,6 +368,22 @@ public class UsuarioControlador {
 		}
 		System.out.println("no existe un user con ese mail");
 		return mailenviado;
+	}
+
+	public List<CalificacionesVista> traersuscalificaciones(Integer iduser) {
+		Usuarios user=BuscarUser(iduser);
+		List<CalificacionesVista> adevolver=new ArrayList<CalificacionesVista>();
+		if(user!=null) {
+			//recorro todas las calificaciones de la bbdd
+			List<Calificaciones> lista=calirepo.findAll();
+			adevolver=new ArrayList<CalificacionesVista>();
+			for(Calificaciones c:lista) {
+				if(c.getUsuario().equals(user)) {
+					adevolver.add(c.toView(c));
+				}
+			}
+		}
+		return adevolver;
 	}
 
 	

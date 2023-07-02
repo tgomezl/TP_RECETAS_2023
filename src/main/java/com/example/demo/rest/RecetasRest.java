@@ -1,9 +1,15 @@
 package com.example.demo.rest;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,10 +21,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.controlador.RecetasControlador;
+import com.example.demo.entidades.Calificaciones;
 import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
+import com.example.demo.vistas.CalificacionesVista;
 import com.example.demo.vistas.RecetasVista;
 
 @RestController
@@ -224,7 +233,110 @@ public class RecetasRest {
 	}
 	
 	//metodo para buscar las ultimas tres recetas mas nuevas de la bbdd
+	
+	@PostMapping("/calificar")
+	public ResponseEntity<?> calificarreceta(@RequestBody CalificacionesVista entidad){
+		System.out.println("     antes de calificar");
+		try {
+			System.out.println("antes de calificar");
+			CalificacionesVista encontrada =recetacontrolador.calificarreceta(entidad);
+			if(encontrada!=null) {
+				return ResponseEntity.ok(encontrada);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(" CATCH");
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/mostrarsuscalificaciones/{idreceta}")
+	public ResponseEntity<?> buscarcalificacionesdeunareceta(@PathVariable Integer idreceta){
+		List<CalificacionesVista> califica = recetacontrolador.devolversuscalificaiones(idreceta);
 
+		return ResponseEntity.ok(califica);
+	}
+	
+	/*
+	@PostMapping("addfoto/{idreceta}")
+	public ResponseEntity<?> addfotorecetaexistente(@PathVariable Integer idreceta){
+		recetacontrolador.addFoto();
+		/*
+		 * 
+		 * HACER ESTO
+	}
+*/
+	/*FILTRAR RECETAS POR TIPO */
+	@GetMapping("filtrarportipo/CONTIENEN/{idtipo}")
+	public ResponseEntity<?> filtrarrecetasportipo(@PathVariable Integer idtipo){
+		List<RecetasVista>lista=recetacontrolador.contienenestetipo(idtipo);
+		return ResponseEntity.ok(lista);
+		
+	}
+	
+	@GetMapping("filtrarportipo/NO-CONTIENEN/{idtipo}")
+	public ResponseEntity<?> filtrarrecetasportipoNO(@PathVariable Integer idtipo){
+		//recetas que NO tengan este tipo
+		List<RecetasVista>lista=recetacontrolador.NOcontienenestetipo(idtipo);
+		return ResponseEntity.ok(lista);
+		
+	}
+
+	// AGREGARUNAFOTO A UNA RECETA
+	// agregar foto a una receta existente
+	// agregar un multimedia REAL a un paso existente y receta exisxtente
+	@PostMapping("/addFOTOREAL/{idreceta}")
+	public ResponseEntity<?> agregarfotoREAL(@PathVariable(value = "idreceta") String idreceta,
+			@RequestBody MultipartFile file) {
+		System.out.println("cargar foto real");
+		System.out.println("idreceta " + idreceta);
+		try {
+			System.out.println("  agrgando foto");
+			String url = recetacontrolador.agregarFotoREAL(Integer.parseInt(idreceta), file);
+			if (!url.isEmpty()) {
+				System.out.println("no esta vacia");
+				return ResponseEntity.ok(url);
+			}
+
+			System.out.println("url vacia");
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			System.out.println("    CATCH");
+			return ResponseEntity.notFound().build();
+		}
+
+	}
+	
+	//GET DE UN MULTIMEDIA REAL
+	@GetMapping("/getFOTOreal/{rutaparcial}")
+	public ResponseEntity<?> getIMagenREALporRuta(@PathVariable String rutaparcial) {
+		// me da la ruta total
+		String folderfotos=".//src//main//resources//frontend//administracion//src//fotos//";
+		try {
+			Resource resource = recetacontrolador.getFOTOREALporRuta(rutaparcial);
+			if (resource != null) {
+				Path path = Paths.get(folderfotos+rutaparcial);
+
+				// headers
+				// org.springframework.http.HttpHeaders header=new
+				// org.springframework.http.HttpHeaders();
+
+				return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(path)))
+						.body(resource);
+			}
+
+			return ResponseEntity.notFound().build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.notFound().build();
+		}
+
+	}
+	
 }
 	
 

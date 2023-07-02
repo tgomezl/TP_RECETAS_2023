@@ -344,8 +344,14 @@ public class Recetas implements Serializable{
 	public void REMOVEutilizado(Utilizado util) {
 		this.utilizados.remove(util);
 	}
-
-
+	
+	public void ADDcalificacaion(Calificaciones cali) {
+		this.calificaciones.add(cali);
+	}
+	
+	public void REMOVEcalificacion(Calificaciones cali) {
+		this.calificaciones.remove(cali);
+	}
 /*
 	public RecetasVista crearVistaCompleta(Recetas r) {
 		// TODO Auto-generated method stub
@@ -390,6 +396,19 @@ public class Recetas implements Serializable{
 
 
 */
+
+
+
+
+	public void ADDFoto(Foto foto) {
+		// TODO Auto-generated method stub
+		this.fotos.add(foto);
+		
+	}
+	
+	public void REMOVEfoto(Foto foto) {
+		this.fotos.remove(foto);
+	}
 
 
 
