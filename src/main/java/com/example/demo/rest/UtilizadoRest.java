@@ -1,5 +1,7 @@
 package com.example.demo.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,7 +38,17 @@ public class UtilizadoRest {
 		
 	}
 	
-	
-		//el ingrediente, no existe, entonces lo creo
+	//http://localhost:8080/utilizados/agregarutilizado
+	@PostMapping("/agregarlistadeingredientesusados")
+	public ResponseEntity<?> agregarlistadeingredientesusados(@RequestBody 
+			List<UtilizadoconingredienteexistenteDTO> utilizados){
+			boolean creado=genericocontrolador.agregarlistadeutilizadosexistentes(utilizados);
+			if(creado) {
+				return ResponseEntity.ok("receta modificada");
+			}
+				return ResponseEntity.notFound().build();
+		
+		
+	}
 
 }
