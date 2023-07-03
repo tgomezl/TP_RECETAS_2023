@@ -149,7 +149,7 @@ public class UsuariosRest {
 	}
 	
 	//una vez que recibe el codgio por mail
-	@PatchMapping("/terminaralta")
+	@PostMapping("/terminaralta")
 	public ResponseEntity<?> terminaraltaUser(@RequestBody UsuarioConClaveDeRecu cuerpo){
 		UsuarioVista modificado = usercontrolador.terminaralta( cuerpo);
 		if(modificado!=null) {
@@ -160,7 +160,7 @@ public class UsuariosRest {
 	}
 	
 	//login
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> hacerlogin(@RequestBody UserLogin user){
 		
 		UsuarioVista logueado =usercontrolador.login(user);
