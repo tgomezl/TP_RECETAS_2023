@@ -329,7 +329,7 @@ public class UsuarioControlador {
 
 	public UsuarioVista login(UserLogin dto) {
 		// recibe nickname y contrasenia
-		
+		System.out.println("-------------------- ENTRE A LA FUNCION LOGIN --------------------");
 		String nickname =dto.getNickname();
 		String contrarecibida=dto.getContrasenia();
 		Integer id=null;

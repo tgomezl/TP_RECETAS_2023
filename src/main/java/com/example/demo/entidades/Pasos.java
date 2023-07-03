@@ -102,14 +102,14 @@ public class Pasos implements Serializable{
 		nuevo.setIdPaso(p.getIdPaso());
 		nuevo.setIdreceta(p.getIdreceta().getIdReceta());
 		nuevo.setNroPaso(p.getNroPaso());
-		List<Multimedia> multiemdias=p.getMultimedia();
-		List<MultimediaVista> multiemdiavista=new ArrayList<>();
+		List<Multimedia> multimedias=p.getMultimedia();
+		List<MultimediaVista> multimediaVistas=new ArrayList<>();
 		//convierte el multiemdia a multimediavista
-		for(Multimedia m:multiemdias) {
-			multiemdiavista.add(m.toView(m));
+		for(Multimedia m:multimedias) {
+			multimediaVistas.add(m.toView(m));
 		}
 		nuevo.setTexto(p.getTexto());
-		nuevo.setMultimedia(multiemdiavista);
+		nuevo.setMultimedia(multimediaVistas);
 		System.out.println(" fin del toview");
 		return nuevo;
 	}

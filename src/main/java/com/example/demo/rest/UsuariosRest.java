@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +44,10 @@ public class UsuariosRest {
 		return "el endpoint funciona";
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.OPTIONS)
+    public void handleOptions() {
+        // No es necesario implementar ningún código aquí, solo se necesita el mapeo
+    }
 	
 	//full body(NO USAR ESTE METODO!!!!)
 	@PostMapping
