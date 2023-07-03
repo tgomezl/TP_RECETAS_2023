@@ -596,4 +596,119 @@ public class GenericoControlador {
 		
 	}
 
-}
+	public boolean agregarlistadeutilizadosexistentes(List<UtilizadoconingredienteexistenteDTO> utilizados) {
+		Recetas modificada=null;
+		 Integer idreceta=null;
+		//si no existe debe recibir un -1 como idingrdiente
+		 Integer idingrediente=null;
+		 Integer cantidad=0;
+		 Integer idunidad=5;
+		 String observacion="no recibi este parametro";
+		 boolean sepuedecrear=true;//!!!!
+		 
+		 for(UtilizadoconingredienteexistenteDTO entidad: utilizados) {
+			 if(sepuedecrear==false) {
+				 break;
+			 }
+			 idreceta=entidad.getIdreceta();
+			 //puede ser -1
+			 idingrediente=entidad.getIdingrediente();
+			 cantidad=entidad.getCantidad();
+			 idunidad=entidad.getIdunidad();
+			 observacion=entidad.getObservacion();
+			 Recetas recetaencontrada;
+			 Optional<Recetas> guardada=recetasservice.findById(idreceta);
+			 if(guardada.isPresent()) {
+				 System.out.println(" la receta existe");
+				 recetaencontrada=guardada.get();
+				 	//ya tengo la receta
+				 Unidades unidadencontrada;
+				 Optional<Unidades> unidadguardad=unidadrepo.findById(idunidad);
+				 if(unidadguardad.isPresent()) {
+					 System.out.println(" la unidad existe");
+					 unidadencontrada=unidadguardad.get();
+					 	//ya tengo la unidad
+					 
+					
+						Ingrediente ingencontrado;
+						Optional<Ingrediente> ingredienteguardado=ingredienteservice.findById(idingrediente);
+						if(ingredienteguardado.isPresent()) {
+							System.out.println(" encontre el ingrediente");
+							ingencontrado=ingredienteguardado.get();
+							
+						}else {
+							System.out.println("el ingrediente no existe");
+							 sepuedecrear=false;
+						}
+						 
+				 }//if
+				 else {
+					 System.out.println(" no existe la unidad");
+					 sepuedecrear=false;
+				 }
+				 
+				 
+			 }//fin if
+			 else {
+				 System.out.println(" noexsite la receta");
+				 sepuedecrear=false;
+			 }
+			 
+		 }//fin for
+		if( sepuedecrear) {
+			System.out.println(" pase las validaciones, creo los utilizados uno por uno");
+			for(UtilizadoconingredienteexistenteDTO entidad: utilizados) {
+				idreceta=entidad.getIdreceta();
+				 //puede ser -1
+				 idingrediente=entidad.getIdingrediente();
+				 cantidad=entidad.getCantidad();
+				 idunidad=entidad.getIdunidad();
+				 observacion=entidad.getObservacion();
+				 Recetas recetaencontrada;
+				 Optional<Recetas> guardada=recetasservice.findById(idreceta);
+				 if(guardada.isPresent()) {
+					 System.out.println(" la receta existe");
+					 recetaencontrada=guardada.get();
+					 	//ya tengo la receta
+					 Unidades unidadencontrada;
+					 Optional<Unidades> unidadguardad=unidadrepo.findById(idunidad);
+					 if(unidadguardad.isPresent()) {
+						 unidadencontrada=unidadguardad.get();
+						 	//ya tengo la unidad
+						 
+						//creo el utilizado
+							Utilizado utilizado=new Utilizado();
+							utilizado.setCantidad(cantidad);
+							utilizado.setObservaciones(observacion);
+							utilizado.setIdReceta(recetaencontrada);
+							utilizado.setIdUnidad(unidadencontrada);
+							Ingrediente ingencontrado;
+							Optional<Ingrediente> ingredienteguardado=ingredienteservice.findById(idingrediente);
+							if(ingredienteguardado.isPresent()) {
+								System.out.println(" encontre el ingrediente");
+								ingencontrado=ingredienteguardado.get();
+								utilizado.setIdIngrediente(ingencontrado);
+								recetaencontrada.ADDutilizado(utilizado);
+								 System.out.println("guardando el utilizado");
+								 
+								 //hago el save sobre el utilizado
+								 utilizadorepo.save(utilizado);
+							}
+					 }
+				 }
+			}//fin for
+			System.out.println(" se crearon los utilizados para esta receta");
+			return true;
+			
+		}else {
+			System.out.println(" no pase las validaciones");
+			System.out.println(" error en los datos cargados");
+			return false;
+		}
+		
+		
+		
+	}	
+	
+	
+}//fin
