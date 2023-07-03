@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +37,7 @@ import com.example.demo.vistas.RecetasVista;
 
 @RestController
 @RequestMapping("/recetas")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS })
 public class RecetasRest {
 	
 	
@@ -44,12 +45,15 @@ public class RecetasRest {
 	private RecetasControlador recetacontrolador;
 	
 	
-	
+	@RequestMapping(value = "/", method = RequestMethod.OPTIONS)
+    public void handleOptions() {
+        // No es necesario implementar ningún código aquí, solo se necesita el mapeo
+    }
 	
 	//CREAR una receta!!!!!!!!!!
 	//deberia pasarle el id del user creador de la receta!!!
 	//por ahora la crea sin user
-	@PostMapping("")
+	@PostMapping("/")
 	public ResponseEntity<?> postReceta(@RequestBody Recetas receta){
 		RecetasVista creada=recetacontrolador.crearRecetaVista(receta);
 		if(creada!=null) {
