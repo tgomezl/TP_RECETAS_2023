@@ -78,9 +78,11 @@ public class TpRecetas2023Application {
 				//generico.crearAlgunaRecetaSINUser();
 			/*cargo algun paso*/
 				generico.agregarPasos();
-				
+				generico.agregarutilizados();
 				//sin FK
 				generico.agregarMultimedia();
+				
+				
 				
 				//pruebo enviar email
 				//generico.enviarEmail();

@@ -33,7 +33,7 @@ public class Utilizado implements Serializable{
 	@JoinColumn(name="idReceta")
 	private Recetas idReceta;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="idIngrediente")
 	private Ingrediente idIngrediente;
 	

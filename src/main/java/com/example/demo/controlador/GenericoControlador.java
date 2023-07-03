@@ -561,4 +561,39 @@ public class GenericoControlador {
 		return false;
 	}
 
+	public void agregarutilizados() {
+		// TODO Auto-generated method stub
+		Integer contador=0;
+		List<Recetas> recetas=recetasservice.findAll();
+		List<Unidades> unidades=unidadrepo.findAll();
+		List<Ingrediente> ingredientes=ingredienteservice.findAll();
+		while(contador<3) {
+			
+			Collections.shuffle(recetas);
+			Recetas receta=recetas.get(0);
+			
+			Collections.shuffle(unidades);
+			Unidades unidad=unidades.get(0);
+			
+			Collections.shuffle(ingredientes);
+			Ingrediente ing=ingredientes.get(0);
+			System.out.println(ing.getNombre()+ " nombre ing");
+			
+			Utilizado utilizado=new Utilizado();
+			utilizado.setCantidad(3);
+			utilizado.setObservaciones("esto es una observacio");
+			utilizado.setIdReceta(receta);
+			utilizado.setIdUnidad(unidad);
+			utilizado.setIdIngrediente(ing);
+			receta.ADDutilizado(utilizado);
+			
+			utilizadorepo.save(utilizado);
+			
+			contador=contador+1;
+			
+		}
+		System.out.println(" termine de agregar algunos utlizados");
+		
+	}
+
 }
