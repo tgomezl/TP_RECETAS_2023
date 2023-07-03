@@ -51,34 +51,24 @@ public class RecetasRest {
 	//por ahora la crea sin user
 	@PostMapping("")
 	public ResponseEntity<?> postReceta(@RequestBody Recetas receta){
-		
-		
 		RecetasVista creada=recetacontrolador.crearRecetaVista(receta);
 		if(creada!=null) {
-			
 			return ResponseEntity.ok(creada);
 		}
-	
 		else {
 			return ResponseEntity.notFound().build();	
-		
 		}
 	}
 	
 	//crear una receta CON usuario
 	@PostMapping("/{iduser}")
 	public ResponseEntity<?> postRecetaConUsuario(@PathVariable(value="iduser") String iduser,@RequestBody Recetas receta){
-		
-		
 		Recetas creada=recetacontrolador.crearRecetaConUser(Integer.parseInt(iduser),receta);
 		if(creada!=null) {
-			
 			return ResponseEntity.ok(creada);
 		}
-	
 		else {
 			return ResponseEntity.notFound().build();	
-		
 		}
 	}
 	
