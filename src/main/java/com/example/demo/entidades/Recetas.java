@@ -270,7 +270,7 @@ public class Recetas implements Serializable{
 		this.cantidadPersonas=2;
 		
 
-		this.fotounica="url de una foto";
+		this.fotounica="https://placeralplato.com/files/2015/05/ravioles-640x480.jpg?width=1200&enable=upscale";
 		
 
 		this.idTipo=tipo;
