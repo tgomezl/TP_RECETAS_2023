@@ -31,6 +31,7 @@ import com.example.demo.entidades.Recetas;
 import com.example.demo.entidades.Usuarios;
 import com.example.demo.repositorio.IngredienteRepo;
 import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.CrearReceta;
 import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.RecetasVista;
@@ -66,7 +67,7 @@ public class RecetasRest {
 	
 	//crear una receta CON usuario
 	@PostMapping("/{iduser}")
-	public ResponseEntity<?> postRecetaConUsuario(@PathVariable(value="iduser") String iduser,@RequestBody Recetas receta){
+	public ResponseEntity<?> postRecetaConUsuario(@PathVariable(value="iduser") String iduser,@RequestBody CrearReceta receta){
 		Recetas creada=recetacontrolador.crearRecetaConUser(Integer.parseInt(iduser),receta);
 		if(creada!=null) {
 			return ResponseEntity.ok(creada);
@@ -76,6 +77,7 @@ public class RecetasRest {
 		}
 	}
 	
+
 	
 	//traer TODAS las recetas APROBADAS!!! de la bbdd
 	@GetMapping
@@ -84,6 +86,29 @@ public class RecetasRest {
 		return ResponseEntity.ok(lista);
 	}
 	
+
+	
+	@PostMapping("/addfotounica/{idreceta}")
+	public ResponseEntity<?> agregarfotoUNICA(@PathVariable(value = "idreceta") String idreceta,
+			@RequestBody MultipartFile file) {
+		System.out.println("cargar foto UNICA a receta");
+		System.out.println("idreceta " + idreceta);
+		try {
+			System.out.println("  agregando foto unica");
+			String url = recetacontrolador.agregarFotoUNICA(Integer.parseInt(idreceta), file);
+			if (!url.isEmpty()) {
+				System.out.println("no esta vacia");
+				return ResponseEntity.ok(url);
+			}
+
+			System.out.println("url vacia");
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			System.out.println("    CATCH");
+			return ResponseEntity.notFound().build();
+		}
+		
+	}
 	
 	// traer TODAS las recetas (aprobadas o no)!!!
 	@GetMapping("/todas")

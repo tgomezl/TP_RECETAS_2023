@@ -708,6 +708,24 @@ public class GenericoControlador {
 		
 		
 		
+	}
+
+	public void agregarFotosARecetasMock() {
+		// TODO Auto-generated method stub
+		List<Recetas> recetas=recetasservice.findAll();
+		List<String> url=new ArrayList<String>();
+		url.add("pebete.jpg");
+		url.add("pollo.jpg");
+		url.add("ensalada.jpg");
+		url.add("panqueque.jpg");
+		int i=0;
+		for(Recetas r: recetas) {
+			r.setFotounica(url.get(i));
+			i=i+1;
+			recetasservice.save(r);
+		}
+		
+		
 	}	
 	
 	

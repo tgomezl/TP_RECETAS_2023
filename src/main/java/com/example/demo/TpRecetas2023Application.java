@@ -81,7 +81,7 @@ public class TpRecetas2023Application {
 				generico.agregarutilizados();
 				//sin FK
 				generico.agregarMultimedia();
-				
+				generico.agregarFotosARecetasMock();
 				
 				
 				//pruebo enviar email

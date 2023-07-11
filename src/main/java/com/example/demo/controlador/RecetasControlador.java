@@ -27,10 +27,12 @@ import com.example.demo.entidades.Utilizado;
 import com.example.demo.repositorio.CalificacionesRepo;
 import com.example.demo.repositorio.FotoRepo;
 import com.example.demo.repositorio.IngredienteRepo;
+import com.example.demo.repositorio.TipoRepo;
 import com.example.demo.service.RecetasService;
 import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.vistas.CalificacionesVista;
+import com.example.demo.vistas.CrearReceta;
 import com.example.demo.vistas.ListaRecetasVista;
 import com.example.demo.vistas.RecetaMultiplicadaVista;
 import com.example.demo.vistas.RecetasVista;
@@ -62,6 +64,9 @@ public class RecetasControlador {
 	
 	@Autowired
 	private IngredienteRepo ingrepo;
+	
+	@Autowired
+	private TipoRepo tiporepo;
 	
 	@Autowired
 	private UsuarioControlador usuariocontrolador;
@@ -323,6 +328,36 @@ public class RecetasControlador {
 			
 		}
 		return creada;
+	}
+	
+	public Recetas crearRecetaConUser(int iduser, CrearReceta crearreceta) {
+		// TODO Auto-generated method stub
+		Integer idtipo=crearreceta.getIdtipo();
+		Optional<Tipo> tipo=tiporepo.findById(idtipo);
+		if(!tipo.isPresent()) {
+			System.out.println(" no existe ese tipo en la bbdd");
+			return null;
+		}
+		Tipo tipoencontrado=tipo.get();
+		//el user debe existir
+		Usuarios user = usuariocontrolador.BuscarUser(iduser);
+		if(user!=null) {
+			Recetas receta=new Recetas();
+			receta.setNombre(	crearreceta.getNombre());
+			receta.setDescripcion(crearreceta.getDescripcion());
+		    receta.setPorciones(crearreceta.getPorciones());
+			receta.setCantidadPersonas(crearreceta.getCantidadPersonas());
+			receta.setFotounica(crearreceta.getFotounica());
+			receta.setIdTipo(tipoencontrado);
+			user.addReceta(receta);//va y viene
+			//usuarioservice.save(user);
+			//que pasa si hago doble save??
+			Recetas nueva= recetasservice.save(receta);
+			return nueva;
+			
+		}
+		System.out.println(" no existe el user");
+		return null;
 	}
 
 	public List<RecetasVista> ordenarRVPorFechaCreacion() {
@@ -617,6 +652,51 @@ public class RecetasControlador {
 		// trae todos los ingredientes de la bbdd
 
 		return ingrepo.findAll();
+	}
+
+
+	public String agregarFotoUNICA(int idreceta, MultipartFile file) {
+		// TODO Auto-generated method stub
+		Optional<Recetas> buscada=recetasservice.findById(idreceta);
+		if(buscada.isPresent()) {
+			System.out.println("la receta existe");
+			//le quiero agregar la foto
+			System.out.println("cargar FOTO unica");
+			try {
+				System.out.println("  agrgando multimedia"); 
+				//AQUI!!!
+				
+				//String url =this.ADDFOTOREAL(buscada.get(), file);
+				String url =this.ADDFOTOUNICA(buscada.get(), file);
+				return url;
+			}catch (Exception e) {
+				System.out.println(" CATCH");
+				System.out.println(e.getMessage());
+			}
+		}
+		return "";
+	}
+
+
+	private String ADDFOTOUNICA(Recetas receta, MultipartFile file) throws IOException {
+		// TODO Auto-generated method stub
+		String url="";
+		
+		System.out.println("busco la receta");
+	
+		if(receta!=null) {
+			System.out.println("guardadno");
+			url = uploadService.saveFOTO(file);
+			System.out.println("la url es "+url);
+			
+			receta.setFotounica(url);
+			
+			recetasservice.save(receta);
+			return "foto agregada";
+		}else {
+			System.out.println("no encontre la receta");
+		}
+		return "";
 	}
 
 

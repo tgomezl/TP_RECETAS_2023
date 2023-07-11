@@ -3,6 +3,7 @@ package com.example.demo.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.example.demo.vistas.RecetaMultiplicadaVista;
@@ -246,9 +247,14 @@ public class Recetas implements Serializable{
 	//es solo para crear recetas mock
 	public void setearParametrosMock(Usuarios user, Tipo tipo) {
 		// TODO Auto-generated method stub
-		this.nombre="tarta de atun";
-		
-		this.descripcion="receta de atun de mi abuela";
+		//this.nombre="tarta de atun";
+		List<String> descipciones= new ArrayList<String>();
+		descipciones.add("receta facil");
+		descipciones.add("receta rapida");
+		descipciones.add("facil y rapida");
+		Collections.shuffle(descipciones);
+
+		this.descripcion=descipciones.get(0);
 		
 		
 		this.fechaCreacion=LocalDate.now();
@@ -270,7 +276,7 @@ public class Recetas implements Serializable{
 		this.cantidadPersonas=2;
 		
 
-		this.fotounica="https://placeralplato.com/files/2015/05/ravioles-640x480.jpg?width=1200&enable=upscale";
+		this.fotounica="esto lo voy a pisar";
 		
 
 		this.idTipo=tipo;
