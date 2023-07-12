@@ -109,6 +109,7 @@ public class Utilizado implements Serializable{
 		utilizado.setIdUnidad(u.getIdUnidad().getIdUnidad());
 		utilizado.setObservaciones(u.getObservaciones());
 		utilizado.setIdUtilizado(u.getIdUtilizado());
+		utilizado.setNombreunidad(u.getIdUnidad().getDescripcion());
 	
 		return utilizado;
 	}

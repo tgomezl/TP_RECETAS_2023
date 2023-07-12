@@ -32,6 +32,8 @@ public class UtilizadoVista implements Serializable{
 	
 	private Integer idUnidad;
 	
+	private String nombreunidad;
+	
 	
 	private String observaciones;
 
@@ -93,6 +95,16 @@ public class UtilizadoVista implements Serializable{
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+
+	public String getNombreunidad() {
+		return nombreunidad;
+	}
+
+
+	public void setNombreunidad(String nombreunidad) {
+		this.nombreunidad = nombreunidad;
 	}
 	
 	
