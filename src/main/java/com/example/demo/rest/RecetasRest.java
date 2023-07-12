@@ -232,6 +232,18 @@ public class RecetasRest {
 		return ResponseEntity.notFound().build();
 	}
 	
+	//buscar receta por nombre.
+	@GetMapping("/buscarentodas/{nombrereceta}")
+	public ResponseEntity<?> busacarUnaRecetaPorNombrederecetaNOIMPORTADEQUIENSEA(@PathVariable(value="nombrereceta") String nombrereceta){
+		System.out.println("traer receta por nombre");
+											//por el nombre de la receta
+		List<RecetasVista> buscada= recetacontrolador.busacarUnaRecetaPorNombredereceta(nombrereceta);
+		if(buscada!=null) {
+			return ResponseEntity.ok(buscada);
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
 	/*metodo de testeo!!!!!!*/
 	//@GetMapping("/testing/{idreceta}")
 	@PutMapping("/testing/{idreceta}")

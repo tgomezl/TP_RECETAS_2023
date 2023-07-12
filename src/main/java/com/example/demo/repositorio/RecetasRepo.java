@@ -11,4 +11,6 @@ import com.example.demo.entidades.Recetas;
 public interface RecetasRepo extends JpaRepository<Recetas, Integer>{
 
 	List<Recetas> findByAprobada(Boolean aprobada);
+	
+	List<Recetas> findByNombre(String nombre);
 }

@@ -62,6 +62,10 @@ public class RecetasService implements BaseInterface<Recetas>{
 		return recetasrepo.findByAprobada(true);
 		
 	}
+	public List<Recetas> findByNombre(String nombre){
+		return recetasrepo.findByNombre(nombre);
+	};
+	
 	
 
 

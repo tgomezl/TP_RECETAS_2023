@@ -827,6 +827,19 @@ public class RecetasControlador {
 		//el ingrediente existe
 		return buscarSINingrediente(lista.get(0).getIdIngrediente());
 	}
+
+
+	public List<RecetasVista> busacarUnaRecetaPorNombredereceta(String nombre) {
+		System.out.println(" la busca por nombre entre todas las recetas de la bbdd");
+		List<Recetas> recetas=recetasservice.findByNombre(nombre);
+
+		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
+		
+		for(Recetas r:recetas) {
+			adevolver.add(r.toView(r));
+		}
+		return adevolver;
+	}
 }
 
 

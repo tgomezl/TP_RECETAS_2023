@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entidades.Conversiones;
@@ -737,6 +738,11 @@ public class GenericoControlador {
 		}
 		
 		
+	}
+
+	public List<Unidades> getallunidades() {
+		// TODO Auto-generated method stub
+		return unidadrepo.findAll();
 	}	
 	
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.controlador.GenericoControlador;
 import com.example.demo.entidades.Recetas;
+import com.example.demo.entidades.Unidades;
 import com.example.demo.vistas.UtilizadoconingredienteexistenteDTO;
 
 @RestController
@@ -49,6 +51,12 @@ public class UtilizadoRest {
 				return ResponseEntity.notFound().build();
 		
 		
+	}
+	
+	@GetMapping("/getallunidades")
+	public ResponseEntity<?> agregarlistadeingredientesusados(){
+		List<Unidades> lista= genericocontrolador.getallunidades();
+		return ResponseEntity.ok(lista);
 	}
 
 }
