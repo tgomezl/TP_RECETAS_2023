@@ -57,5 +57,12 @@ public class RecetasService implements BaseInterface<Recetas>{
 	
 		return vistas;
 	}
+	
+	public List<Recetas> findrecetasvistaaprobadas(){
+		return recetasrepo.findByAprobada(true);
+		
+	}
+	
+
 
 }

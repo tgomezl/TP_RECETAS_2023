@@ -109,11 +109,29 @@ public class RecetasControlador {
 
 	public List<Recetas> traerRecetasdeunuser(int id) {
 		// buscar todas las recetas de un user
+		
 		//se fija si el user existe
 		Usuarios user=usuariocontrolador.BuscarUser(id);
 		if(user!=null) {
 			List<Recetas> lista= user.getRecetas();
 			return lista;
+		}
+		return null;
+		
+	}
+	
+	public List<RecetasVista> traerRecetasvistadeunuser(int id) {
+		// buscar todas las recetas de un user
+		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
+		
+		//se fija si el user existe
+		Usuarios user=usuariocontrolador.BuscarUser(id);
+		if(user!=null) {
+			List<Recetas> lista= user.getRecetas();
+			for(Recetas r:lista) {
+				adevolver.add(r.toView(r));
+			}
+			return adevolver;
 		}
 		return null;
 		
@@ -157,7 +175,7 @@ public class RecetasControlador {
 		return listadeaprobadas;
 	}
 
-	public RecetasVista busacarUnaRecetaPorNombre(String nombre, Integer iduser) {
+	public RecetasVista busacarUnaRecetaPorNombredereceta(String nombre, Integer iduser) {
 		// la receta DEBE pertenecer al usuario
 		RecetasVista buscada=null;
 		Usuarios userbuscado=usuariocontrolador.BuscarUser(iduser);
@@ -425,14 +443,20 @@ public class RecetasControlador {
 	}
 
 
-	public List<RecetasVista> contienenestetipo(Integer idtipo) {
+	public List<RecetasVista> contienenestetipo(String descripcion) {
 		// TODO Auto-generated method stub
-		
 		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
+		//busco el tipo
+		List<Tipo> tipos=tiporepo.findByDescripcion(descripcion);
+		if(tipos.isEmpty()) {
+			System.out.println(" no exsite ese tipo");
+			return adevolver;
+		}
+		
 		List<Recetas> recetas=recetasservice.findAll();
 		for(Recetas r:recetas) {
 			Tipo tiporeceta=r.getIdTipo();
-			if(tiporeceta.getIdTipo().equals(idtipo)) {
+			if(tiporeceta.getDescripcion().equals(descripcion) && r.getAprobada()) {
 				adevolver.add(r.toView(r));
 			}
 		}
@@ -440,13 +464,13 @@ public class RecetasControlador {
 	}
 
 
-	public List<RecetasVista> NOcontienenestetipo(Integer idtipo) {
+	public List<RecetasVista> NOcontienenestetipo(String descripcion) {
 		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
-		List<Recetas> recetas=recetasservice.findAll();
+		List<Recetas> recetas=recetasservice.findrecetasvistaaprobadas();
+		
 		for(Recetas r:recetas) {
 			Tipo tiporeceta=r.getIdTipo();
-			Integer idtiporeceta=tiporeceta.getIdTipo();
-			if(!tiporeceta.getIdTipo().equals(idtipo)) {
+			if(!tiporeceta.getDescripcion().equals(descripcion)) {
 				adevolver.add(r.toView(r));
 			}
 		}
@@ -757,6 +781,51 @@ public class RecetasControlador {
 		encontrado.setRecetasAintentar(listarecetas);
 		System.out.println("  removida");
 		
+	}
+
+
+	public List<RecetasVista> recetaspornickusuario(String nombreuser) {
+		// buscar todas las recetas de un user
+		List<RecetasVista> adevolver=new ArrayList<RecetasVista>();
+		//se fija si el user existe
+		Usuarios user=usuarioservice.findByNickName(nombreuser);
+		if(user!=null) {
+			List<Recetas> lista= user.getRecetas();
+			//devuelvo solo las aprobadas
+			for(Recetas r: lista) {
+				if(r.getAprobada()) {
+					adevolver.add(r.toView(r));
+				}
+			}
+			System.out.println("     antes de devolver");
+			return adevolver;
+		}
+		return null;
+		
+	}
+
+
+	public List<RecetasVista> buscarCONingrediente(String nombreingrediente) {
+		// TODO Auto-generated method stub
+		List<Ingrediente> lista=ingrepo.findByNombre(nombreingrediente);
+		if(lista.isEmpty()) {
+			//el ingrediente no existe
+			return new ArrayList<RecetasVista>();
+		}
+		return buscarCONingrediente(lista.get(0).getIdIngrediente());
+	}
+
+
+	public List<RecetasVista> buscarSINingrediente(String nombreingrediente) {
+		// TODO Auto-generated method stub
+		List<Ingrediente> lista=ingrepo.findByNombre(nombreingrediente);
+		if(lista.isEmpty()) {
+			//el ingrediente no existe
+			//devuelvo todas las recetas aprobadas
+			return traerRecetasAprobadas();
+		}
+		//el ingrediente existe
+		return buscarSINingrediente(lista.get(0).getIdIngrediente());
 	}
 }
 

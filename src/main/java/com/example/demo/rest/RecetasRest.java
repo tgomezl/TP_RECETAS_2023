@@ -123,13 +123,24 @@ public class RecetasRest {
 	@GetMapping("/user/{iduser}")
 	public ResponseEntity<?> traerrecetasDeUnUser(@PathVariable(value="iduser") String id){
 		
-		List<Recetas> lista= recetacontrolador.traerRecetasdeunuser(Integer.parseInt(id));
+		List<RecetasVista> lista= recetacontrolador.traerRecetasvistadeunuser(Integer.parseInt(id));
 		if(lista==null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(lista);
 	}
 	
+	
+	//traer todas las recetas CREADAS por un usuario
+	@GetMapping("/recetaspornickusuario/{nombreuser}")
+	public ResponseEntity<?> recetaspornickusuario(@PathVariable(value="nombreuser") String nombreuser){
+		
+		List<RecetasVista> lista= recetacontrolador.recetaspornickusuario(nombreuser);
+		if(lista==null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(lista);
+	}
 	
 	
 	//traer todas las recetas de UNA LISTA determinada de un user determinado
@@ -211,9 +222,10 @@ public class RecetasRest {
 	
 	//buscar receta por nombre. la receta debe PERTENECER al usuario
 	@GetMapping("/{iduser}/{nombre}")
-	public ResponseEntity<?> traerRecetaPorNombre(@PathVariable(value="nombre") String nombre, @PathVariable(value="iduser") String id){
+	public ResponseEntity<?> busacarUnaRecetaPorNombredereceta(@PathVariable(value="nombre") String nombre, @PathVariable(value="iduser") String id){
 		System.out.println("traer receta por nombre");
-		RecetasVista buscada= recetacontrolador.busacarUnaRecetaPorNombre(nombre, Integer.parseInt(id));
+											//por el nombre de la receta
+		RecetasVista buscada= recetacontrolador.busacarUnaRecetaPorNombredereceta(nombre, Integer.parseInt(id));
 		if(buscada!=null) {
 			return ResponseEntity.ok(buscada);
 		}
@@ -296,17 +308,17 @@ public class RecetasRest {
 	}
 */
 	/*FILTRAR RECETAS POR TIPO */
-	@GetMapping("filtrarportipo/CONTIENEN/{idtipo}")
-	public ResponseEntity<?> filtrarrecetasportipo(@PathVariable Integer idtipo){
-		List<RecetasVista>lista=recetacontrolador.contienenestetipo(idtipo);
+	@GetMapping("filtrarportipo/CONTIENEN/{nombretipo}")
+	public ResponseEntity<?> filtrarrecetasportipo(@PathVariable String nombretipo){
+		List<RecetasVista>lista=recetacontrolador.contienenestetipo(nombretipo);
 		return ResponseEntity.ok(lista);
 		
 	}
 	
-	@GetMapping("filtrarportipo/NO-CONTIENEN/{idtipo}")
-	public ResponseEntity<?> filtrarrecetasportipoNO(@PathVariable Integer idtipo){
+	@GetMapping("filtrarportipo/NO-CONTIENEN/{nombretipo}")
+	public ResponseEntity<?> filtrarrecetasportipoNO(@PathVariable String nombretipo){
 		//recetas que NO tengan este tipo
-		List<RecetasVista>lista=recetacontrolador.NOcontienenestetipo(idtipo);
+		List<RecetasVista>lista=recetacontrolador.NOcontienenestetipo(nombretipo);
 		return ResponseEntity.ok(lista);
 		
 	}
@@ -431,6 +443,28 @@ public class RecetasRest {
 	@GetMapping("/buscarSINingrediente/{idingrediente}")
 	public ResponseEntity<?> buscarSINingrediente(@PathVariable Integer idingrediente){
 		List<RecetasVista> buscada=recetacontrolador.buscarSINingrediente(idingrediente);
+		if(buscada==null) {
+			ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(buscada);
+		
+	}
+	
+	//GETRecetaQUEnoContengaTAlIngrdiente
+	@GetMapping("/buscarCONnombreingrediente/{nombreingrediente}")
+	public ResponseEntity<?> buscarCONingrediente(@PathVariable String nombreingrediente){
+		List<RecetasVista> buscada=recetacontrolador.buscarCONingrediente(nombreingrediente);
+		if(buscada==null) {
+			ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(buscada);
+		
+	}
+	
+	//GETRecetaQUEnoContengaTAlIngrdiente
+	@GetMapping("/buscarSINnombreingrediente/{nombreingrediente}")
+	public ResponseEntity<?> buscarSINingrediente(@PathVariable String nombreingrediente){
+		List<RecetasVista> buscada=recetacontrolador.buscarSINingrediente(nombreingrediente);
 		if(buscada==null) {
 			ResponseEntity.notFound().build();
 		}
