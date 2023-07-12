@@ -376,6 +376,18 @@ public class RecetasRest {
 		return ResponseEntity.notFound().build();
 		
 	}
+	//quitarrecetaaintentar/3/1
+	@PostMapping("/quitarrecetaaintentar/{iduser}/{idreceta}")
+	public ResponseEntity<?> quitarrecetaaintentar(@PathVariable Integer iduser,
+			@PathVariable Integer idreceta){
+		System.out.println("iduser "+iduser + "idreceta "+idreceta);
+		boolean agregada=recetacontrolador.quitarrecetaaintentar(iduser,idreceta);
+		if(agregada) {
+			return ResponseEntity.ok("receta REMOVIDA de la lista del usuario");
+		}
+		return ResponseEntity.notFound().build();
+		
+	}
 	
 	//GETlistaRecetasAINTENTARdeunuser
 	@GetMapping("/getrecetastaaintentar/{iduser}")

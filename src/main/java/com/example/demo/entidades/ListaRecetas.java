@@ -49,6 +49,7 @@ public class ListaRecetas implements Serializable{
 	 * es unider*/
 	@ManyToMany
 	@JoinTable(name="listaRecetas_receta",
+	//@JoinTable(name="idLista_idReceta",
 	joinColumns = @JoinColumn(name="listaRecetas_id"),
 	inverseJoinColumns = @JoinColumn(name="receta_id"))
 	private List<Recetas> recetas = new ArrayList<>();

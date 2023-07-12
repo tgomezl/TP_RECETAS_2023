@@ -525,6 +525,13 @@ public class RecetasControlador {
 			Optional<Usuarios> user=usuarioservice.findById(iduser);
 			if(user.isPresent()) {
 				Usuarios encontrado=user.get();
+				
+				boolean yalatiene=comprobarsiyalatiene(encontrado, encontrada);
+				if(yalatiene) {
+					System.out.println("ya la tiene en su lista");
+					return true;
+				}
+				
 				encontrado.getRecetasAintentar().ADDrecetaAintentar(encontrada);
 				System.out.println("agrega la receta a la lista de ese usuario");
 				//hago el save
@@ -538,6 +545,20 @@ public class RecetasControlador {
 			System.out.println(" no existe la receta");
 		}
 		return false;
+	}
+
+
+	private boolean comprobarsiyalatiene(Usuarios encontrado, Recetas encontrada) {
+		ListaRecetas lista=encontrado.getRecetasAintentar();
+		boolean yalatiene=false;
+		List<Recetas> recetas=lista.getRecetas();
+		for(Recetas r:recetas) {
+			if(r.getIdReceta().equals(encontrada.getIdReceta())) {
+				System.out.println("                 YA LA TIENE" );
+				yalatiene=true;
+			}
+		}
+		return yalatiene;
 	}
 
 
@@ -700,6 +721,46 @@ public class RecetasControlador {
 	}
 
 
+	public boolean quitarrecetaaintentar(Integer iduser, Integer idreceta) {
+		// se fija que existan la receta y el usuario
+		
+		Optional<Recetas> buscada=recetasservice.findById(idreceta);
+		if(buscada.isPresent()) {
+			Recetas encontrada=buscada.get();
+			Optional<Usuarios> user=usuarioservice.findById(iduser);
+			if(user.isPresent()) {
+				Usuarios encontrado=user.get();
+				System.out.println("QUITAR la receta a la lista de ese usuario");
+				removerrecetadelista(encontrado,encontrada);
+				//encontrado.getRecetasAintentar().REMOVErecetaAintentar(encontrada);
+				
+				//hago el save
+				System.out.println("save del user xq removi receta");
+				usuarioservice.save(encontrado);
+				System.out.println("fin");
+				return true;
+			}else {
+				System.out.println(" no existe ese user");
+			}
+		}
+		else {
+			System.out.println(" no existe la receta");
+		}
+		return false;
+	}
+
+
+	private void removerrecetadelista(Usuarios encontrado, Recetas encontrada) {
+		// TODO Auto-generated method stub
+		ListaRecetas listarecetas= encontrado.getRecetasAintentar();
+		listarecetas.REMOVErecetaAintentar(encontrada);
+		encontrado.setRecetasAintentar(listarecetas);
+		System.out.println("  removida");
+		
+	}
+}
+
+
 	/*
 	public List<Recetas> ordenarPorNombreAsc() {
 		// TODO Auto-generated method stub
@@ -776,7 +837,7 @@ public class RecetasControlador {
 	}
 
 	*/
-}
+
 	
 
 

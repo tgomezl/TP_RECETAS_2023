@@ -1,5 +1,7 @@
 package com.example.demo.controlador;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -213,6 +215,14 @@ public class GenericoControlador {
 					
 	//tengo que hace save de ambos???????RTA:siiiii
 					//usuarioservice.save(user);
+					Integer numerorandom = (int) (Math.random() * 50 + 1);
+					if(numerorandom<12) {
+						nuevaReceta.setFechaCreacion(LocalDate.of(1972, Month.MAY, 23));
+					}else if(numerorandom<24) {
+						nuevaReceta.setFechaCreacion(LocalDate.of(1985, Month.APRIL, 18));
+					}else {
+						nuevaReceta.setFechaCreacion(LocalDate.of(1992, Month.JANUARY, 05));
+					}
 					
 					//aca hago ambos save
 					recetasservice.save(nuevaReceta);	
@@ -720,6 +730,7 @@ public class GenericoControlador {
 		url.add("panqueque.jpg");
 		int i=0;
 		for(Recetas r: recetas) {
+			System.out.println(" agregando foto a receta mock");
 			r.setFotounica(url.get(i));
 			i=i+1;
 			recetasservice.save(r);
