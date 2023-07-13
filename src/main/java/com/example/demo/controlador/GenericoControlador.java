@@ -360,6 +360,42 @@ public class GenericoControlador {
 		ing.setNombre("harina");
 		ingredienteservice.save(ing);
 		
+		ing=new Ingrediente();
+		ing.setNombre("pollo");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("cerdo");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("fideos");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("porotos");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("garbanzos");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("zapallo");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("apio");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("carne vaca");
+		ingredienteservice.save(ing);
+		
+		ing=new Ingrediente();
+		ing.setNombre("zapallito");
+		ingredienteservice.save(ing);
+		
 	}
 
 	public void agregarPasos() {
